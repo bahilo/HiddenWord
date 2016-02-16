@@ -6,7 +6,7 @@ namespace HiddenWordCommon.Interfaces.Business
 {
     public interface IActionManager
     {
-        IDALActionManager DALAcess { get; set; }
+        IDALActionManager DALAccess { get; set; }
         HiddenWordCommon.Interfaces.Business.IUsersManager BlUser { get; set; }
         HiddenWordCommon.Interfaces.Business.ISetupsManager BlSetup { get; set; }
         HiddenWordCommon.Interfaces.Business.IStatisticManager BlStat { get; set; }

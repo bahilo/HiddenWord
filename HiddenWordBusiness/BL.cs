@@ -12,7 +12,7 @@ namespace HiddenWord.Business
     public class BL : IActionManager 
     {
 
-        public IDALActionManager DALAcess { get; set; }
+        public IDALActionManager DALAccess { get; set; }
         public HiddenWordCommon.Interfaces.Business.IUsersManager BlUser { get; set; }
         public HiddenWordCommon.Interfaces.Business.ISetupsManager BlSetup { get; set; }
         public HiddenWordCommon.Interfaces.Business.IStatisticManager BlStat { get; set; }
@@ -37,7 +37,7 @@ namespace HiddenWord.Business
                     IDALActionManager DAL,
                     IDisplay display)
         {
-            DALAcess = DAL;
+            DALAccess = DAL;
             this.BlStat = blStat;
             this.BlWord = blWord;
             this.BlSetup = blSetup;
