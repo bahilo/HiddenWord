@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordConsole", "..\..\HiddenWord\V7\HiddenWordConsole\HiddenWordConsole.csproj", "{C0924145-9A9A-4911-BB8A-2BE0F0CBC176}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordConsole", "HiddenWordConsole\HiddenWordConsole.csproj", "{C0924145-9A9A-4911-BB8A-2BE0F0CBC176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordBusiness", "..\..\HiddenWord\V7\HiddenWordBusiness\HiddenWordBusiness.csproj", "{91010E3E-03E4-45A5-9EB6-1B670EBC90E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordBusiness", "HiddenWordBusiness\HiddenWordBusiness.csproj", "{91010E3E-03E4-45A5-9EB6-1B670EBC90E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordCommon", "..\..\HiddenWord\V7\HiddenWordCommon\HiddenWordCommon.csproj", "{9F6F25A2-1DB5-4DAC-9913-620EAE3A1183}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordCommon", "HiddenWordCommon\HiddenWordCommon.csproj", "{9F6F25A2-1DB5-4DAC-9913-620EAE3A1183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordDAL", "..\..\HiddenWord\V7\HiddenWordDAL\HiddenWordDAL.csproj", "{64EAFE11-AA00-4429-958C-31B15E5A1F68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordDAL", "HiddenWordDAL\HiddenWordDAL.csproj", "{64EAFE11-AA00-4429-958C-31B15E5A1F68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordDALXml", "..\..\HiddenWord\V7\HiddenWordDALXml\HiddenWordDALXml.csproj", "{35FC7F3E-100E-4291-A015-B2DE4C44EEC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordDALXml", "HiddenWordDALXml\HiddenWordDALXml.csproj", "{35FC7F3E-100E-4291-A015-B2DE4C44EEC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordTest", "..\..\HiddenWord\V7\HiddenWordTest\HiddenWordTest.csproj", "{8495BF1E-C159-4978-9AA9-2E19FF45A4AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordTest", "HiddenWordTest\HiddenWordTest.csproj", "{8495BF1E-C159-4978-9AA9-2E19FF45A4AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordWpf", "..\..\HiddenWord\V7\HiddenWordWpf\HiddenWordWpf.csproj", "{11D36494-985C-431B-875F-627DEA983E63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWordWpf", "HiddenWordWpf\HiddenWordWpf.csproj", "{11D36494-985C-431B-875F-627DEA983E63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
