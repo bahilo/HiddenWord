@@ -12,11 +12,11 @@ namespace HiddenWordBusiness.Core
 {
     public class BusinessStatistic : HiddenWordCommon.Interfaces.Business.IStatisticManager
     {
-        public IDALActionManager DALAcess { get; set; }
+        public IDALActionManager DALAccess { get; set; }
 
         public BusinessStatistic(IDALActionManager DAL)
         {
-            DALAcess = DAL;
+            DALAccess = DAL;
         }
 
 
@@ -24,48 +24,48 @@ namespace HiddenWordBusiness.Core
 
         public List<Statistic> GetStatisticByNbTry(int nbTry)
         {
-            return DALAcess.GetStatisticByNbTry(nbTry);
+            return DALAccess.GetStatisticByNbTry(nbTry);
         }
 
         public List<Statistic> GetStatisticBySetupId(int setupId)
         {
-            return DALAcess.GetStatisticBySetupId(setupId);
+            return DALAccess.GetStatisticBySetupId(setupId);
         }
 
         public List<Statistic> GetStatisticByUserId(int userId)
         {
-            return DALAcess.GetStatisticByUserId(userId);
+            return DALAccess.GetStatisticByUserId(userId);
         }
 
         public List<Statistic> GetStatisticByWordId(int wordId)
         {
-            return DALAcess.GetStatisticByWordId(wordId);
+            return DALAccess.GetStatisticByWordId(wordId);
         }
 
         public List<Statistic> GetStatisticData()
         {
-            return DALAcess.GetStatisticData();
+            return DALAccess.GetStatisticData();
         }
 
         public List<Statistic> getUsersStatistics()
         {
-            return DALAcess.getUsersStatistics();
+            return DALAccess.getUsersStatistics();
         }
 
 
         public void insertStatistic(int userId, int wordId, int nbTry, int setupId)
         {
-            DALAcess.insertStatistic(userId, wordId, nbTry, setupId);
+            DALAccess.insertStatistic(userId, wordId, nbTry, setupId);
         }
 
         public Statistic DeleteStatistic(Statistic statistic)
         {
-            return DALAcess.DeleteStatistic(statistic);
+            return DALAccess.DeleteStatistic(statistic);
         }
 
         public Statistic UpdateStatistic(Statistic statistic)
         {
-            return DALAcess.UpdateStatistic(statistic);
+            return DALAccess.UpdateStatistic(statistic);
         }
 
 
