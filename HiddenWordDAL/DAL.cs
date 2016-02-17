@@ -61,10 +61,11 @@ namespace HiddenWordDAL
             throw new NotImplementedException();
         }
 
-        public void InsertSetup(int maxTry, int status)
+        public Setup InsertSetup(int maxTry, int status)
         {
             tabadapSetup.ResetSetupStatus();
             var results = tabadapSetup.InsertSetup(maxTry, status);
+            return new Setup();
         }
 
 
@@ -220,9 +221,10 @@ namespace HiddenWordDAL
         }
 
 
-        public void insertStatistic(int userId, int wordId, int nbTry, int setupId)
+        public Statistic insertStatistic(int userId, int wordId, int nbTry, int setupId)
         {
             tabadapStat.InsertStatistic(userId, wordId, nbTry, setupId);
+            return new Statistic();
         }
 
         private List<Statistic> GetListStatisticFromTableAdapter(HiddenWordDAL.DataModel.DsHiddenWord.statisticDataTable source)
@@ -262,9 +264,10 @@ namespace HiddenWordDAL
             return GetListUsersFromTableAdapter(users);
         }
 
-        public void InsertUser(string pseudo)
+        public User InsertUser(string pseudo)
         {
             tabadapUser.InsertUser(pseudo);
+            return new User();
         }
 
 
@@ -337,9 +340,10 @@ namespace HiddenWordDAL
             return listWords;
         }
 
-        public void InsertWord(string name)
+        public Words InsertWord(string name)
         {
             tabadapWord.InsertWord(name);
+            return new Words();
         }
 
         public Words DeleteWord(Words word)

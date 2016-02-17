@@ -1,4 +1,5 @@
-﻿using HiddenWordCommon.classes;
+﻿using HiddenWordBusiness.Exceptions;
+using HiddenWordCommon.classes;
 using HiddenWordCommon.Interfaces.Business;
 using HiddenWordCommon.Interfaces.DAL;
 using System;
@@ -12,40 +13,83 @@ namespace HiddenWordBusiness.Core
     public class BusinessWord : HiddenWordCommon.Interfaces.Business.IWordsManager
     {
         public IDALActionManager DALAccess { get; set; }
+        public ExceptionGenerator exceptionGenerator { get; set; }
 
         public BusinessWord(IDALActionManager DAL )
         {
             DALAccess = DAL;
+            exceptionGenerator = new ExceptionGenerator();
         }
 
         //---------------[ The word implementation ] --------------------
 
         public Words GetWordsById(int id)
         {
-            return DALAccess.GetWordsById(id);
+            Words result = DALAccess.GetWordsById(id);
+            
+            // Throwing exception for null value
+            exceptionGenerator.exceptionFor<Words>(
+                "read", 
+                new StringBuilder().AppendFormat("Error occured while retiving a word from the database with id '{0}'!", id).ToString(),
+                result,
+                isExludeNullable: true);            
+
+            return result;
         }
 
         public Words GetWordsByName(string name)
         {
-            return DALAccess.GetWordsByName(name);
+            var result = DALAccess.GetWordsByName(name);
+            
+            // Throwing exception for null value
+            exceptionGenerator.exceptionFor<Words>(
+                "read",
+                new StringBuilder().AppendFormat("Error occured while retiving this word from the database '{0}'!", name).ToString(),
+                result,
+                isExludeNullable: true);
+
+            return result;
         }
 
         public List<Words> GetWordsData()
         {
-            return DALAccess.GetWordsData();
+            var result = DALAccess.GetWordsData();           
+
+            // Throwing Value of 0 exception
+            exceptionGenerator.exceptionFor<int>(
+                "read",
+                new StringBuilder().AppendFormat("No data found in the database!").ToString(),
+                result.Count(),
+                excludeValue: 0,
+                isExludeNullable: false);
+
+            return result;
         }
 
         public void InsertWord(string name)
         {
-            DALAccess.InsertWord(name);
+            //Throwing exception for Value greater than 0 
+            exceptionGenerator.exceptionFor<Words>(
+                "insert",
+                new StringBuilder().AppendFormat("Error occured while deleting the word '{0}'", name).ToString(),
+                DALAccess.InsertWord(name),
+                excludeValueGreaterThan: 0,
+                isExludeNullable: false);
+
+
         }
 
         public Words getNewRandomWord(Random rd)
         {
             List<Words> ListResult = DALAccess.GetWordsData();
 
-            if (ListResult.Count == 0) 
-                throw new ApplicationException("No word found in Database!");
+            // Throwing Value of 0 exception
+            exceptionGenerator.exceptionFor<int>(
+                "read",
+                new StringBuilder().AppendFormat("No words found in Database!").ToString(),
+                ListResult.Count(),
+                excludeValue: 0,
+                isExludeNullable: false);
             
             return ListResult[rd.Next(0, ListResult.Count - 1)];
         }
@@ -53,15 +97,29 @@ namespace HiddenWordBusiness.Core
         public Words DeleteWord(Words word)
         {
             Words result = DALAccess.DeleteWord(word);
-            if ( result != null )
-                throw new ApplicationException(new StringBuilder().AppendFormat("Error occured while deleting the word '{0}'", word.Name).ToString());
+            
+            // Throwing exception for null value
+            exceptionGenerator.exceptionFor<Words>(
+                "delete",
+                new StringBuilder().AppendFormat("Error occured while deleting the word '{0}'", word.Name).ToString(),
+                result,
+                isExludeNullable: true);
 
             return result;
         }
 
         public Words UpdateWord(Words word)
         {
-            return DALAccess.UpdateWord(word);
+            var result = DALAccess.UpdateWord(word);
+
+            // Throwing exception for null value
+            exceptionGenerator.exceptionFor<Words>(
+                "update",
+                new StringBuilder().AppendFormat("Error occured while updating the new word '{0}'", word.Name).ToString(),
+                result,
+                isExludeNullable: true);
+
+            return result;
         }
     }
 }

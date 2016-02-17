@@ -4,25 +4,7 @@
     <pseudo xsi:type="xsd:string">bahilo</pseudo>
   </XUsers>
   <XSetups ID="1">
-    <maxtry>5</maxtry>
+    <maxtry>10</maxtry>
     <status>1</status>
   </XSetups>
-  <XWords ID="1">
-    <name xsi:type="xsd:string">magic</name>
-  </XWords>
-  <XStatistic ID="1">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>4</nbtry>
-    <setupid>1</setupid>
-  </XStatistic>
-  <XWords ID="2">
-    <name xsi:type="xsd:string">dance</name>
-  </XWords>
-  <XStatistic ID="2">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>4</nbtry>
-    <setupid>1</setupid>
-  </XStatistic>
 </HiddenWord>

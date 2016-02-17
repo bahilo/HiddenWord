@@ -15,7 +15,7 @@ namespace HiddenWordCommon.Interfaces.DAL
         List<Setup> GetSetupByMaxTry(int maxTry);
         List<Setup> GetSetupByStatus(int status);
         Setup GetSetupActiveStatus();
-        void InsertSetup(int maxTry, int status);
+        Setup InsertSetup(int maxTry, int status);
         Setup DeleteSetup(Setup setup);
         Setup UpdateSetup(Setup setup);
     }

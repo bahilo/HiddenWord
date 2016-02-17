@@ -52,6 +52,7 @@
     <Compile Include="Core\BusinessStatistic.cs" />
     <Compile Include="Core\BusinessUser.cs" />
     <Compile Include="Core\BusinessWord.cs" />
+    <Compile Include="Exceptions\ExceptionGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

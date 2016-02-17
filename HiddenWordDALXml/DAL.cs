@@ -34,7 +34,7 @@ namespace HiddenWordDALXml
 
             List<Setup> setupsList = bindXmlDataToSetup(paramList);
             Setup result = new Setup();
-            if (result != null)
+            if (setupsList.Count != 0)
             {
                 result = setupsList[0];
             }
@@ -60,7 +60,7 @@ namespace HiddenWordDALXml
 
             List<Setup> setupsList = bindXmlDataToSetup(paramList);
             Setup result = new Setup();
-            if (result != null)
+            if ( setupsList.Count != 0 )
             {
                 result = setupsList[0];
             }
@@ -74,7 +74,7 @@ namespace HiddenWordDALXml
             return bindXmlDataToSetup(resultList);
         }
 
-        public void InsertSetup(int maxTry, int status)
+        public Setup InsertSetup(int maxTry, int status)
         {
             Xml.XSetups setup = new Xml.XSetups();
             setup.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XSetups", "ID");
@@ -83,7 +83,18 @@ namespace HiddenWordDALXml
 
             Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
             hiddenWord.Item = setup;
-            genericMethode.saveXmlData(hiddenWord);
+
+            List<Xml.XSetups> paramList = new List<HiddenWordXMLSchema.XSetups>();
+            paramList.Add(genericMethode.saveXmlData<Xml.XSetups>(hiddenWord, "XSetups", setup.ID.ToString()));
+
+            List<Setup> setupsList = bindXmlDataToSetup(paramList);
+            Setup result = new Setup();
+            if (setupsList.Count != 0)
+            {
+                result = setupsList[0];
+            }
+
+            return result;
         }
 
         public Setup DeleteSetup(Setup setup)
@@ -154,7 +165,7 @@ namespace HiddenWordDALXml
         }
 
 
-        public void insertStatistic(int userId, int wordId, int nbTry, int setupId)
+        public Statistic insertStatistic(int userId, int wordId, int nbTry, int setupId)
         {
             Xml.XStatistic statistic = new Xml.XStatistic();
             statistic.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XStatistic", "ID");
@@ -166,7 +177,19 @@ namespace HiddenWordDALXml
             Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
             hiddenWord.Item = statistic;
 
-            genericMethode.saveXmlData(hiddenWord);
+            List<Xml.XStatistic> paramList = new List<HiddenWordXMLSchema.XStatistic>();
+            paramList.Add(genericMethode.saveXmlData<Xml.XStatistic>(hiddenWord, "XStatistic", statistic.ID.ToString()));
+
+            List<Statistic> statisticList = bindXmlObjectToStatistic(paramList);
+            Statistic result = new Statistic();
+            if (statisticList.Count != 0)
+            {
+                result = statisticList[0];
+            }
+
+            return result;
+
+
         }
 
         public Statistic DeleteStatistic(Statistic statistic)
@@ -212,7 +235,7 @@ namespace HiddenWordDALXml
 
             List<User> usersList = bindXmlDataToUser(paramList);
             User result = new User();
-            if (result != null)
+            if (usersList.Count != 0)
             {
                 result = usersList[0];
             }
@@ -226,7 +249,7 @@ namespace HiddenWordDALXml
 
             List<User> usersList = bindXmlDataToUser(paramList);
             User result = new User();
-            if (result != null)
+            if ( usersList.Count != 0 )
             {
                 result = usersList[0];
             }
@@ -239,7 +262,7 @@ namespace HiddenWordDALXml
             return bindXmlDataToUser(resultList);
         }
         
-        public void InsertUser(string pseudo)
+        public User InsertUser(string pseudo)
         {
             Xml.XUsers user = new Xml.XUsers();
             user.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XUsers", "ID");
@@ -247,8 +270,17 @@ namespace HiddenWordDALXml
 
             Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
             hiddenWord.Item = user;
+            
+            List<Xml.XUsers> paramList = new List<HiddenWordXMLSchema.XUsers>();
+            paramList.Add(genericMethode.saveXmlData<Xml.XUsers>(hiddenWord, "XUsers", user.ID.ToString()));
 
-            genericMethode.saveXmlData(hiddenWord);
+            List<User> usersList = bindXmlDataToUser(paramList);
+            User result = new User();
+            if (usersList.Count != 0)
+            {
+                result = usersList[0];
+            }
+            return result;
 
         }
 
@@ -302,7 +334,7 @@ namespace HiddenWordDALXml
 
             List<Words> wordsList = bindXmlDataToWord(paramList);
             Words result = new Words(); 
-            if (result != null)
+            if (wordsList.Count != 0)
             {
                 result = wordsList[0];
             }
@@ -315,7 +347,7 @@ namespace HiddenWordDALXml
             return bindXmlDataToWord(resultList);
         }
 
-        public void InsertWord(string name)
+        public Words InsertWord(string name)
         {
             Xml.XWords word = new Xml.XWords();
             word.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XWords", "ID");
@@ -323,7 +355,18 @@ namespace HiddenWordDALXml
             
             Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
             hiddenWord.Item = word;
-            genericMethode.saveXmlData(hiddenWord);
+
+            List<Xml.XWords> paramList = new List<HiddenWordXMLSchema.XWords>();
+            paramList.Add(genericMethode.saveXmlData<Xml.XWords>(hiddenWord, "XWords", word.ID.ToString()));
+
+            List<Words> wordsList = bindXmlDataToWord(paramList);
+            Words result = new Words();
+            if ( wordsList.Count != 0 )
+            {
+                result = wordsList[0];
+            }
+            return result;
+
         }
 
         public Words DeleteWord(Words word)

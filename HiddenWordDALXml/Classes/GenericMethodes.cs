@@ -40,7 +40,7 @@ namespace HiddenWordDALXml.Classes
             }
         }
 
-        public void saveXmlData(Xml.HiddenWord hiddenWord)
+        public elType saveXmlData<elType>(Xml.HiddenWord hiddenWord,string elName, string idEl) where elType: new()
         {
             TextWriter writer;
             XmlSerializer xs = new XmlSerializer(hiddenWord.GetType());
@@ -63,6 +63,8 @@ namespace HiddenWordDALXml.Classes
                 xeXml.Add(xeTmp.FirstNode);
                 xeXml.Save(fullXmlFileName);
             }
+            var elTypeString = typeof(elType).ToString();
+            return getXmlDataByAttribute<elType>(elName, "ID", idEl);
         }
 
         public elType getXmlDataByAttribute<elType>(string elName, string attributeName, string attributeValue) where elType : new()

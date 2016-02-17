@@ -13,7 +13,7 @@ namespace HiddenWordCommon.Interfaces.DAL
         List<Words> GetWordsData();
         Words GetWordsById(int id);
         Words GetWordsByName(string name);
-        void InsertWord(string name);
+        Words InsertWord(string name);
         Words DeleteWord(Words word);
         Words UpdateWord(Words word);
     }

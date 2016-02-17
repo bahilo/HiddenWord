@@ -15,7 +15,7 @@ namespace HiddenWordCommon.Interfaces.DAL
         List<Statistic> GetStatisticBySetupId(int setupId);
         List<Statistic> GetStatisticByUserId(int userId);
         List<Statistic> GetStatisticByWordId(int wordId);
-        void insertStatistic(int userId, int wordId, int nbTry, int setupId);
+        Statistic insertStatistic(int userId, int wordId, int nbTry, int setupId);
         Statistic DeleteStatistic(Statistic statistic);
         Statistic UpdateStatistic(Statistic statistic);
     }

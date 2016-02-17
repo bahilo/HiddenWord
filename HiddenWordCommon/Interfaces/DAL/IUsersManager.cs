@@ -13,7 +13,7 @@ namespace HiddenWordCommon.Interfaces.DAL
         List<User> GetUserData();
         User GetUserById(int id);
         User GetUserByPseudo(string pseudo);
-        void InsertUser(string pseudo);
+        User InsertUser(string pseudo);
         List<Statistic> getUsersStatistics();
         User DeleteUser(User user);
         User UpdateUser(User user);
