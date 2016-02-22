@@ -22,7 +22,7 @@ namespace HiddenWordBusiness.classes
         {
             Win = false;
             NbTry = 0;
-            CheckCharacter = new Check(bl);
+            CheckCharacter = new Check(bl, Setup.MaxTry);
             gameOver = new EndGame(bl);
         }
 
@@ -106,7 +106,8 @@ namespace HiddenWordBusiness.classes
 
         public bool isCorrectCharater(string v)
         {
-            return this.CheckCharacter.isCorrectCharater(v);
+            CheckCharacter.charaterPosition(v);            
+            return this.CheckCharacter.isCorrectCharater();
         }
 
         public void displayGame()

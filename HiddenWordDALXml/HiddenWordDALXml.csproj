@@ -46,7 +46,6 @@
     <Compile Include="XmlManager\HiddenWordXMLSchema.cs">
       <DependentUpon>HiddenWordXMLSchema.xsd</DependentUpon>
     </Compile>
-    <Compile Include="XmlManager\Old\HiddenWordXMLSchema.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HiddenWordCommon\HiddenWordCommon.csproj">
@@ -56,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="XmlManager\Old\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XmlManager\XSLTFile1.xslt">
@@ -64,9 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="XmlManager\HiddenWordXMLSchema.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XmlManager\Old\HiddenWordXMLSchema.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

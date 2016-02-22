@@ -45,6 +45,7 @@
     <Compile Include="classes\Statistic.cs" />
     <Compile Include="classes\User.cs" />
     <Compile Include="classes\Words.cs" />
+    <Compile Include="Enums\EPosition.cs" />
     <Compile Include="Enums\ESetup.cs" />
     <Compile Include="Interfaces\Business\IActionManager.cs" />
     <Compile Include="Interfaces\Business\IChecks.cs" />

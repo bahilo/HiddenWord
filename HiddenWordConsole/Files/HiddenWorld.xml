@@ -61,4 +61,10 @@
     <nbtry>5</nbtry>
     <setupid>1</setupid>
   </XStatistic>
+  <XStatistic>
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>4</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
 </HiddenWord>

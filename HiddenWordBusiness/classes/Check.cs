@@ -2,59 +2,99 @@
 using System.Linq;
 using HiddenWordCommon.Interfaces.Business;
 using HiddenWordCommon.classes;
+using HiddenWordCommon.Enums;
+using System.Collections.Generic;
 
 namespace HiddenWordBusiness.classes
 {
     public class Check : ICheck
     {
         public string Error { get; set; }
-        public string[] Game { get; set; }
+        public string[][] Game { get; set; }
         public String Word { get; set; }
         public IActionManager Bl { get; set; }
+        public int IndexLine { get; set; }
+        public int IndexColumn { get; set; }
+        public int IndexCurrentLine { get; set; }
+        public EPosition[][] TrackPosition { get; set; }
 
-        public Check(IActionManager bl)
+        public Check(IActionManager bl, int manxTry)
         {
             Bl = bl;
+            IndexLine = manxTry * 2;
         }
 
         public void init()
         {
-            Game = new string[Word.Count()];
-            Game = convertStringToEmptyArrayOfTring(this.Word);
+            IndexColumn = Word.Length;
+            Game = new string[IndexLine][];                       
+            Game = convertStringToEmptyArrayOfUnderscore();
             Error = "";
         }
 
-        public string[] convertStringToEmptyArrayOfTring(string source)
+        public string[][] convertStringToEmptyArrayOfUnderscore()
         {
-            string[] StringTab = new string[source.Count()];
-            for (int i = 0; i < source.Count(); i++)
+            string[][] StringTab = new string[IndexLine][];
+            for (int i = 0; i <= IndexLine; i++)
             {
-                StringTab[i] = "_";
+                for (int y = 0; y < IndexColumn; y++)
+                {
+                    StringTab[i][y] = "_";
+                    TrackPosition[i][y] = EPosition.NotInWord;
+                }
             }
-
             return StringTab;
         }
 
-        public bool isCorrectCharater(string userTry)
+        public void charaterPosition(string userTry)
         {
-            bool isCorrect = false;
 
-            if (Word.Contains(userTry))
+            for (int i = 0; i < IndexColumn; i++ )
             {
-                for (int i = 0; i < Game.Count(); i++ )
+                Game[IndexCurrentLine][i] = userTry[i].ToString();
+
+                if (Word.Contains(userTry[i]) && Word[i].Equals(userTry[i].ToString()))
                 {
-                    if (userTry.Equals("" + Word[i])) { 
-                        Game[i] = "" + Word[i];                        
-                    }
+                    TrackPosition[IndexCurrentLine][i] = EPosition.GoodPosition;
                 }
-                isCorrect = true;
+                if (Word.Contains(userTry[i]))
+                {
+                    TrackPosition[IndexCurrentLine][i] = EPosition.BadPosition;
+                }
+                else
+                {
+                    TrackPosition[IndexCurrentLine][i] = EPosition.NotInWord;
+                }
             }
-            else { 
-                Error +="###########\n" +
-                        "##   X   ##\n" +
-                        "###########";
+
+            displayGame(Game[IndexCurrentLine]);
+
+            IndexCurrentLine++;
+
+            displayGame(keepCorrectCharacter());
+
+        }
+
+        public string[] keepCorrectCharacter()
+        {
+            for (int y = 0; y < IndexColumn; y++)
+            {
+                if ( TrackPosition[IndexCurrentLine -1][y] == EPosition.GoodPosition )
+                {
+                    Game[IndexCurrentLine][y] = Word[y].ToString();
+                }
             }
-            return isCorrect;
+            return Game[IndexCurrentLine];
+        }
+
+
+        private IEnumerable<string>  getCharacter(Words word)
+        {
+            for (int i = 0; i < Word.Count(); i++)
+            {
+                yield return Game[IndexCurrentLine][i];                
+            }
+            
         }
 
         public bool checkWin()
@@ -62,7 +102,7 @@ namespace HiddenWordBusiness.classes
             //string buf1, buf2;
             for (int i = 0 ; i < Word.Count(); i++ )
             {
-                if(!Game[i].Equals(""+Word[i])){                    
+                if( !Game[IndexCurrentLine][i].Equals(Word[i].ToString()) ){                    
                     return false;
                 }
             }
@@ -70,23 +110,44 @@ namespace HiddenWordBusiness.classes
         }
 
 
-        public void displayGame()
+        public void displayGame(string[] tabword)
         {
             Bl.BlDisplay.displayEmptyLine();
-            foreach (string charact in Game)
+            foreach (string charact in tabword)
             {
-                Bl.BlDisplay.displayMessage(charact + " ",0,0);
+                Bl.BlDisplay.displayMessage(charact + " ");
             }
             Bl.BlDisplay.displayEmptyLine();
         }
+
+        public void displayGame()
+        {
+            Bl.BlDisplay.displayEmptyLine();
+            foreach (string charact in Game[IndexCurrentLine])
+            {
+                Bl.BlDisplay.displayMessage(charact + " ");
+            }
+            Bl.BlDisplay.displayEmptyLine();
+        }
+
 
         public void displayError()
         {
             Bl.BlDisplay.displayMessage(Error,0,0);
         }
 
+        public bool isCorrectCharater()
+        {
+            for (int y = 0; y < IndexColumn; y++)
+            {
+                if(TrackPosition[IndexCurrentLine][y] == EPosition.GoodPosition)
+                    return false;
+            }
+            return true;
+        }
 
-        public bool startupRequirement(User user, Setup setup)
+
+        /*public bool startupRequirement(User user, Setup setup)
         {
             if (user == null || user.Pseudo == null || user.Pseudo == "")
             {
@@ -100,7 +161,7 @@ namespace HiddenWordBusiness.classes
                 return false;
             }
             return true;           
-        }
+        }*/
 
 
     }

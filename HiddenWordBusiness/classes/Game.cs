@@ -20,7 +20,7 @@ namespace HiddenWordBusiness.classes
             _bl = bl;
             _rd = new Random();
             _player = new Player(_bl, _rd);
-        }
+        } 
 
 
         public void run()
@@ -43,7 +43,7 @@ namespace HiddenWordBusiness.classes
 
                             if (_player.checkWin())
                             {
-                                _player.displayGame();
+                                //_player.displayGame();
                                 _bl.BlDisplay.DisplayCongratulation();
                                 break;
                             }

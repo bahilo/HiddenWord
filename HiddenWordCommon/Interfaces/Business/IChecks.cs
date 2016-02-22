@@ -8,9 +8,10 @@ namespace HiddenWordCommon.Interfaces.Business
 {
     public interface ICheck
     {
-        bool isCorrectCharater(string userTry);
+        bool isCorrectCharater();
+        void charaterPosition(string userTry);
         bool checkWin();
-        void displayGame();
+        void displayGame(string[] tabword);
         void displayError();
     }
 }

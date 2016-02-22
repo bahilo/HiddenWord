@@ -276,8 +276,8 @@ namespace HiddenWordDALXml.Classes
                     select listEl;
 
                 IEnumerable<int> userElementList =
-                    from el in allElements
-                    select int.Parse(el.Attribute(attributeName).Value);
+                    from el in allElements.Attributes(attributeName)
+                    select int.Parse(el.Value);
 
                 int max = 0;
                 foreach (var key in userElementList)
