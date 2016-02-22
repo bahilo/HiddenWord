@@ -63,6 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Check.cs" />
+    <Compile Include="Classes\Display.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,6 +96,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HiddenWordBusiness\HiddenWordBusiness.csproj">
+      <Project>{91010e3e-03e4-45a5-9eb6-1b670ebc90e1}</Project>
+      <Name>HiddenWordBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HiddenWordCommon\HiddenWordCommon.csproj">
+      <Project>{9f6f25a2-1db5-4dac-9913-620eae3a1183}</Project>
+      <Name>HiddenWordCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HiddenWordDALXml\HiddenWordDALXml.csproj">
+      <Project>{35fc7f3e-100e-4291-a015-b2de4c44eec0}</Project>
+      <Name>HiddenWordDALXml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HiddenWordDAL\HiddenWordDAL.csproj">
+      <Project>{64eafe11-aa00-4429-958c-31b15e5a1f68}</Project>
+      <Name>HiddenWordDAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

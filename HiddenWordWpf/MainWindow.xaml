@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HiddenWordWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="430.769" Width="701.923">
+    <Grid x:Name="gvContainer" Height="403" VerticalAlignment="Top" Margin="0,0,0,-3">
+        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="281" Margin="10,40,0,0" VerticalAlignment="Top" Width="674"/>
+        <TextBlock x:Name="mainTitle" HorizontalAlignment="Left" Margin="51,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="547"/>
+        <TextBox x:Name="inputGamer" HorizontalAlignment="Left" Height="23" Margin="180,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="333"/>
+        <Label x:Name="Response" Content="Response" HorizontalAlignment="Left" Margin="90,360,0,0" VerticalAlignment="Top" Width="73"/>
+        <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="551,360,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
     </Grid>
 </Window>
