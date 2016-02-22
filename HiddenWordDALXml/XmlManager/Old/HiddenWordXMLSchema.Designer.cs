@@ -5,7 +5,7 @@
 //  </auto-generated>
 // ------------------------------------------------------------------------------
 #pragma warning disable
-namespace HiddenWordXMLSchema
+namespace HiddenWordXMLSchema_OLD
 {
     using System;
     using System.Diagnostics;

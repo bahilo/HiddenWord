@@ -8,11 +8,11 @@ using System.Data;
 using HiddenWordCommon.classes;
 using System.Xml.Serialization;
 using System.IO;
-using Xml = HiddenWordXMLSchema;
 using System.Xml.Linq;
 using HiddenWordCommon.Enums;
 using HiddenWordCommon.Interfaces.DAL;
 using HiddenWordDALXml.Classes;
+using HiddenWordDALXml.XmlManager;
 
 namespace HiddenWordDALXml
 {
@@ -29,8 +29,8 @@ namespace HiddenWordDALXml
 
         public Setup GetSetupById(int id)
         {
-            List<Xml.XSetups> paramList = new List<HiddenWordXMLSchema.XSetups>();
-            paramList.Add(genericMethode.getXmlDataByAttribute<Xml.XSetups>("XSetups", "ID", id.ToString()));
+            List<XSetups> paramList = new List<XSetups>();
+            paramList.Add(genericMethode.getXmlDataByAttribute<XSetups>("XSetups", "ID", id.ToString()));
 
             List<Setup> setupsList = bindXmlDataToSetup(paramList);
             Setup result = new Setup();
@@ -43,20 +43,20 @@ namespace HiddenWordDALXml
 
         public List<Setup> GetSetupByMaxTry(int maxTry)
         {
-            List<Xml.XSetups> resultList = genericMethode.getListXmlDataByValue<Xml.XSetups>("XSetups", maxTry.ToString());
+            List<XSetups> resultList = genericMethode.getListXmlDataByValue<XSetups>("XSetups", maxTry.ToString());
             return bindXmlDataToSetup(resultList);
         }
 
         public List<Setup> GetSetupByStatus(int status)
         {
-            List<Xml.XSetups> resultList = genericMethode.getListXmlDataByValue<Xml.XSetups>("XSetups", status.ToString());
+            List<XSetups> resultList = genericMethode.getListXmlDataByValue<XSetups>("XSetups", status.ToString());
             return bindXmlDataToSetup(resultList);
         }
 
         public Setup GetSetupActiveStatus()
         {
-            List<Xml.XSetups> paramList = new List<HiddenWordXMLSchema.XSetups>();
-            paramList.Add(genericMethode.getXmlDataByValue<Xml.XSetups>("XSetups", ((int)ESetup.Active).ToString()));
+            List<XSetups> paramList = new List<XSetups>();
+            paramList.Add(genericMethode.getXmlDataByValue<XSetups>("XSetups", ((int)ESetup.Active).ToString()));
 
             List<Setup> setupsList = bindXmlDataToSetup(paramList);
             Setup result = new Setup();
@@ -70,22 +70,22 @@ namespace HiddenWordDALXml
 
         public List<Setup> GetSetupData()
         {
-            List<Xml.XSetups> resultList = genericMethode.getListXmlData<Xml.XSetups>("XSetups");
+            List<XSetups> resultList = genericMethode.getListXmlData<XSetups>("XSetups");
             return bindXmlDataToSetup(resultList);
         }
 
         public Setup InsertSetup(int maxTry, int status)
         {
-            Xml.XSetups setup = new Xml.XSetups();
+            XSetups setup = new XSetups();
             setup.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XSetups", "ID");
             setup.maxtry = maxTry;
             setup.status = status;
 
-            Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
+            HiddenWord hiddenWord = new HiddenWord();
             hiddenWord.Item = setup;
 
-            List<Xml.XSetups> paramList = new List<HiddenWordXMLSchema.XSetups>();
-            paramList.Add(genericMethode.saveXmlData<Xml.XSetups>(hiddenWord, "XSetups", setup.ID.ToString()));
+            List<XSetups> paramList = new List<XSetups>();
+            paramList.Add(genericMethode.saveXmlData<XSetups>(hiddenWord, "XSetups", setup.ID.ToString()));
 
             List<Setup> setupsList = bindXmlDataToSetup(paramList);
             Setup result = new Setup();
@@ -112,10 +112,10 @@ namespace HiddenWordDALXml
             return genericMethode.updateXmlData<Setup>("XSetups", param);
         }
 
-        private List<Setup> bindXmlDataToSetup(List<Xml.XSetups> resultList)
+        private List<Setup> bindXmlDataToSetup(List<XSetups> resultList)
         {
             List<Setup> listSetup = new List<Setup>();
-            foreach (Xml.XSetups result in resultList)
+            foreach (XSetups result in resultList)
             {
                 Setup setupTmp = new Setup();
                 setupTmp.Id = result.ID;
@@ -130,31 +130,31 @@ namespace HiddenWordDALXml
 
         public List<Statistic> GetStatisticByNbTry(int nbTry)
         {
-            List<Xml.XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<Xml.XStatistic>("XStatistic", "nbtry", nbTry.ToString());
+            List<XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<XStatistic>("XStatistic", "nbtry", nbTry.ToString());
             return bindXmlObjectToStatistic(resultList);
         }
 
         public List<Statistic> GetStatisticBySetupId(int setupId)
         {
-            List<Xml.XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<Xml.XStatistic>("XStatistic", "setupid", setupId.ToString());
+            List<XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<XStatistic>("XStatistic", "setupid", setupId.ToString());
             return bindXmlObjectToStatistic(resultList);
         }
 
         public List<Statistic> GetStatisticByUserId(int userId)
         {
-            List<Xml.XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<Xml.XStatistic>("XStatistic", "userid", userId.ToString());
+            List<XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<XStatistic>("XStatistic", "userid", userId.ToString());
             return bindXmlObjectToStatistic(resultList);
         }
 
         public List<Statistic> GetStatisticByWordId(int wordId)
         {
-            List<Xml.XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<Xml.XStatistic>("XStatistic", "userid", wordId.ToString());
+            List<XStatistic> resultList = genericMethode.getListXmlDataByValueInnerJoin<XStatistic>("XStatistic", "userid", wordId.ToString());
             return bindXmlObjectToStatistic(resultList);
         }
 
         public List<Statistic> GetStatisticData()
         {
-            List<Xml.XStatistic> resultList = genericMethode.getListXmlData<Xml.XStatistic>("XStatistic");
+            List<XStatistic> resultList = genericMethode.getListXmlData<XStatistic>("XStatistic");
             return bindXmlObjectToStatistic(resultList);
         }
         
@@ -167,18 +167,18 @@ namespace HiddenWordDALXml
 
         public Statistic insertStatistic(int userId, int wordId, int nbTry, int setupId)
         {
-            Xml.XStatistic statistic = new Xml.XStatistic();
+            XStatistic statistic = new XStatistic();
             statistic.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XStatistic", "ID");
             statistic.userid = userId;
             statistic.wordid = wordId;
             statistic.setupid = setupId;
             statistic.nbtry = nbTry;
 
-            Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
+            HiddenWord hiddenWord = new HiddenWord();
             hiddenWord.Item = statistic;
 
-            List<Xml.XStatistic> paramList = new List<HiddenWordXMLSchema.XStatistic>();
-            paramList.Add(genericMethode.saveXmlData<Xml.XStatistic>(hiddenWord, "XStatistic", statistic.ID.ToString()));
+            List<XStatistic> paramList = new List<XStatistic>();
+            paramList.Add(genericMethode.saveXmlData<XStatistic>(hiddenWord, "XStatistic", statistic.ID.ToString()));
 
             List<Statistic> statisticList = bindXmlObjectToStatistic(paramList);
             Statistic result = new Statistic();
@@ -209,10 +209,10 @@ namespace HiddenWordDALXml
             return genericMethode.updateXmlData<Statistic>("XStatistic", param);
         }
 
-        private List<Statistic> bindXmlObjectToStatistic(List<HiddenWordXMLSchema.XStatistic> xmlOjectList )
+        private List<Statistic> bindXmlObjectToStatistic(List<XStatistic> xmlOjectList )
         {
             List<Statistic> listStatistic = new List<Statistic>();
-            foreach (Xml.XStatistic result in xmlOjectList)
+            foreach (XStatistic result in xmlOjectList)
             {
                 Statistic statisticTmp = new Statistic();
                 statisticTmp.Id = result.ID;
@@ -230,8 +230,8 @@ namespace HiddenWordDALXml
 
         public User GetUserById(int id)
         {
-            List<Xml.XUsers> paramList = new List<HiddenWordXMLSchema.XUsers>();
-            paramList.Add(genericMethode.getXmlDataByAttribute<Xml.XUsers>("XUsers", "ID", id.ToString()));
+            List<XUsers> paramList = new List<XUsers>();
+            paramList.Add(genericMethode.getXmlDataByAttribute<XUsers>("XUsers", "ID", id.ToString()));
 
             List<User> usersList = bindXmlDataToUser(paramList);
             User result = new User();
@@ -244,8 +244,8 @@ namespace HiddenWordDALXml
 
         public User GetUserByPseudo(string pseudo)
         {
-            List<Xml.XUsers> paramList = new List<HiddenWordXMLSchema.XUsers>();
-            paramList.Add(genericMethode.getXmlDataByValue<Xml.XUsers>("XUsers", pseudo));
+            List<XUsers> paramList = new List<XUsers>();
+            paramList.Add(genericMethode.getXmlDataByValue<XUsers>("XUsers", pseudo));
 
             List<User> usersList = bindXmlDataToUser(paramList);
             User result = new User();
@@ -258,21 +258,21 @@ namespace HiddenWordDALXml
                
         public List<User> GetUserData()
         {
-            List<Xml.XUsers> resultList = genericMethode.getListXmlData<Xml.XUsers>("XUsers");
+            List<XUsers> resultList = genericMethode.getListXmlData<XUsers>("XUsers");
             return bindXmlDataToUser(resultList);
         }
         
         public User InsertUser(string pseudo)
         {
-            Xml.XUsers user = new Xml.XUsers();
+            XUsers user = new XUsers();
             user.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XUsers", "ID");
             user.pseudo = pseudo;
 
-            Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
+            HiddenWord hiddenWord = new HiddenWord();
             hiddenWord.Item = user;
             
-            List<Xml.XUsers> paramList = new List<HiddenWordXMLSchema.XUsers>();
-            paramList.Add(genericMethode.saveXmlData<Xml.XUsers>(hiddenWord, "XUsers", user.ID.ToString()));
+            List<XUsers> paramList = new List<XUsers>();
+            paramList.Add(genericMethode.saveXmlData<XUsers>(hiddenWord, "XUsers", user.ID.ToString()));
 
             List<User> usersList = bindXmlDataToUser(paramList);
             User result = new User();
@@ -298,10 +298,10 @@ namespace HiddenWordDALXml
             return genericMethode.updateXmlData<User>("XUsers", param);
         }
 
-        private List<User> bindXmlDataToUser(List<Xml.XUsers> resultList)
+        private List<User> bindXmlDataToUser(List<XUsers> resultList)
         {
             List<User> userFound = new List<User>();
-            foreach (Xml.XUsers result in resultList)
+            foreach (XUsers result in resultList)
             {
                 User userTemp = new User();
                 userTemp.Id = result.ID;
@@ -314,8 +314,8 @@ namespace HiddenWordDALXml
 
         public Words GetWordsById(int id)
         {
-            List<Xml.XWords> paramList = new List<HiddenWordXMLSchema.XWords>();
-            paramList.Add(genericMethode.getXmlDataByAttribute<Xml.XWords>("XWords", "ID", id.ToString()));
+            List<XWords> paramList = new List<XWords>();
+            paramList.Add(genericMethode.getXmlDataByAttribute<XWords>("XWords", "ID", id.ToString()));
 
             List<Words> wordsList = bindXmlDataToWord(paramList);
             Words result = new Words();
@@ -329,8 +329,8 @@ namespace HiddenWordDALXml
 
         public Words GetWordsByName(string name)
         {
-            List<Xml.XWords> paramList = new List<HiddenWordXMLSchema.XWords>();
-            paramList.Add(genericMethode.getXmlDataByValue<Xml.XWords>("XWords", name));
+            List<XWords> paramList = new List<XWords>();
+            paramList.Add(genericMethode.getXmlDataByValue<XWords>("XWords", name));
 
             List<Words> wordsList = bindXmlDataToWord(paramList);
             Words result = new Words(); 
@@ -343,21 +343,21 @@ namespace HiddenWordDALXml
 
         public List<Words> GetWordsData()
         {
-            List<Xml.XWords> resultList = genericMethode.getListXmlData<Xml.XWords>("XWords");
+            List<XWords> resultList = genericMethode.getListXmlData<XWords>("XWords");
             return bindXmlDataToWord(resultList);
         }
 
         public Words InsertWord(string name)
         {
-            Xml.XWords word = new Xml.XWords();
+            XWords word = new XWords();
             word.ID = genericMethode.autoIncrementXmlDataPrimaryKey("XWords", "ID");
             word.name = name;
             
-            Xml.HiddenWord hiddenWord = new Xml.HiddenWord();
+            HiddenWord hiddenWord = new HiddenWord();
             hiddenWord.Item = word;
 
-            List<Xml.XWords> paramList = new List<HiddenWordXMLSchema.XWords>();
-            paramList.Add(genericMethode.saveXmlData<Xml.XWords>(hiddenWord, "XWords", word.ID.ToString()));
+            List<XWords> paramList = new List<XWords>();
+            paramList.Add(genericMethode.saveXmlData<XWords>(hiddenWord, "XWords", word.ID.ToString()));
 
             List<Words> wordsList = bindXmlDataToWord(paramList);
             Words result = new Words();
@@ -383,10 +383,10 @@ namespace HiddenWordDALXml
             return genericMethode.updateXmlData<Words>("XWords", param);
         }
 
-        private List<Words> bindXmlDataToWord(List<Xml.XWords> resultList)
+        private List<Words> bindXmlDataToWord(List<XWords> resultList)
         {
             List<Words> listWords = new List<Words>();
-            foreach (Xml.XWords result in resultList)
+            foreach (XWords result in resultList)
             {
                 Words wordTmp = new Words();
                 wordTmp.Id = result.ID;

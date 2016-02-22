@@ -28,6 +28,7 @@ namespace HiddenWordBusiness.Exceptions
                     {
                         isMatch = true;
                     }
+                    //System.Diagnostics.Trace.Listeners.Add();
                     break;
                 case "UPDATE":
                     if ( !(input.GetType() == typeof(int)) && (bool)isExludeNullable && input == null)

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="HiddenWordXMLSchema"
+    targetNamespace="http://tempuri.org/HiddenWordXMLSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/HiddenWordXMLSchema.xsd"
+    xmlns:mstns="http://tempuri.org/HiddenWordXMLSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="HiddenWord">
+    <xs:complexType>
+      <xs:choice minOccurs="1"> 
+        <xs:element name="XStatistic" type="XStatistic"/>
+        <xs:element name="XUsers" type="XUsers"/>
+        <xs:element name="XWords" type="XWords"/>
+        <xs:element name="XSetups" type="XSetups"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  
+   
+        <xs:complexType name="XStatistic">
+          <xs:sequence>
+            <xs:element name="userid">
+              <xs:simpleType>
+                <xs:restriction base="xs:int">
+                  <xs:minInclusive value="1"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            <xs:element name="wordid">
+              <xs:simpleType>
+                <xs:restriction base="xs:int">
+                  <xs:minExclusive value="1"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            <xs:element name="nbtry" type="xs:int"/>
+            <xs:element name="setupid">
+              <xs:simpleType>
+                <xs:restriction base="xs:int">
+                  <xs:minExclusive value="1"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="ID" type="xs:int"/>
+        </xs:complexType>
+      
+  
+      
+        <xs:complexType name="XUsers">
+          <xs:sequence>
+            <xs:element name="pseudo"/>
+          </xs:sequence>
+          <xs:attribute name="ID" type="xs:int"/>
+        </xs:complexType>
+      
+  
+      
+        <xs:complexType name="XWords">
+          <xs:sequence>
+            <xs:element name="name"/>
+          </xs:sequence>
+          <xs:attribute name="ID" type="xs:int"/>
+        </xs:complexType>
+      
+      
+        <xs:complexType name="XSetups">
+          <xs:sequence>
+            <xs:element name="maxtry" type="xs:int"/>
+            <xs:element name="status" type="xs:int"/>
+          </xs:sequence>
+          <xs:attribute name="ID" type="xs:int"/>
+        </xs:complexType>
+      
+  <!--xs:element name=""
+  <xs:complexType name="HiddenWord">
+    <xs:choice maxOccurs="1">
+      
+    </xs:choice>
+  </xs:complexType-->
+</xs:schema>

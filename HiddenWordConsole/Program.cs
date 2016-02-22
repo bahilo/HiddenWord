@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HiddenWord.Business;
 using System.Windows;
 using HiddenWordBusiness.classes;
 using HiddenWordCommon.Interfaces.Business;
 using HiddenWordBusiness.Core;
+using HiddenWord.Business;
 
 namespace HiddenWordConsole
 {

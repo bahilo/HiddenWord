@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HiddenWordDALXml.XmlManager;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Xml = HiddenWordXMLSchema;
 
 namespace HiddenWordDALXml.Classes
 {
@@ -40,7 +40,7 @@ namespace HiddenWordDALXml.Classes
             }
         }
 
-        public elType saveXmlData<elType>(Xml.HiddenWord hiddenWord,string elName, string idEl) where elType: new()
+        public elType saveXmlData<elType>(HiddenWord hiddenWord,string elName, string idEl) where elType: new()
         {
             TextWriter writer;
             XmlSerializer xs = new XmlSerializer(hiddenWord.GetType());
