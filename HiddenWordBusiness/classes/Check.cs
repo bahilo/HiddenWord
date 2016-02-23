@@ -22,23 +22,28 @@ namespace HiddenWordBusiness.classes
         {
             Bl = bl;
             IndexLine = manxTry * 2;
+            
         }
 
         public void init()
         {
             IndexColumn = Word.Length;
-            Game = new string[IndexLine][];                       
+            Game = new string[IndexLine][];
+            TrackPosition = new EPosition[IndexLine][];
             Game = convertStringToEmptyArrayOfUnderscore();
             Error = "";
+            IndexCurrentLine = 0;
         }
 
         public string[][] convertStringToEmptyArrayOfUnderscore()
         {
             string[][] StringTab = new string[IndexLine][];
-            for (int i = 0; i <= IndexLine; i++)
+            for (int i = 0; i < IndexLine; i++)
             {
+                StringTab[i] = convertStringIntoTableOfString(Word);
+                TrackPosition[i] = new EPosition[IndexColumn];
                 for (int y = 0; y < IndexColumn; y++)
-                {
+                {                    
                     StringTab[i][y] = "_";
                     TrackPosition[i][y] = EPosition.NotInWord;
                 }
@@ -46,24 +51,40 @@ namespace HiddenWordBusiness.classes
             return StringTab;
         }
 
+        private string[] convertStringIntoTableOfString(string source)
+        {
+            string[] StringTab = new string[source.Length];
+            for (int y = 0; y < IndexColumn; y++)
+            {
+                StringTab[y] = source[y].ToString();
+            }
+            return StringTab;
+        }
+
+        /*private void createTableOfStateForEachCharact()
+        {
+            ;
+            for (int y = 0; y < IndexColumn; y++)
+            {
+                StringTab[y] = Word[y].ToString();
+            }
+            
+        }*/
+
         public void charaterPosition(string userTry)
         {
 
             for (int i = 0; i < IndexColumn; i++ )
             {
-                Game[IndexCurrentLine][i] = userTry[i].ToString();
+                Game[IndexCurrentLine][i] = convertStringIntoTableOfString(userTry)[i];
 
-                if (Word.Contains(userTry[i]) && Word[i].Equals(userTry[i].ToString()))
+                if (Word.Contains(userTry[i]) && Word[i].Equals(userTry[i]))
                 {
                     TrackPosition[IndexCurrentLine][i] = EPosition.GoodPosition;
                 }
-                if (Word.Contains(userTry[i]))
+                if (Word.Contains(userTry[i]) && !Word[i].Equals(userTry[i]))
                 {
                     TrackPosition[IndexCurrentLine][i] = EPosition.BadPosition;
-                }
-                else
-                {
-                    TrackPosition[IndexCurrentLine][i] = EPosition.NotInWord;
                 }
             }
 
@@ -71,7 +92,8 @@ namespace HiddenWordBusiness.classes
 
             IndexCurrentLine++;
 
-            displayGame(keepCorrectCharacter());
+            keepCorrectCharacter();
+            //displayGame();
 
         }
 
@@ -102,7 +124,7 @@ namespace HiddenWordBusiness.classes
             //string buf1, buf2;
             for (int i = 0 ; i < Word.Count(); i++ )
             {
-                if( !Game[IndexCurrentLine][i].Equals(Word[i].ToString()) ){                    
+                if( !Game[IndexCurrentLine - 1 ][i].Equals(Word[i].ToString()) ){                    
                     return false;
                 }
             }
@@ -122,13 +144,18 @@ namespace HiddenWordBusiness.classes
 
         public void displayGame()
         {
+            Bl.BlDisplay.displayGame(Game, IndexLine, IndexColumn, IndexCurrentLine);
+        }
+
+        /*public void displayGame()
+        {
             Bl.BlDisplay.displayEmptyLine();
             foreach (string charact in Game[IndexCurrentLine])
             {
                 Bl.BlDisplay.displayMessage(charact + " ");
             }
             Bl.BlDisplay.displayEmptyLine();
-        }
+        }*/
 
 
         public void displayError()
@@ -140,7 +167,7 @@ namespace HiddenWordBusiness.classes
         {
             for (int y = 0; y < IndexColumn; y++)
             {
-                if(TrackPosition[IndexCurrentLine][y] == EPosition.GoodPosition)
+                if(TrackPosition[IndexCurrentLine - 1 ][y] != EPosition.GoodPosition)
                     return false;
             }
             return true;

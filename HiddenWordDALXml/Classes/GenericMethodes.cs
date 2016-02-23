@@ -28,15 +28,16 @@ namespace HiddenWordDALXml.Classes
             fullTmpFileName = System.IO.Path.Combine(this.pathFolder, this.tmpFileName);
             XmlNameSpace = "http://tempuri.org/HiddenWordXMLSchema.xsd";
 
-            if (!File.Exists(fullXmlFileName))
-            {
-                using (System.IO.FileStream fs = System.IO.File.Create(fullXmlFileName))
-                using (System.IO.FileStream fs2 = System.IO.File.Create(fullTmpFileName)) { }
-            }
 
             if (!System.IO.Directory.Exists(pathFolder))
             {
                 System.IO.Directory.CreateDirectory(pathFolder);
+            }
+
+            if (!File.Exists(fullXmlFileName))
+            {
+                using (System.IO.FileStream fs = System.IO.File.Create(fullXmlFileName))
+                using (System.IO.FileStream fs2 = System.IO.File.Create(fullTmpFileName)) { }
             }
         }
 

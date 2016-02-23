@@ -209,7 +209,9 @@ namespace HiddenWordBusiness.classes
             }
         }
 
-
-
+        public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

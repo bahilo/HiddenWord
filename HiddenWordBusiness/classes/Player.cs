@@ -73,16 +73,17 @@ namespace HiddenWordBusiness.classes
 
         private void launchGame()
         {
-            try
-            {
-                NewWord = Bl.BlWord.getNewRandomWord(rd);
-            }catch(ApplicationException e)
-            {
-                Bl.BlDisplay.displayMessage(e.Message);
-                Bl.BlDisplay.setupNewWord();
-                NewWord = Bl.BlWord.getNewRandomWord(rd);
-            }
-            Console.Clear();
+            //try
+            //{
+            //    NewWord = Bl.BlWord.getNewRandomWord(rd);
+            //}catch(ApplicationException e)
+            //{
+            //    Bl.BlDisplay.displayMessage(e.Message);
+            //    Bl.BlDisplay.setupNewWord();
+            //    NewWord = Bl.BlWord.getNewRandomWord(rd);
+            //}
+            /*if(typeof(Console).IsInstanceOfType(Console))
+            Console.Clear();*/
             CheckCharacter.Word = NewWord.Name;
             CheckCharacter.init();
             Bl.BlDisplay.displayPrompt(this.User.Pseudo);
@@ -128,7 +129,11 @@ namespace HiddenWordBusiness.classes
 
         public string play()
         {
-            return Bl.BlDisplay.readScreen("Response: ");
+            string response =  Bl.BlDisplay.readScreen("Response: ");
+            if (response.Length < NewWord.Name.Length)
+                throw new ApplicationException("Must be at least "+NewWord.Name.Length+" characteres!");
+            
+              return response;
         }
 
 

@@ -21,15 +21,24 @@ namespace HiddenWordBusiness.classes
 
         public Play(IActionManager bl, Random rd)
         {
-            
-            NewWord = new Words();
-            User = new User();
-            Setup = new Setup();
-
-            //Setup.PropertyChanged += onSetupChange;
-            
             this.rd = rd;
             Bl = bl;
+            try
+            {
+                NewWord = Bl.BlWord.getNewRandomWord(rd);
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+                Bl.BlDisplay.setupNewWord();
+                NewWord = Bl.BlWord.getNewRandomWord(rd);
+            }
+            User = Bl.BlDisplay.SelectUser();
+            Setup = (Bl.BlSetup.GetSetupByStatus((int)ESetup.Active) == null ) ? bl.BlDisplay.setupMaxTry() : Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
+
+            //Setup.PropertyChanged += onSetupChange;
+
+            
         }
 
         /*private void onSetupChange(object sender, PropertyChangedEventArgs e)

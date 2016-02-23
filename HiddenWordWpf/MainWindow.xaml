@@ -5,12 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HiddenWordWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="430.769" Width="701.923">
+        Title="MainWindow" Height="430.769" Width="701.923" ResizeMode="NoResize">
     <Grid x:Name="gvContainer" Height="403" VerticalAlignment="Top" Margin="0,0,0,-3">
-        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="281" Margin="10,40,0,0" VerticalAlignment="Top" Width="674"/>
-        <TextBlock x:Name="mainTitle" HorizontalAlignment="Left" Margin="51,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="547"/>
-        <TextBox x:Name="inputGamer" HorizontalAlignment="Left" Height="23" Margin="180,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="333"/>
-        <Label x:Name="Response" Content="Response" HorizontalAlignment="Left" Margin="90,360,0,0" VerticalAlignment="Top" Width="73"/>
-        <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="551,360,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="258" Margin="10,72,0,0" VerticalAlignment="Top" Width="674">
+            <Grid x:Name="gvCentral" HorizontalAlignment="Left" Height="147" Margin="115,44,0,0" VerticalAlignment="Top" Width="386"/>
+        </Grid>
+        <TextBox x:Name="inputGamer" HorizontalAlignment="Left" Height="26" Margin="285,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="285"/>
+        <Label x:Name="Response" Target="{Binding ElementName=inputGamer}" Content="Response" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top" Width="254"/>
+        <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="589,350,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
+        <StackPanel x:Name="titlePanel" HorizontalAlignment="Left" Height="25" Margin="90,42,0,0" VerticalAlignment="Top" Width="594"/>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="694">
+            <MenuItem x:Name="menuFile" Header="_Files">
+                <Separator/>
+                <MenuItem Name="Start" Header="_Start" InputGestureText="Alt+S" Click="menuStartt_Click" />
+                <MenuItem x:Name="menuExit" Header="E_xit" InputGestureText="Alt+Q" Click="menuExit_Click" />
+            </MenuItem>
+            <MenuItem x:Name="menuSetting" Header="_Settings">
+                <MenuItem x:Name="menuMaxTry" Header="Max try" InputGestureText="Alt+M" Click="menuMaxTry_Click"  />
+                <MenuItem x:Name="menuUser" Header="User" InputGestureText="Alt+U">
+                    <MenuItem x:Name="menuUserSelect" Header="Select" InputGestureText="Alt+Shift+S" Click="menuUserSelect_Click"  />
+                    <MenuItem x:Name="menuUserCreate" Header="Create" InputGestureText="Alt+Shift+C" Click="menuUserCreate_Click"  />
+                </MenuItem>
+                <MenuItem x:Name="menuWord" Header="Word" InputGestureText="Alt+W" Click="menuWord_Click" />
+                <MenuItem x:Name="menuStatistic" Header="Statistics" InputGestureText="Alt+S" Click="menuStatistic_Click"  />
+            </MenuItem>
+            <MenuItem x:Name="menuEdit" Header="_Edit">
+                <MenuItem Command="Undo"></MenuItem>
+                <MenuItem Command="Cut"></MenuItem>
+                <MenuItem Command="Copy"></MenuItem>
+                <MenuItem Command="Paste"></MenuItem>
+                <MenuItem Command="Delete"></MenuItem>
+                <Separator/>
+                <MenuItem Command="SelectAll"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>

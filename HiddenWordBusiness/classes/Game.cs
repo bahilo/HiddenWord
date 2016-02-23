@@ -26,8 +26,8 @@ namespace HiddenWordBusiness.classes
         public void run()
         {            
 
-            while (!_player.IsExitGame)
-            {
+            //while (!_player.IsExitGame)
+            //{
                 bool position = false;
                 _player.init();
 
@@ -36,35 +36,43 @@ namespace HiddenWordBusiness.classes
                     _player.NbTry = 0;
                     if (_player.getMaxTry() > 0)
                     {
-                        while (_player.NbTry <= _player.getMaxTry())
-                        {
+                        //while (_player.NbTry <= _player.getMaxTry())
+                        //{
                             _player.displayGame();
-                            position = _player.isCorrectCharater(_player.play());
+                            try
+                            {
+                                position = _player.isCorrectCharater(_player.play());
+                            }
+                            catch (ApplicationException e)
+                            {
+                                _bl.BlDisplay.displayMessage(e.Message + "\n\n");
+                                position = _player.isCorrectCharater(_player.play());
+                            }
 
                             if (_player.checkWin())
                             {
                                 //_player.displayGame();
                                 _bl.BlDisplay.DisplayCongratulation();
-                                break;
+                                //break;
                             }
                             else if (!position)
                             {
                                 _player.displayError();
                             }
                             _player.NbTry++;
-                        }
-                        _player.gameOver = new EndGame(_bl, _player.User, _player.NewWord, _player.NbTry, _player.Setup);
+                        //}
+                        //_player.gameOver = new EndGame(_bl, _player.User, _player.NewWord, _player.NbTry, _player.Setup);
 
-                        _bl.BlDisplay.displayEmptyLine(3);
+                        //_bl.BlDisplay.displayEmptyLine(3);
                     }
                     else
                     {
                         _bl.BlDisplay.displayWarningMaxTry(_player.getMaxTry());
                     }
                 }
-            }
+            //}
 
-            _player.exitGame();
+            //_player.exitGame();
             
         }
 

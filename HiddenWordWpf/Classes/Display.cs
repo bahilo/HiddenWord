@@ -8,24 +8,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace HiddenWordWpf.classes
 {
     public class Display : IDisplay
     {
-        public Grid myGv { get; set; }
-        public Display(Grid gv)
+        public Grid gvMain { get; set; }
+        public StackPanel stackPanelTop { get; set; }
+        public TextBox inputPlayerBox { get; set; }
+        public Grid gvCentral { get; set; }
+        public string PageTitle { get; set; }
+        public Label labelInputPlayerBox { get; set; }
+
+        public Display(Grid gvcont, Grid gvCentr, StackPanel stackPanel, TextBox inputPlayer, Label inputLabel)
         {
-            myGv = gv;
+            gvMain = gvcont;
+            gvCentral = gvCentr;
+            stackPanelTop = stackPanel;
+            inputPlayerBox = inputPlayer;
+            PageTitle = "WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>";
+            labelInputPlayerBox = inputLabel;
         }
+
         public User SelectUser()
         {
-            
-            string response = "";
-            
-            this.displayEmptyLine();
-            this.displayTabulation(2);
-            displayMessage("....... USER SELECTION ......");
+            PageTitle = "....... USER SELECTION ......";
+            //displayMessage(stackPanelTop);
+
+            /*displayMessage("....... USER SELECTION ......");
             this.displayEmptyLine();
             do
             {
@@ -50,14 +62,24 @@ namespace HiddenWordWpf.classes
                     this.displayEmptyLine();
                 } while ( response == "" ); 
             }
-            this.displayEmptyLine();
+            this.displayEmptyLine();*/
             User user = new User();
-            user.Pseudo = response;            
+            user.Pseudo = readScreen("Please enter your pseudo "); 
             return user;
         }
 
+        public User createUser()
+        {
+            PageTitle = "....... SETTING NEW USER ......";
+            
+            User user = new User();
+            user.Pseudo = readScreen("Please enter a pseudo ");
+            return user;
+        }
+        
 
-        /*-------------------[ setupMenu ]--------------*/
+
+        /*-------------------[ setupMenu ]--------------
 
         public string setupMenu()
         {
@@ -83,8 +105,12 @@ namespace HiddenWordWpf.classes
 
         public Words setupNewWord()
         {
-            string response = "";
-            displayMessage("\t\t....... SETUP NEW WORD ......");
+            
+            PageTitle = "....... SETUP NEW WORD ......";
+
+            string response = inputPlayerBox.Text; 
+
+            /*displayMessage("\t\t....... SETUP NEW WORD ......");
             this.displayEmptyLine();
             do
             {
@@ -92,21 +118,22 @@ namespace HiddenWordWpf.classes
                 this.displayEmptyLine();
             } while (response == "");
 
-            this.displayEmptyLine();
+            this.displayEmptyLine();*/
 
             Words word = new Words();
-            word.Name = response;
+            word.Name = readScreen("Please enter a new word: ");
             return word;
-        } 
+        }
 
 
         /*-------------------[ Setup Max Try ]--------------*/
 
         public Setup setupMaxTry()
         {
-            string response = "";
+            PageTitle = "....... SETTING THE MAX TRY ......";
+
             Setup setup = new Setup();
-            this.displayEmptyLine();
+            /*this.displayEmptyLine();
             displayMessage("\t\t....... SETTING THE MAX TRY ......");
             this.displayEmptyLine();
             do
@@ -115,74 +142,207 @@ namespace HiddenWordWpf.classes
                 this.displayEmptyLine();
             } while (response == "" && int.Parse(response) == 0);
 
-            this.displayEmptyLine();
+            this.displayEmptyLine();*/
 
-            setup.MaxTry = int.Parse(response);
+            try
+            {
+                setup.MaxTry = int.Parse(readScreen("Please enter the maximum of try:"));
+            }
+            catch (Exception)
+            {
+
+                setup.MaxTry = 0;
+            }
             setup.Status = (int)ESetup.Active;
 
             return setup;
         }
 
+        /*-------------------[ Exit Game ]--------------*/
+
         public void exitGame()
         {
-            this.displayEmptyLine(2);
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = "....... Exit Game ......";
+
+
+            //TextBlock myTextCentre1 = new TextBlock();
+            //myTextCentre1.Text = "Do you have a pseudo already register? ";
+
+            TextBlock myTextCentre3 = new TextBlock();
+            myTextCentre3.Text = "Bye!";
+
+            StackPanel myStackPanel = new StackPanel();
+            myStackPanel.Children.Add(myTextCentre3);
+
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            gvCentral.Children.Clear();
+            gvCentral.Children.Add(myStackPanel);
+
+
+
+            /*this.displayEmptyLine(2);
             this.displayTabulation(2);
             displayMessage("Bye!");
-            this.displayEmptyLine();
+            this.displayEmptyLine();*/
         }
+
+        /*-------------------[ End Game ]--------------*/
 
         public void endGame(string solution)
         {
-            this.displayTabulation(2);
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = "....... END OF THE GAME! ......";
+
+
+            //TextBlock myTextCentre1 = new TextBlock();
+            //myTextCentre1.Text = "Do you have a pseudo already register? ";
+
+            TextBlock myTextCentre3 = new TextBlock();
+            myTextCentre3.Text = "SOLUTION: " + solution;
+
+            StackPanel myStackPanel = new StackPanel();
+            myStackPanel.Children.Add(myTextCentre3);
+
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            gvCentral.Children.Clear();
+            gvCentral.Children.Add(myStackPanel);
+
+
+            /*this.displayTabulation(2);
             displayMessage("END OF THE GAME!");
             this.displayEmptyLine();
             this.displayTabulation(2);
             displayMessage("SOLUTION: " + solution);
-            this.displayEmptyLine();
+            this.displayEmptyLine();*/
         }
+
+
+        /*-------------------[ Display startup Menu ]--------------*/
 
         public string displayStartupMenu()
         {
-            string response;
-            writeMenuOption(1, "Quit","Settings","Sart game");
+
+            /*writeMenuOption(1, "Quit","Settings","Sart game");
             response = readScreen("Response: ");
-            this.displayEmptyLine(1);
+            this.displayEmptyLine(1);*/
+
+            return readScreen("Please choose < 0. Exit, 1. Setting, 2. Start >");
+        }
+
+
+        /*-------------------[ Read player input ]--------------*/
+
+        public string readScreen(string message)
+        {            
+            string response = "";
+
+            InputDialog dialoBox = new InputDialog(message);
+
+            if (dialoBox.ShowDialog() == true)
+                response = dialoBox.Answer;
 
             return response;
         }
 
-        public string readScreen(string message)
-        {
-            displayMessage(message);
-            return Console.ReadLine();
-        }
+
+        /*-------------------[ Welcome message ]--------------*/
 
         public void displayWelcomeScreen()
         {
-            /*this.displayEmptyLine(2);
-            this.displayTabulation(2);
-            displayMessage("WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>");
-            this.displayEmptyLine(2);*/
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = PageTitle;
+
+
+            //TextBlock myTextCentre1 = new TextBlock();
+            //myTextCentre1.Text = "Do you have a pseudo already register? ";
+
+            TextBlock myTextCentre3 = new TextBlock();
+            myTextCentre3.Text = "";
+
+            StackPanel myStackPanel = new StackPanel();
+            myStackPanel.Children.Add(myTextCentre3);
+
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            gvCentral.Children.Clear();
+            gvCentral.Children.Add(myStackPanel);
+
+            //this.displayEmptyLine(2);
+            //this.displayTabulation(2);
+            //displayMessage("WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>");
+            //this.displayEmptyLine(2);
 
         }
+
+
+        /*-------------------[ Prompt diplaying ]--------------*/
 
         public void displayPrompt(string pseudo)
         {
-            displayMessage("[" + pseudo + "] - What is the hidden word?");
-            this.displayEmptyLine();
+            labelInputPlayerBox.Content = "[" + pseudo + "] - What is the hidden word?";
+            //displayMessage();
+            //this.displayEmptyLine();
         }
+
+
+        /*-------------------[ Congratulation ]--------------*/
 
         public void DisplayCongratulation()
         {
-            displayMessage("Congratulation you won the game");
-            this.displayEmptyLine();
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = PageTitle;
+
+
+            //TextBlock myTextCentre1 = new TextBlock();
+            //myTextCentre1.Text = "Do you have a pseudo already register? ";
+
+            TextBlock myTextCentre3 = new TextBlock();
+            myTextCentre3.Text = "Congratulation you won the game";
+
+            StackPanel myStackPanel = new StackPanel();
+            myStackPanel.Children.Add(myTextCentre3);
+
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            gvCentral.Children.Clear();
+            gvCentral.Children.Add(myStackPanel);
+
+            /*displayMessage("Congratulation you won the game");
+            this.displayEmptyLine();*/
         }
+
+
+        /*-------------------[ Warning handle ]--------------*/
 
         public void displayWarningMaxTry(int maxTry)
         {
-            displayMessage("WARNING maximun try = " + maxTry);
-            this.displayEmptyLine();
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = PageTitle;
+
+
+            //TextBlock myTextCentre1 = new TextBlock();
+            //myTextCentre1.Text = "Do you have a pseudo already register? ";
+
+            TextBlock myTextCentre3 = new TextBlock();
+            myTextCentre3.Text = "WARNING maximun try = " + maxTry;
+
+            StackPanel myStackPanel = new StackPanel();
+            myStackPanel.Children.Add(myTextCentre3);
+
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            gvCentral.Children.Clear();
+            gvCentral.Children.Add(myStackPanel);
+
+            //displayMessage("WARNING maximun try = " + maxTry);
+            //this.displayEmptyLine();
         }
+
+
+        /*-------------------[ Display empty lines ]--------------*/
 
         public void displayEmptyLine(int? nbLine = 1)
         {
@@ -193,29 +353,79 @@ namespace HiddenWordWpf.classes
             
         }
 
-        public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
+
+        /*-------------------[ Message ]--------------*/
+
+        public void displayMessage(UIElement message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
         {
-            Console.Write(message);
+           
         }
+
+
+        /*-------------------[ Display tabulation ]--------------*/
 
         public void displayTabulation(int? nbTab = 1)
         {
-            for (int i = 1; i <= nbTab; i++)
-            {
-                Console.Write("\t");
-            }
+            
         }
 
+        
+        /*-------------------[ Menu Options ]--------------*/
 
         private void writeMenuOption(int nbtab, params string[] menuArgs)
         {
-            for ( int i = 0 ; i < menuArgs.Count(); i++ )
-            {
-                displayTabulation(nbtab);
-                displayMessage(i+ ". " +menuArgs[i]);
-                this.displayEmptyLine();
-            }
+            
         }
+
+        public string setupMenu()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
+        {
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = message;
+            stackPanelTop.Children.Add(myTextTop);
+        }
+
+        public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine)
+        {
+            //gvMain.Children.Clear();
+            WrapPanel myWrapPanel = new WrapPanel();
+
+            myWrapPanel.HorizontalAlignment = HorizontalAlignment.Left;
+            myWrapPanel.VerticalAlignment = VerticalAlignment.Top;
+            myWrapPanel.Background = new SolidColorBrush(Colors.PaleVioletRed);
+            myWrapPanel.Width = gvMain.Width;
+            for(int i = 0; i < indexLine ; i++)
+            {
+                //var rowdef = new ColumnDefinition();
+                //rowdef.Width = new GridLength( gvMain.Height / indexLine);
+                //gvMain.ColumnDefinitions.Add(rowdef);
+                for (int y = 0, x = 0, z = 0; y < indexCol ; y++, z++)
+                {
+                    //var coldef = new ColumnDefinition();
+                    //coldef.Width = new GridLength(gvMain.Width / indexCol);
+                    //gvMain.ColumnDefinitions.Add(coldef);
+
+                    var btn = new Button();
+                    btn.Content = gameTable[i][y];
+                    btn.Width = myWrapPanel.Width / indexCol;
+                    myWrapPanel.Children.Add(btn);
+                    //Grid.SetColumn(btn, z);
+                    //Grid.SetRow(btn, x);
+                    //if (z == indexCol -1)
+                    //{
+                    //    z = 0;
+                    //    x++;
+                    //}
+                }
+            }
+
+            gvMain.Children.Add(myWrapPanel);
+        }
+
 
 
 

@@ -5,7 +5,7 @@
   </XUsers>
   <XSetups ID="1">
     <maxtry>10</maxtry>
-    <status>1</status>
+    <status>0</status>
   </XSetups>
   <XWords ID="1">
     <name xsi:type="xsd:string">magic</name>
@@ -66,5 +66,30 @@
     <wordid>1</wordid>
     <nbtry>4</nbtry>
     <setupid>1</setupid>
+  </XStatistic>
+  <XSetups>
+    <maxtry>5</maxtry>
+    <status>1</status>
+  </XSetups>
+  <XStatistic>
+    <userid>1</userid>
+    <wordid>3</wordid>
+    <nbtry>6</nbtry>
+    <setupid>0</setupid>
+  </XStatistic>
+  <XUsers>
+    <pseudo xsi:type="xsd:string">toto</pseudo>
+  </XUsers>
+  <XStatistic>
+    <userid>1</userid>
+    <wordid>3</wordid>
+    <nbtry>0</nbtry>
+    <setupid>0</setupid>
+  </XStatistic>
+  <XStatistic>
+    <userid>1</userid>
+    <wordid>2</wordid>
+    <nbtry>3</nbtry>
+    <setupid>0</setupid>
   </XStatistic>
 </HiddenWord>

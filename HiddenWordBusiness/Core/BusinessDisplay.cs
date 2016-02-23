@@ -144,5 +144,10 @@ namespace HiddenWordBusiness.Core
         {
             Display.displayTabulation(nbTab);
         }
+
+        public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine)
+        {
+            Display.displayGame(gameTable, indexLine, indexCol, indexCurrentLine);
+        }
     }
 }
