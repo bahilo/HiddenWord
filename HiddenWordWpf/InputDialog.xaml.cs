@@ -44,6 +44,9 @@ namespace HiddenWordWpf
             get { return txtAnswer.Text; }
         }
 
-
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

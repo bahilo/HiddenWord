@@ -30,6 +30,7 @@ namespace HiddenWordWpf.classes
             inputPlayerBox = inputPlayer;
             PageTitle = "WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>";
             labelInputPlayerBox = inputLabel;
+
         }
 
         public User SelectUser()
@@ -237,12 +238,17 @@ namespace HiddenWordWpf.classes
 
         public string readScreen(string message)
         {            
-            string response = "";
+            string response = inputPlayerBox.Text;
 
-            InputDialog dialoBox = new InputDialog(message);
+            TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = message; // PageTitle;
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            //if ( reponse)
+            /*InputDialog dialoBox = new InputDialog(message);
 
             if (dialoBox.ShowDialog() == true)
-                response = dialoBox.Answer;
+                response = dialoBox.Answer;*/
 
             return response;
         }
@@ -389,41 +395,76 @@ namespace HiddenWordWpf.classes
             stackPanelTop.Children.Add(myTextTop);
         }
 
-        public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine)
+        public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine, EPosition[][] TrackPosition)
         {
-            //gvMain.Children.Clear();
-            WrapPanel myWrapPanel = new WrapPanel();
+            gvMain.HorizontalAlignment = HorizontalAlignment.Left;
+            gvMain.VerticalAlignment = VerticalAlignment.Top;
+            gvMain.Background = new SolidColorBrush(Colors.PaleVioletRed);
+            gvMain.ShowGridLines = true;
 
-            myWrapPanel.HorizontalAlignment = HorizontalAlignment.Left;
-            myWrapPanel.VerticalAlignment = VerticalAlignment.Top;
-            myWrapPanel.Background = new SolidColorBrush(Colors.PaleVioletRed);
-            myWrapPanel.Width = gvMain.Width;
-            for(int i = 0; i < indexLine ; i++)
+
+
+            for (int i = 0; i < indexLine; i++)
             {
-                //var rowdef = new ColumnDefinition();
-                //rowdef.Width = new GridLength( gvMain.Height / indexLine);
-                //gvMain.ColumnDefinitions.Add(rowdef);
-                for (int y = 0, x = 0, z = 0; y < indexCol ; y++, z++)
-                {
-                    //var coldef = new ColumnDefinition();
-                    //coldef.Width = new GridLength(gvMain.Width / indexCol);
-                    //gvMain.ColumnDefinitions.Add(coldef);
-
-                    var btn = new Button();
-                    btn.Content = gameTable[i][y];
-                    btn.Width = myWrapPanel.Width / indexCol;
-                    myWrapPanel.Children.Add(btn);
-                    //Grid.SetColumn(btn, z);
-                    //Grid.SetRow(btn, x);
-                    //if (z == indexCol -1)
-                    //{
-                    //    z = 0;
-                    //    x++;
-                    //}
-                }
+                var rowdef = new RowDefinition();
+                rowdef.Height = new GridLength(gvMain.Height / indexLine);
+                gvMain.RowDefinitions.Add(rowdef);
             }
 
-            gvMain.Children.Add(myWrapPanel);
+            for (int i = 0; i < indexCol; i++)
+            {
+                var coldef = new ColumnDefinition();
+                coldef.Width = new GridLength(gvMain.Width / indexCol);
+                gvMain.ColumnDefinitions.Add(coldef);
+            }
+
+            for (int i = 0, line = 0; i < indexLine; i++)
+            {
+                for (int y = 0, col = 0; y < indexCol; y++, col++)
+                {
+                    var btn = new Button();
+                    btn.Content = gameTable[i][y];
+
+                    if (TrackPosition[i][y].Equals(EPosition.GoodPosition))
+                    {
+                        btn.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else if (TrackPosition[i][y].Equals(EPosition.BadPosition))
+                    {
+                        btn.Background = new SolidColorBrush(Colors.Orange);
+                    }
+                    else if (indexCurrentLine > 0 && line == indexCurrentLine - 1 && TrackPosition[i][y].Equals(EPosition.NotInWord))
+                    {
+                        btn.Background = new SolidColorBrush(Colors.Red);
+                    }
+                    else
+                    {
+                        btn.Background = new SolidColorBrush(Colors.Ivory);
+                    }
+
+                    if (i == indexCurrentLine)
+                    {
+                        //Border border = new Border();
+                        
+                        //DrawingContext dc = new DrawingVisual().RenderOpen(); ;
+                        //dc.DrawLine(new Pen(new SolidColorBrush(Colors.Ivory),3), new Point(0, gvMain.RowDefinitions[i].Offset), new Point(gvMain.Width / indexCol, gvMain.RowDefinitions[i].Offset));
+                        //dc.Close();
+                    }
+                    gvMain.Children.Add(btn);
+                    Grid.SetColumn(btn, col);
+                    Grid.SetRow(btn, line);
+                    if (col == indexCol -1)
+                    {
+                        col = 0;
+                        line++;
+                    }
+
+                    if (line == indexLine)
+                    {
+                        line = 0;
+                    }
+                }
+            }
         }
 
 

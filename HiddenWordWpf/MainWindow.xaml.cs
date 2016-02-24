@@ -28,18 +28,22 @@ namespace HiddenWordWpf
     public partial class MainWindow : Window
     {
         classes.Display display;
+        Game game;
+        Player player;
+        BL Bl;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            display = new classes.Display(gvContainer, gvCentral, titlePanel, inputGamer, Response);
+            display = new classes.Display(gvMain, gvCentral, titlePanel, inputGamer, Response);
 
             IDisplay blDisplay = new BusinessDisplay(display,
                                                         new BusinessStatistic(new HiddenWordDALXml.DAL()),
                                                         new BusinessWord(new HiddenWordDALXml.DAL()),
                                                         new BusinessSetup(new HiddenWordDALXml.DAL()),
                                                         new BusinessUser(new HiddenWordDALXml.DAL()));
-            BL Bl = new BL(new BusinessStatistic(new HiddenWordDALXml.DAL()),
+            Bl = new BL(new BusinessStatistic(new HiddenWordDALXml.DAL()),
                             new BusinessWord(new HiddenWordDALXml.DAL()),
                             new BusinessSetup(new HiddenWordDALXml.DAL()),
                             new BusinessUser(new HiddenWordDALXml.DAL()),
@@ -48,9 +52,9 @@ namespace HiddenWordWpf
 
             Bl.BlDisplay.displayWelcomeScreen();
 
-            Game game = new Game(Bl);
-
-            //game.run();
+            game = new Game(Bl);
+            player = new Player(Bl, new Random());
+            
 
         }
 
@@ -101,6 +105,49 @@ namespace HiddenWordWpf
 
         private void menuStartt_Click(object sender, RoutedEventArgs e)
         {
+            player.init();
+            player.NbTry = 0;
+            player.displayGame();
+
+        }
+
+        private void btnValidate_Click(object sender, RoutedEventArgs e)
+        {
+            bool position = false;
+
+            if (player.getMaxTry() > 0 && player.NbTry <= player.getMaxTry())
+            {
+                try
+                {
+                    position = player.isCorrectCharater(player.play());
+                }
+                catch (ApplicationException ex)
+                {
+                    Bl.BlDisplay.displayMessage(ex.Message);
+                }
+
+                if (player.checkWin())
+                {
+                    //_player.displayGame();
+                    Bl.BlDisplay.DisplayCongratulation();
+                    
+                }
+                else if (!position)
+                {
+                    player.displayError();
+                }
+                player.NbTry++;
+            }else if (player.getMaxTry() <= 0)
+            {
+                Bl.BlDisplay.displayWarningMaxTry(player.getMaxTry());
+            }
+            else
+            {
+                player.gameOver = new EndGame(Bl, player.User, player.NewWord, player.NbTry, player.Setup);
+            }
+
+            
+
 
         }
 

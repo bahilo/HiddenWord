@@ -1,4 +1,5 @@
 ﻿using HiddenWordCommon.classes;
+using HiddenWordCommon.Enums;
 using System.Collections.Generic;
 
 namespace HiddenWordCommon.Interfaces.Business
@@ -20,6 +21,6 @@ namespace HiddenWordCommon.Interfaces.Business
         void displayEmptyLine(int? nbLine = 1);
         void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0);
         void displayTabulation(int? nbTab = 1);
-        void displayGame(string[][] gameTable, int indexLine, int indexCol, int  indexCurrentLine);
+        void displayGame(string[][] gameTable, int indexLine, int indexCol, int  indexCurrentLine, EPosition[][] TrackPosition);
     }
 }

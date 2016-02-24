@@ -12,7 +12,7 @@
         </Grid>
         <TextBox x:Name="inputGamer" HorizontalAlignment="Left" Height="26" Margin="285,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="285"/>
         <Label x:Name="Response" Target="{Binding ElementName=inputGamer}" Content="Response" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top" Width="254"/>
-        <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="589,350,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="589,350,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="btnValidate_Click"/>
         <StackPanel x:Name="titlePanel" HorizontalAlignment="Left" Height="25" Margin="90,42,0,0" VerticalAlignment="Top" Width="594"/>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="694">
             <MenuItem x:Name="menuFile" Header="_Files">

@@ -21,7 +21,7 @@ namespace HiddenWordBusiness.classes
         public Check(IActionManager bl, int manxTry)
         {
             Bl = bl;
-            IndexLine = manxTry * 2;
+            IndexLine = manxTry;
             
         }
 
@@ -144,7 +144,7 @@ namespace HiddenWordBusiness.classes
 
         public void displayGame()
         {
-            Bl.BlDisplay.displayGame(Game, IndexLine, IndexColumn, IndexCurrentLine);
+            Bl.BlDisplay.displayGame(Game, IndexLine, IndexColumn, IndexCurrentLine, TrackPosition);
         }
 
         /*public void displayGame()
