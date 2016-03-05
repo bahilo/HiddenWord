@@ -128,6 +128,11 @@ namespace HiddenWordBusiness.Core
                 BlSetup.InsertSetup(result.MaxTry, (int)ESetup.Active);
                 checkSetupRegistered = BlSetup.GetSetupByStatus((int)ESetup.Active);
             }
+            else
+            {
+                result.Status = 1;
+                BlSetup.UpdateSetup(result);
+            }
 
             return checkSetupRegistered[0];
         }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HiddenWordWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="430.769" Width="701.923" ResizeMode="NoResize">
+        Title="Hidden Word" Height="430.769" Width="701.923" ResizeMode="NoResize">
     <Grid x:Name="gvContainer" Height="403" VerticalAlignment="Top" Margin="0,0,0,-3">
         <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="258" Margin="10,72,0,0" VerticalAlignment="Top" Width="674">
             <Grid x:Name="gvCentral" HorizontalAlignment="Left" Height="147" Margin="115,44,0,0" VerticalAlignment="Top" Width="386"/>

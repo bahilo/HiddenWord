@@ -22,7 +22,7 @@ namespace HiddenWordBusiness.classes
         {
             Win = false;
             NbTry = 0;
-            CheckCharacter = new Check(bl, Setup.MaxTry);
+            CheckCharacter = new Check(bl);
             gameOver = new EndGame(bl);
         }
 
@@ -84,6 +84,7 @@ namespace HiddenWordBusiness.classes
             //}
             /*if(typeof(Console).IsInstanceOfType(Console))
             Console.Clear();*/
+            CheckCharacter.IndexLine = Setup.MaxTry;
             CheckCharacter.Word = NewWord.Name;
             CheckCharacter.init();
             Bl.BlDisplay.displayPrompt(this.User.Pseudo);

@@ -43,7 +43,7 @@
               </xs:simpleType>
             </xs:element>
           </xs:sequence>
-          <xs:attribute name="ID" type="xs:int"/>
+          <xs:attribute name="ID" type="xs:int" default="1"/>
         </xs:complexType>
       
   
@@ -52,7 +52,7 @@
           <xs:sequence>
             <xs:element name="pseudo"/>
           </xs:sequence>
-          <xs:attribute name="ID" type="xs:int"/>
+          <xs:attribute name="ID" type="xs:int" default="1"/>
         </xs:complexType>
       
   
@@ -61,7 +61,7 @@
           <xs:sequence>
             <xs:element name="name"/>
           </xs:sequence>
-          <xs:attribute name="ID" type="xs:int"/>
+          <xs:attribute name="ID" type="xs:int" default="1"/>
         </xs:complexType>
       
       
@@ -70,7 +70,7 @@
             <xs:element name="maxtry" type="xs:int"/>
             <xs:element name="status" type="xs:int"/>
           </xs:sequence>
-          <xs:attribute name="ID" type="xs:int"/>
+          <xs:attribute name="ID" type="xs:int" default="1"/>
         </xs:complexType>
       
   <!--xs:element name=""
