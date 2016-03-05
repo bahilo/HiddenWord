@@ -50,11 +50,12 @@ namespace HiddenWordWpf
                             new HiddenWordDALXml.DAL(),
                             blDisplay);
 
-            Bl.BlDisplay.displayWelcomeScreen();
+            
 
             game = new Game(Bl);
             player = new Player(Bl, new Random());
-            
+            player.NbTry = 0;
+
 
         }
 
@@ -105,8 +106,8 @@ namespace HiddenWordWpf
 
         private void menuStartt_Click(object sender, RoutedEventArgs e)
         {
-            player.init();
-            player.NbTry = 0;
+
+            Bl.BlDisplay.displayWelcomeScreen();
             player.displayGame();
 
         }
@@ -114,6 +115,7 @@ namespace HiddenWordWpf
         private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
             bool position = false;
+            player.init();
 
             if (player.getMaxTry() > 0 && player.NbTry <= player.getMaxTry())
             {
