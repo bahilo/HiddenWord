@@ -41,6 +41,7 @@ namespace HiddenWordDALXml.Classes
             }
         }
 
+
         public elType saveXmlData<elType>(HiddenWord hiddenWord,string elName, string idEl = "1") where elType: new()
         {
             TextWriter writer;
@@ -61,8 +62,7 @@ namespace HiddenWordDALXml.Classes
                 }
 
                 xeXml.Element(XmlNameSpace + elName).AddBeforeSelf(new XComment("==============[ "+elName+" ]============="));
-
-
+                xeXml.Save(fullXmlFileName);
             }
             else
             {
@@ -75,23 +75,31 @@ namespace HiddenWordDALXml.Classes
 
                 if ( xeTmp.Element(XmlNameSpace + elName).Attribute("ID") == null )
                 {
-                    xeTmp.Element(XmlNameSpace + elName).Add(new XAttribute("ID", idEl));
-                    xeTmp.Save(fullTmpFileName);
-                }
+                    xeTmp.Element(XmlNameSpace + elName).Add(new XAttribute("ID", idEl));                    
+                }                
 
-                
+                var comments = 
+                    from com in xeXml.Nodes()
+                    where com is XComment && ((XComment)com).Value == "==============[ " + elName + " ]============="
+                    select com;                
 
-                xeXml.Add(xeTmp.FirstNode);
-                xeXml.Save(fullXmlFileName);
-                if (xeXml.Elements().Where(x => x.Value == "==============[ " + elName + " ]=============") != null)
+                if (comments.Count() == 0)
                 {
-                    xeXml.Element(XmlNameSpace + elName).AddBeforeSelf(new XComment("==============[ " + elName + " ]============="));
-                    xeXml.Save(fullXmlFileName);
+                    xeXml.Add(new XComment("==============[ " + elName + " ]============="));
                 }
+
+                if (comments.Count() > 0)
+                {
+                    comments.First().AddAfterSelf(xeTmp.FirstNode);
+                }
+                                
+                xeXml.Save(fullXmlFileName);  
             }
+
             var elTypeString = typeof(elType).ToString();
             return getXmlDataByAttribute<elType>(elName, "ID", idEl);
         }
+
 
         public elType getXmlDataByAttribute<elType>(string elName, string attributeName, string attributeValue) where elType : new()
         {

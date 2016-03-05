@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HiddenWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/HiddenWordXMLSchema.xsd">
+  <XUsers>
+    <pseudo xsi:type="xsd:string" />
+  </XUsers>
+  <XSetups>
+    <maxtry>10</maxtry>
+    <status>1</status>
+  </XSetups>
+  <XUsers>
+    <pseudo xsi:type="xsd:string">bahilo</pseudo>
+  </XUsers>
+  <XWords>
+    <name xsi:type="xsd:string">magic</name>
+  </XWords>
+  <XStatistic>
+    <userid>0</userid>
+    <wordid>0</wordid>
+    <nbtry>4</nbtry>
+    <setupid>0</setupid>
+  </XStatistic>
+  <XStatistic>
+    <userid>0</userid>
+    <wordid>0</wordid>
+    <nbtry>4</nbtry>
+    <setupid>0</setupid>
+  </XStatistic>
+</HiddenWord>
