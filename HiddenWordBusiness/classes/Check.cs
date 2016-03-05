@@ -18,10 +18,9 @@ namespace HiddenWordBusiness.classes
         public int IndexCurrentLine { get; set; }
         public EPosition[][] TrackPosition { get; set; }
 
-        public Check(IActionManager bl, int manxTry)
+        public Check(IActionManager bl)
         {
             Bl = bl;
-            IndexLine = manxTry;
             
         }
 
@@ -43,9 +42,18 @@ namespace HiddenWordBusiness.classes
                 StringTab[i] = convertStringIntoTableOfString(Word);
                 TrackPosition[i] = new EPosition[IndexColumn];
                 for (int y = 0; y < IndexColumn; y++)
-                {                    
-                    StringTab[i][y] = "_";
+                {
+                    if (y == 0)
+                    {
+                        StringTab[i][y] = Word[0].ToString();
+                    }
+                    else
+                    {
+                        StringTab[i][y] = "_";
+                    }
+
                     TrackPosition[i][y] = EPosition.NotInWord;
+                    
                 }
             }
             return StringTab;
@@ -88,7 +96,7 @@ namespace HiddenWordBusiness.classes
                 }
             }
 
-            displayGame(Game[IndexCurrentLine]);
+            //displayGame(Game[IndexCurrentLine]);
 
             IndexCurrentLine++;
 
@@ -103,10 +111,14 @@ namespace HiddenWordBusiness.classes
             {
                 if ( TrackPosition[IndexCurrentLine -1][y] == EPosition.GoodPosition )
                 {
-                    Game[IndexCurrentLine][y] = Word[y].ToString();
+                    Game[IndexCurrentLine -1][y] = Word[y].ToString();
+                }
+                else
+                {
+                    Game[IndexCurrentLine - 1][y] = "_";
                 }
             }
-            return Game[IndexCurrentLine];
+            return Game[IndexCurrentLine -1];
         }
 
 

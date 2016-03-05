@@ -23,22 +23,29 @@ namespace HiddenWordBusiness.classes
         {
             this.rd = rd;
             Bl = bl;
-            try
-            {
-                NewWord = Bl.BlWord.getNewRandomWord(rd);
-            }
-            catch (ApplicationException e)
-            {
-                Bl.BlDisplay.displayMessage(e.Message);
-                Bl.BlDisplay.setupNewWord();
-                NewWord = Bl.BlWord.getNewRandomWord(rd);
-            }
-            User = Bl.BlDisplay.SelectUser();
-            Setup = (Bl.BlSetup.GetSetupByStatus((int)ESetup.Active) == null ) ? bl.BlDisplay.setupMaxTry() : Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
 
-            //Setup.PropertyChanged += onSetupChange;
+            NewWord = new Words();
+            Setup = new Setup();
+            User = new User();            
 
-            
+            Setup.PropertyChanged += onSetupChange;
+            User.PropertyChanged += onUserChange;
+            NewWord.PropertyChanged += onWordChange;            
+        }
+
+        private void onWordChange(object sender, PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void onUserChange(object sender, PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void onSetupChange(object sender, PropertyChangedEventArgs e)
+        {
+            Console.WriteLine("onSetupChange!");
         }
 
         /*private void onSetupChange(object sender, PropertyChangedEventArgs e)
@@ -65,7 +72,7 @@ namespace HiddenWordBusiness.classes
                 }                
                 if (response.Equals("2"))
                 {
-                    if (isSetting && this.Setup.MaxTry == 0 )
+                    if (isSetting || this.Setup.MaxTry == 0 )
                     {
                         try
                         {
@@ -84,11 +91,37 @@ namespace HiddenWordBusiness.classes
 
                 if (this.Setup == null || this.Setup.MaxTry == 0)
                 {
-                    var listSetup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active);
+                    /*var listSetup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active);
                     this.Setup = ( listSetup.Count > 0 ) ?  listSetup[0] : this.Setup;
 
                     if (this.Setup == null || this.Setup.MaxTry == 0)
-                        this.Setup = Bl.BlDisplay.setupMaxTry();
+                        this.Setup = Bl.BlDisplay.setupMaxTry();*/
+
+                    try
+                    {
+                        Setup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
+                    }
+                    catch (ApplicationException e)
+                    {
+                        Bl.BlDisplay.displayMessage(e.Message);
+                        Bl.BlDisplay.setupMaxTry();
+                        Setup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
+                    }
+
+                }
+
+                if (NewWord == null || NewWord.Name == null || NewWord.Name == "" )
+                {
+                    try
+                    {
+                        NewWord = Bl.BlWord.getNewRandomWord(rd);
+                    }
+                    catch (ApplicationException e)
+                    {
+                        Bl.BlDisplay.displayMessage(e.Message);
+                        Bl.BlDisplay.setupNewWord();
+                        NewWord = Bl.BlWord.getNewRandomWord(rd);
+                    }
                 }
 
             } while (!finalSettingCheck() && !IsExitGame) ;
@@ -109,6 +142,11 @@ namespace HiddenWordBusiness.classes
             if (this.Setup == null || this.Setup.MaxTry == 0)
             {
                 Console.WriteLine("No maximun try setup!");
+                return false;
+            }
+            if (this.NewWord == null || this.NewWord.Name == null || this.NewWord.Name == "")
+            {
+                Console.WriteLine("No Word In Database!");
                 return false;
             }
             return true;

@@ -93,7 +93,6 @@ namespace HiddenWordDALXml
             {
                 result = setupsList[0];
             }
-
             return result;
         }
 
@@ -105,9 +104,19 @@ namespace HiddenWordDALXml
         public Setup UpdateSetup(Setup setup)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
+            
+            if (setup.Status == 1)
+            {
+                var xSetup = genericMethode.getXmlDataByValue<XSetups>("XSetups", 1.ToString());
+                param["ID"] = xSetup.ID.ToString();
+                param["status"] = 0.ToString();
+                param["maxtry"] = xSetup.maxtry.ToString();
+                genericMethode.updateXmlData<Setup>("XSetups", param);
+            }
+
             param["ID"] = setup.Id.ToString();
             param["status"] = setup.Status.ToString();
-            param["maxtry"] = setup.MaxTry.ToString();            
+            param["maxtry"] = setup.MaxTry.ToString();
 
             return genericMethode.updateXmlData<Setup>("XSetups", param);
         }

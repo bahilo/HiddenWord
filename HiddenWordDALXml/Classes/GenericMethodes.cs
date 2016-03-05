@@ -41,7 +41,7 @@ namespace HiddenWordDALXml.Classes
             }
         }
 
-        public elType saveXmlData<elType>(HiddenWord hiddenWord,string elName, string idEl) where elType: new()
+        public elType saveXmlData<elType>(HiddenWord hiddenWord,string elName, string idEl = "1") where elType: new()
         {
             TextWriter writer;
             XmlSerializer xs = new XmlSerializer(hiddenWord.GetType());
@@ -51,6 +51,18 @@ namespace HiddenWordDALXml.Classes
                 writer = new StreamWriter(fullXmlFileName);
                 xs.Serialize(writer, hiddenWord);
                 writer.Close();
+
+                XElement xeXml = XElement.Load(fullXmlFileName);
+
+                if ( xeXml.Element(XmlNameSpace + elName).Attribute("ID") == null )
+                {
+                    xeXml.Element(XmlNameSpace + elName).Add(new XAttribute("ID", idEl));
+                    xeXml.Save(fullXmlFileName);
+                }
+
+                xeXml.Element(XmlNameSpace + elName).AddBeforeSelf(new XComment("==============[ "+elName+" ]============="));
+
+
             }
             else
             {
@@ -61,8 +73,21 @@ namespace HiddenWordDALXml.Classes
                 XElement xeXml = XElement.Load(fullXmlFileName);
                 XElement xeTmp = XElement.Load(fullTmpFileName);
 
+                if ( xeTmp.Element(XmlNameSpace + elName).Attribute("ID") == null )
+                {
+                    xeTmp.Element(XmlNameSpace + elName).Add(new XAttribute("ID", idEl));
+                    xeTmp.Save(fullTmpFileName);
+                }
+
+                
+
                 xeXml.Add(xeTmp.FirstNode);
                 xeXml.Save(fullXmlFileName);
+                if (xeXml.Elements().Where(x => x.Value == "==============[ " + elName + " ]=============") != null)
+                {
+                    xeXml.Element(XmlNameSpace + elName).AddBeforeSelf(new XComment("==============[ " + elName + " ]============="));
+                    xeXml.Save(fullXmlFileName);
+                }
             }
             var elTypeString = typeof(elType).ToString();
             return getXmlDataByAttribute<elType>(elName, "ID", idEl);
@@ -123,6 +148,33 @@ namespace HiddenWordDALXml.Classes
             }
             return result;
         }
+
+        /*public elType getXmlDataByPropertyValue<elType>(string elName,string property, string value) where elType : new()
+        {
+            elType result = new elType();
+            if (File.ReadLines(fullXmlFileName).Count() != 0)
+            {
+                XElement xe = XElement.Load(fullXmlFileName);
+
+                XName fullNameSpaceEle = XmlNameSpace + elName;
+
+                IEnumerable<XElement> allElements =
+                    from listEl in xe.Elements(fullNameSpaceEle)
+                    select listEl;
+
+                IEnumerable<XElement> userElementList =
+                    from el in allElements.Elements()
+                    where (string)el.Value == value
+                    select el.Parent;
+
+                foreach (var userElement in userElementList)
+                {
+                    result = DeSerializer<elType>(elName, userElement);
+                    break;
+                }
+            }
+            return result;
+        }*/
 
         public elType DeSerializer<elType>(string elName, XElement element)
         {
@@ -244,7 +296,6 @@ namespace HiddenWordDALXml.Classes
             if (File.ReadLines(fullXmlFileName).Count() != 0)
             {
                 XElement xe = XElement.Load(fullXmlFileName);
-
                 XName fullNameSpaceEle = XmlNameSpace + elName;
 
                 IEnumerable<XElement> allElements =

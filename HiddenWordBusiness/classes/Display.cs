@@ -18,7 +18,7 @@ namespace HiddenWordBusiness.classes
             
             this.displayEmptyLine();
             this.displayTabulation(2);
-            displayMessage("....... USER SELECTION ......");
+            displayMessage("\n....... USER SELECTION ......\n");
             this.displayEmptyLine();
             do
             {
@@ -211,7 +211,16 @@ namespace HiddenWordBusiness.classes
 
         public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine, EPosition[][] TrackPosition)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < indexLine; i++)
+            {
+                for (int y = 0, col = 0; y < indexCol; y++, col++)
+                {
+                    Console.Write(" "+gameTable[i][y]);
+                }
+                Console.WriteLine("\n\n");
+            }
         }
+
+
     }
 }
