@@ -70,6 +70,8 @@
     <Compile Include="Classes\Check.cs" />
     <Compile Include="Classes\Display.cs" />
     <Compile Include="Classes\Game.cs" />
+    <Compile Include="Classes\Play.cs" />
+    <Compile Include="Classes\Player.cs" />
     <Compile Include="InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>

@@ -1,12 +1,14 @@
 ﻿using HiddenWord.Business;
+using HiddenWordBusiness.classes;
 using HiddenWordCommon.Interfaces.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HiddenWordBusiness.classes
+namespace HiddenWordWpf.classes
 {
     public class Player : Play
     {        
@@ -22,72 +24,45 @@ namespace HiddenWordBusiness.classes
         {
             Win = false;
             NbTry = 0;
-            CheckCharacter = new Check(bl, Setup.MaxTry);
+            CheckCharacter = new Check(bl);
             gameOver = new EndGame(bl);
+            PropertyChanged += Play_PropertyChanged;
+        }
+
+        private void Play_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "User":
+                    Bl.BlDisplay.displayPrompt(User.Pseudo);
+                    break;
+                case "Setup":
+                    init();
+                    break;
+                case "NewWord":
+                    break;
+            }
         }
 
         public void init()
         {
             start();
-            //CheckCharacter.Word = NewWord.Name;
-            //CheckCharacter.init();
         }
 
         /*-------------------[ start ]--------------*/
 
         private void start()
         {
-            bool isSetup;
-            string response;
-            do
-            {
-
-                response = Bl.BlDisplay.displayStartupMenu();
-
-                if (response.Equals("0"))
-                {
-                    IsExitGame = true;
-                }
-                else if (response.Equals("1")) // Setting
-                {
-                    isSetting = true;
-                }
-                else if (response.Equals("2")) // Start game
-                {
-                    isSetting = false;
-                }
-
-                if (IsExitGame)
-                    isSetup = true;
-                else
-                    isSetup = settings(isSetting);
-            } while (  
-                        !response.Equals("0")
-                        && !response.Equals("1") 
-                        && !response.Equals("2") 
-                        || !isSetup
-               );
-
+            settings(false);
             launchGame();
         }
 
         private void launchGame()
         {
-            //try
-            //{
-            //    NewWord = Bl.BlWord.getNewRandomWord(rd);
-            //}catch(ApplicationException e)
-            //{
-            //    Bl.BlDisplay.displayMessage(e.Message);
-            //    Bl.BlDisplay.setupNewWord();
-            //    NewWord = Bl.BlWord.getNewRandomWord(rd);
-            //}
-            /*if(typeof(Console).IsInstanceOfType(Console))
-            Console.Clear();*/
             CheckCharacter.Word = NewWord.Name;
+            CheckCharacter.IndexLine = Setup.MaxTry;
             CheckCharacter.init();
             Bl.BlDisplay.displayPrompt(this.User.Pseudo);
-
         }
 
         public string GetPseudo()
@@ -129,14 +104,31 @@ namespace HiddenWordBusiness.classes
 
         public string play()
         {
-            string response =  Bl.BlDisplay.readScreen("Response: ");
+            string response =  Bl.BlDisplay.readResponse("Response: ");
             if (response.Length < NewWord.Name.Length)
                 throw new ApplicationException("Must be at least "+NewWord.Name.Length+" characteres!");
             
               return response;
         }
 
+        public void selectNewUser()
+        {
+            User = Bl.BlDisplay.SelectUser();
+        }
 
+        internal void createUser()
+        {
+            User = Bl.BlDisplay.CreateUser();
+        }
 
+        internal void setupNewWord()
+        {
+            NewWord = Bl.BlDisplay.setupNewWord();
+        }
+
+        internal void setupMaxTry()
+        {
+            Setup = Bl.BlDisplay.setupMaxTry();
+        }
     }
 }

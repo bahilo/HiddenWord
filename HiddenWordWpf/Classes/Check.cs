@@ -18,60 +18,90 @@ namespace HiddenWordWpf.classes
         public int IndexCurrentLine { get; set; }
         public EPosition[][] TrackPosition { get; set; }
 
-        public Check(IActionManager bl, int manxTry)
+        public Check(IActionManager bl)
         {
             Bl = bl;
-            IndexLine = manxTry * 2;
+
         }
 
         public void init()
         {
             IndexColumn = Word.Length;
-            Game = new string[IndexLine][];                       
+            Game = new string[IndexLine][];
+            TrackPosition = new EPosition[IndexLine][];
             Game = convertStringToEmptyArrayOfUnderscore();
             Error = "";
+            IndexCurrentLine = 0;
         }
 
         public string[][] convertStringToEmptyArrayOfUnderscore()
         {
             string[][] StringTab = new string[IndexLine][];
-            for (int i = 0; i <= IndexLine; i++)
+            for (int i = 0; i < IndexLine; i++)
             {
+                StringTab[i] = convertStringIntoTableOfString(Word);
+                TrackPosition[i] = new EPosition[IndexColumn];
                 for (int y = 0; y < IndexColumn; y++)
                 {
-                    StringTab[i][y] = "_";
+                    if (y == 0)
+                    {
+                        StringTab[i][y] = Word[0].ToString();
+                    }
+                    else
+                    {
+                        StringTab[i][y] = "_";
+                    }
+
                     TrackPosition[i][y] = EPosition.NotInWord;
+
                 }
             }
             return StringTab;
         }
 
+        private string[] convertStringIntoTableOfString(string source)
+        {
+            string[] StringTab = new string[source.Length];
+            for (int y = 0; y < IndexColumn; y++)
+            {
+                StringTab[y] = source[y].ToString();
+            }
+            return StringTab;
+        }
+
+        /*private void createTableOfStateForEachCharact()
+        {
+            ;
+            for (int y = 0; y < IndexColumn; y++)
+            {
+                StringTab[y] = Word[y].ToString();
+            }
+            
+        }*/
+
         public void charaterPosition(string userTry)
         {
 
-            for (int i = 0; i < IndexColumn; i++ )
+            for (int i = 0; i < IndexColumn; i++)
             {
-                Game[IndexCurrentLine][i] = userTry[i].ToString();
+                Game[IndexCurrentLine][i] = convertStringIntoTableOfString(userTry)[i];
 
-                if (Word.Contains(userTry[i]) && Word[i].Equals(userTry[i].ToString()))
+                if (Word.Contains(userTry[i]) && Word[i].Equals(userTry[i]))
                 {
                     TrackPosition[IndexCurrentLine][i] = EPosition.GoodPosition;
                 }
-                if (Word.Contains(userTry[i]))
+                if (Word.Contains(userTry[i]) && !Word[i].Equals(userTry[i]))
                 {
                     TrackPosition[IndexCurrentLine][i] = EPosition.BadPosition;
                 }
-                else
-                {
-                    TrackPosition[IndexCurrentLine][i] = EPosition.NotInWord;
-                }
             }
 
-            displayGame(Game[IndexCurrentLine]);
+            //displayGame(Game[IndexCurrentLine]);
 
             IndexCurrentLine++;
 
-            displayGame(keepCorrectCharacter());
+            keepCorrectCharacter();
+            //displayGame();
 
         }
 
@@ -79,30 +109,35 @@ namespace HiddenWordWpf.classes
         {
             for (int y = 0; y < IndexColumn; y++)
             {
-                if ( TrackPosition[IndexCurrentLine -1][y] == EPosition.GoodPosition )
+                if (TrackPosition[IndexCurrentLine - 1][y] == EPosition.GoodPosition)
                 {
-                    Game[IndexCurrentLine][y] = Word[y].ToString();
+                    Game[IndexCurrentLine - 1][y] = Word[y].ToString();
+                }
+                else
+                {
+                    Game[IndexCurrentLine - 1][y] = "_";
                 }
             }
-            return Game[IndexCurrentLine];
+            return Game[IndexCurrentLine - 1];
         }
 
 
-        private IEnumerable<string>  getCharacter(Words word)
+        private IEnumerable<string> getCharacter(Words word)
         {
             for (int i = 0; i < Word.Count(); i++)
             {
-                yield return Game[IndexCurrentLine][i];                
+                yield return Game[IndexCurrentLine][i];
             }
-            
+
         }
 
         public bool checkWin()
         {
             //string buf1, buf2;
-            for (int i = 0 ; i < Word.Count(); i++ )
+            for (int i = 0; i < Word.Count(); i++)
             {
-                if( !Game[IndexCurrentLine][i].Equals(Word[i].ToString()) ){                    
+                if (!Game[IndexCurrentLine - 1][i].Equals(Word[i].ToString()))
+                {
                     return false;
                 }
             }
@@ -122,25 +157,30 @@ namespace HiddenWordWpf.classes
 
         public void displayGame()
         {
+            Bl.BlDisplay.displayGame(Game, IndexLine, IndexColumn, IndexCurrentLine, TrackPosition);
+        }
+
+        /*public void displayGame()
+        {
             Bl.BlDisplay.displayEmptyLine();
             foreach (string charact in Game[IndexCurrentLine])
             {
                 Bl.BlDisplay.displayMessage(charact + " ");
             }
             Bl.BlDisplay.displayEmptyLine();
-        }
+        }*/
 
 
         public void displayError()
         {
-            Bl.BlDisplay.displayMessage(Error,0,0);
+            Bl.BlDisplay.displayMessage(Error, 0, 0);
         }
 
         public bool isCorrectCharater()
         {
             for (int y = 0; y < IndexColumn; y++)
             {
-                if(TrackPosition[IndexCurrentLine][y] == EPosition.GoodPosition)
+                if (TrackPosition[IndexCurrentLine - 1][y] != EPosition.GoodPosition)
                     return false;
             }
             return true;

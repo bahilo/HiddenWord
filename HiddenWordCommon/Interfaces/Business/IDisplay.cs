@@ -22,5 +22,7 @@ namespace HiddenWordCommon.Interfaces.Business
         void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0);
         void displayTabulation(int? nbTab = 1);
         void displayGame(string[][] gameTable, int indexLine, int indexCol, int  indexCurrentLine, EPosition[][] TrackPosition);
+        string readResponse(string v);
+        User CreateUser();
     }
 }

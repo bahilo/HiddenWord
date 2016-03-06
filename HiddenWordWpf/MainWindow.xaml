@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HiddenWordWpf"
         mc:Ignorable="d"
-        Title="Hidden Word" Height="430.769" Width="701.923" ResizeMode="NoResize">
+        Title="Hidden Word" Height="430.769" Width="709.287" ResizeMode="NoResize">
     <Grid x:Name="gvContainer" Height="403" VerticalAlignment="Top" Margin="0,0,0,-3">
-        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="258" Margin="10,72,0,0" VerticalAlignment="Top" Width="674">
-            <Grid x:Name="gvCentral" HorizontalAlignment="Left" Height="147" Margin="115,44,0,0" VerticalAlignment="Top" Width="386"/>
-        </Grid>
+        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="258" Margin="10,72,0,0" VerticalAlignment="Top" Width="674"/>
+        <Grid x:Name="gvCentral" HorizontalAlignment="Left" Height="147" Margin="154,118,0,0" VerticalAlignment="Top" Width="386"/>
+        
         <TextBox x:Name="inputGamer" HorizontalAlignment="Left" Height="26" Margin="285,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="285"/>
         <Label x:Name="Response" Target="{Binding ElementName=inputGamer}" Content="Response" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top" Width="254"/>
         <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="589,350,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="btnValidate_Click"/>

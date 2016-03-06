@@ -16,4 +16,11 @@
   <XWords ID="1">
     <name xsi:type="xsd:string">magic</name>
   </XWords>
+  <!--==============[ XStatistic ]=============-->
+  <XStatistic ID="1">
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>0</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
 </HiddenWord>

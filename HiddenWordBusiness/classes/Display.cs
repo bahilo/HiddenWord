@@ -221,6 +221,14 @@ namespace HiddenWordBusiness.classes
             }
         }
 
+        public string readResponse(string v)
+        {
+            throw new NotImplementedException();
+        }
 
+        public User CreateUser()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

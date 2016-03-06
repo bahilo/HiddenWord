@@ -289,7 +289,7 @@ namespace HiddenWordDALXml.Classes
 
                 foreach (var elChild in param)
                 {
-                    if (!elChild.Key.Equals("ID"))
+                    if (foundEl != null && !elChild.Key.Equals("ID"))
                         foundEl.SetElementValue(XmlNameSpace + elChild.Key, elChild.Value);
                 }
 

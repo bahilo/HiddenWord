@@ -102,16 +102,24 @@ namespace HiddenWordBusiness.Core
 
         public User SelectUser()
         {
-            User result = Display.SelectUser();
-            var checkUserRegistered = BlUser.GetUserByPseudo(result.Pseudo);
+            return getUser(Display.SelectUser());
+        }
+
+        public User CreateUser()
+        {
+            return getUser(Display.CreateUser());
+        }
+
+        private User getUser(User user)
+        {
+            var checkUserRegistered = BlUser.GetUserByPseudo(user.Pseudo);
             if (checkUserRegistered.Pseudo == null)
             {
-                BlUser.InsertUser(result.Pseudo);
-                checkUserRegistered = BlUser.GetUserByPseudo(result.Pseudo);
+                BlUser.InsertUser(user.Pseudo);
+                checkUserRegistered = BlUser.GetUserByPseudo(user.Pseudo);
             }
 
             return checkUserRegistered;
-
         }
 
         /*-------------------[ Setup Max Try ]--------------*/
@@ -154,5 +162,11 @@ namespace HiddenWordBusiness.Core
         {
             Display.displayGame(gameTable, indexLine, indexCol, indexCurrentLine, TrackPosition);
         }
+
+        public string readResponse(string v)
+        {
+            return Display.readResponse(v);
+        }
+
     }
 }

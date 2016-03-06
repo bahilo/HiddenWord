@@ -5,6 +5,7 @@ using HiddenWordCommon.Interfaces.Business;
 using HiddenWordWpf.classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace HiddenWordWpf
     {
         classes.Display display;
         Game game;
-        Player player;
+        HiddenWordWpf.classes.Player player;
         BL Bl;
 
         public MainWindow()
@@ -52,13 +53,17 @@ namespace HiddenWordWpf
 
             
 
-            game = new Game(Bl);
-            player = new Player(Bl, new Random());
+            //game = new Game(Bl);
+            player = new HiddenWordWpf.classes.Player(Bl, new Random());
             player.NbTry = 0;
 
 
+            Bl.BlDisplay.displayWelcomeScreen();            
+            player.init();
+            player.displayGame();
+            inputGamer.Focus();
         }
-
+        
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -81,22 +86,22 @@ namespace HiddenWordWpf
             pop.Child = myTextBox;
             pop.IsOpen = true;*/
 
-            display.setupMaxTry();
+            player.setupMaxTry();
         }
 
         private void menuUserSelect_Click(object sender, RoutedEventArgs e)
         {
-            display.SelectUser();
+            player.selectNewUser();
         }
 
         private void menuUserCreate_Click(object sender, RoutedEventArgs e)
         {
-            display.createUser();
+            player.createUser();
         }
 
         private void menuWord_Click(object sender, RoutedEventArgs e)
         {
-            display.setupNewWord();
+            player.setupNewWord();
         }
 
         private void menuStatistic_Click(object sender, RoutedEventArgs e)
@@ -106,19 +111,19 @@ namespace HiddenWordWpf
 
         private void menuStartt_Click(object sender, RoutedEventArgs e)
         {
-
-            Bl.BlDisplay.displayWelcomeScreen();
+            Bl.BlDisplay.displayWelcomeScreen();            
+            player.init();
             player.displayGame();
-
+            //gvMain.Visibility = Visibility.Visible;
+            gvCentral.Visibility = Visibility.Hidden;
         }
 
         private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
-            bool position = false;
-            player.init();
+            bool position = false;            
 
             if (player.getMaxTry() > 0 && player.NbTry <= player.getMaxTry())
-            {
+            {                
                 try
                 {
                     position = player.isCorrectCharater(player.play());
@@ -130,26 +135,24 @@ namespace HiddenWordWpf
 
                 if (player.checkWin())
                 {
-                    //_player.displayGame();
-                    Bl.BlDisplay.DisplayCongratulation();
-                    
+                    //_player.displayGame();                    
+                    Bl.BlDisplay.DisplayCongratulation();                    
                 }
-                else if (!position)
+                /*else if (!position)
                 {
                     player.displayError();
-                }
+                }*/
                 player.NbTry++;
-            }else if (player.getMaxTry() <= 0)
+                player.displayGame();
+            }
+            else if (player.getMaxTry() <= 0)
             {
                 Bl.BlDisplay.displayWarningMaxTry(player.getMaxTry());
             }
             else
             {
                 player.gameOver = new EndGame(Bl, player.User, player.NewWord, player.NbTry, player.Setup);
-            }
-
-            
-
+            }  
 
         }
 

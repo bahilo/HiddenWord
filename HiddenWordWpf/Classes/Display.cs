@@ -30,48 +30,25 @@ namespace HiddenWordWpf.classes
             inputPlayerBox = inputPlayer;
             PageTitle = "WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>";
             labelInputPlayerBox = inputLabel;
-
         }
 
         public User SelectUser()
         {
-            PageTitle = "....... USER SELECTION ......";
-            //displayMessage(stackPanelTop);
-
-            /*displayMessage("....... USER SELECTION ......");
-            this.displayEmptyLine();
-            do
-            {
-                this.displayTabulation(1);
-                response = readScreen("Do you have a pseudo already register? (y/n): ");
-                this.displayEmptyLine();
-            } while (response != "y" && response != "n");
-
-            if (response.Equals("y"))
-            {
-                response = readScreen("\tPlease enter your pseudo: ");
-                this.displayEmptyLine();
-            }
-            else
-            {                
-                this.displayTabulation(2);
-                displayMessage("....... SETTING NEW USER ......",nbEmptyLineAfter:1);
-                //bool next = false;
-                do
-                {
-                    response = readScreen("\tPlease enter your pseudo: ");
-                    this.displayEmptyLine();
-                } while ( response == "" ); 
-            }
-            this.displayEmptyLine();*/
             User user = new User();
             user.Pseudo = readScreen("Please enter your pseudo "); 
             return user;
         }
 
+        public User CreateUser()
+        {
+            User user = new User();
+            user.Pseudo = readScreen("Please enter your new pseudo ");
+            return user;
+        }
+
         public User createUser()
         {
-            PageTitle = "....... SETTING NEW USER ......";
+            //PageTitle = "....... SETTING NEW USER ......";
             
             User user = new User();
             user.Pseudo = readScreen("Please enter a pseudo ");
@@ -107,7 +84,7 @@ namespace HiddenWordWpf.classes
         public Words setupNewWord()
         {
             
-            PageTitle = "....... SETUP NEW WORD ......";
+            //PageTitle = "....... SETUP NEW WORD ......";
 
             string response = inputPlayerBox.Text; 
 
@@ -131,7 +108,7 @@ namespace HiddenWordWpf.classes
 
         public Setup setupMaxTry()
         {
-            PageTitle = "....... SETTING THE MAX TRY ......";
+            //PageTitle = "....... SETTING THE MAX TRY ......";
 
             Setup setup = new Setup();
             /*this.displayEmptyLine();
@@ -144,16 +121,21 @@ namespace HiddenWordWpf.classes
             } while (response == "" && int.Parse(response) == 0);
 
             this.displayEmptyLine();*/
-
-            try
+            do
             {
-                setup.MaxTry = int.Parse(readScreen("Please enter the maximum of try:"));
-            }
-            catch (Exception)
-            {
-
-                setup.MaxTry = 0;
-            }
+                string exMess = "";
+                try
+                {
+                    setup.MaxTry = int.Parse(readScreen(exMess + "Please enter the maximum of try:"));
+                    exMess = "";
+                }
+                catch (Exception)
+                {                    
+                    setup.MaxTry = 0;
+                    exMess = "Max try = "+ setup.MaxTry +"\n";
+                }
+            } while ( setup.MaxTry == 0 );
+            
             setup.Status = (int)ESetup.Active;
 
             return setup;
@@ -240,15 +222,15 @@ namespace HiddenWordWpf.classes
         {            
             string response = inputPlayerBox.Text;
 
-            TextBlock myTextTop = new TextBlock();
+            /*TextBlock myTextTop = new TextBlock();
             myTextTop.Text = message; // PageTitle;
             stackPanelTop.Children.Clear();
-            stackPanelTop.Children.Add(myTextTop);
+            stackPanelTop.Children.Add(myTextTop);*/
             //if ( reponse)
-            /*InputDialog dialoBox = new InputDialog(message);
+            InputDialog dialoBox = new InputDialog(message);
 
             if (dialoBox.ShowDialog() == true)
-                response = dialoBox.Answer;*/
+                response = dialoBox.Answer;
 
             return response;
         }
@@ -259,7 +241,7 @@ namespace HiddenWordWpf.classes
         public void displayWelcomeScreen()
         {
             TextBlock myTextTop = new TextBlock();
-            myTextTop.Text = PageTitle;
+            myTextTop.Text = "WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>";
 
 
             //TextBlock myTextCentre1 = new TextBlock();
@@ -313,8 +295,54 @@ namespace HiddenWordWpf.classes
 
             stackPanelTop.Children.Clear();
             stackPanelTop.Children.Add(myTextTop);
+
+            RowDefinition rowDef1 = new RowDefinition();
+            rowDef1.Height = new GridLength(gvCentral.Height / 3);
+            ColumnDefinition colDef1 = new ColumnDefinition();
+            colDef1.Width = new GridLength(gvCentral.Width / 3);
+
+            RowDefinition rowDef2 = new RowDefinition();
+            rowDef2.Height = new GridLength(gvCentral.Height / 3);
+            ColumnDefinition colDef2 = new ColumnDefinition();
+            colDef2.Width = new GridLength(gvCentral.Width / 3);
+
+            RowDefinition rowDef3 = new RowDefinition();
+            rowDef3.Height = new GridLength(gvCentral.Height / 3);
+            ColumnDefinition colDef3 = new ColumnDefinition();
+            colDef3.Width = new GridLength(gvCentral.Width / 3);
+
+            gvCentral.ColumnDefinitions.Add(colDef1);
+            gvCentral.RowDefinitions.Add(rowDef1);
+
+            gvCentral.ColumnDefinitions.Add(colDef2);
+            gvCentral.RowDefinitions.Add(rowDef2);
+
+            gvCentral.ColumnDefinitions.Add(colDef3);
+            gvCentral.RowDefinitions.Add(rowDef3);
+
+            //gvCentral.Children.Clear();
+            //gvMain.Children.Add(myStackPanel);
+
+            double gvMainHeight = gvMain.Height;
+            double gvMainWidth = gvMain.Width;
+
+            double gvCentralHeight = gvCentral.Height;
+            double gvCentralWidth = gvCentral.Width;
+
+            /*gvCentral.Height = gvMainHeight;
+            gvCentral.Width = gvMainWidth;
+
+            gvMain.Height = gvCentralHeight;
+            gvMain.Width = gvCentralWidth;
+            gvMain.Children.Clear();*/
+            //gvMain.Visibility = Visibility.Hidden;
+            gvCentral.Visibility = Visibility.Visible;
+
             gvCentral.Children.Clear();
             gvCentral.Children.Add(myStackPanel);
+            Grid.SetColumn(myStackPanel, 1);
+            Grid.SetRow(myStackPanel, 1);
+            gvCentral.Background = new SolidColorBrush(Colors.Ivory);
 
             /*displayMessage("Congratulation you won the game");
             this.displayEmptyLine();*/
@@ -400,9 +428,7 @@ namespace HiddenWordWpf.classes
             gvMain.HorizontalAlignment = HorizontalAlignment.Left;
             gvMain.VerticalAlignment = VerticalAlignment.Top;
             gvMain.Background = new SolidColorBrush(Colors.PaleVioletRed);
-            gvMain.ShowGridLines = true;
-
-
+            //gvMain.ShowGridLines = true;
 
             for (int i = 0; i < indexLine; i++)
             {
@@ -410,7 +436,6 @@ namespace HiddenWordWpf.classes
                 rowdef.Height = new GridLength(gvMain.Height / indexLine);
                 gvMain.RowDefinitions.Add(rowdef);
             }
-
             for (int i = 0; i < indexCol; i++)
             {
                 var coldef = new ColumnDefinition();
@@ -467,8 +492,22 @@ namespace HiddenWordWpf.classes
             }
         }
 
+        public string readResponse(string message)
+        {
+            string response = inputPlayerBox.Text;
+            inputPlayerBox.Text = "";
+             /*TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = message; // PageTitle;
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            //if ( reponse)
+           InputDialog dialoBox = new InputDialog(message);
 
+            if (dialoBox.ShowDialog() == true)
+                response = dialoBox.Answer;*/
 
+            return response;
+        }
 
     }
 }
