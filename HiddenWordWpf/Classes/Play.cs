@@ -167,7 +167,13 @@ namespace HiddenWordWpf.classes
                 return false;
             }
             return true;
-        }        
+        }  
+        
+        
+
+        
+        
+              
             
     }
 }

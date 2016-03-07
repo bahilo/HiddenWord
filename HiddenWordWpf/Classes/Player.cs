@@ -35,9 +35,12 @@ namespace HiddenWordWpf.classes
             {
                 case "User":
                     Bl.BlDisplay.displayPrompt(User.Pseudo);
+                    launchGame();
+                    displayGame();
                     break;
                 case "Setup":
-                    init();
+                    launchGame();
+                    displayGame();
                     break;
                 case "NewWord":
                     break;
@@ -55,14 +58,30 @@ namespace HiddenWordWpf.classes
         {
             settings(false);
             launchGame();
+            displayGame();
         }
 
         private void launchGame()
         {
+            setRandomWord();
             CheckCharacter.Word = NewWord.Name;
             CheckCharacter.IndexLine = Setup.MaxTry;
             CheckCharacter.init();
             Bl.BlDisplay.displayPrompt(this.User.Pseudo);
+        }
+
+        public void setRandomWord()
+        {
+            try
+            {
+                NewWord = Bl.BlWord.getNewRandomWord(rd);
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+                Bl.BlDisplay.setupNewWord();
+                NewWord = Bl.BlWord.getNewRandomWord(rd);
+            }
         }
 
         public string GetPseudo()
@@ -113,22 +132,27 @@ namespace HiddenWordWpf.classes
 
         public void selectNewUser()
         {
-            User = Bl.BlDisplay.SelectUser();
+            var result = Bl.BlDisplay.SelectUser();
+            User = (result != null && result.Pseudo != "" && result.Pseudo != null ) ? result : User;
         }
 
         internal void createUser()
         {
-            User = Bl.BlDisplay.CreateUser();
+            var result = Bl.BlDisplay.CreateUser();
+            User = (result != null && result.Pseudo != "" && result.Pseudo != null) ? result : User;
         }
 
         internal void setupNewWord()
         {
-            NewWord = Bl.BlDisplay.setupNewWord();
+            var result = Bl.BlDisplay.setupNewWord();
+            //if(result.Id != 0 && result.Name != null && result.Name != "")
+                Bl.BlDisplay.displayMessage(@"The word '"+ result.Name+ "' have been saved successfully!");
         }
 
         internal void setupMaxTry()
         {
-            Setup = Bl.BlDisplay.setupMaxTry();
+            var result = Bl.BlDisplay.setupMaxTry();
+            Setup = (result != null && result.MaxTry != 0) ? result : Setup;
         }
     }
 }

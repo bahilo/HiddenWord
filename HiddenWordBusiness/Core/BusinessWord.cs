@@ -68,6 +68,11 @@ namespace HiddenWordBusiness.Core
 
         public void InsertWord(string name)
         {
+            exceptionGenerator.exceptionFor<string>(
+                "read",
+                new StringBuilder().AppendFormat("Word Error, Word's name cannot be null").ToString(),
+                name);
+
             //Throwing exception for Value greater than 0 
             exceptionGenerator.exceptionFor<Words>(
                 "insert",

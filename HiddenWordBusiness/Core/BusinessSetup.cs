@@ -57,6 +57,12 @@ namespace HiddenWordBusiness.Core
 
         public void InsertSetup(int maxTry, int status)
         {
+            exceptionGenerator.exceptionFor<int>(
+                "read",
+                new StringBuilder().AppendFormat("Setup Error, Max try cannot must be greater than 0!").ToString(),
+                maxTry,
+                excludeValue: 0,
+                isExludeNullable: false);
             List<Setup> setupList = DALAccess.GetSetupByStatus((int)ESetup.Active);
             foreach (Setup setup in setupList)
             {

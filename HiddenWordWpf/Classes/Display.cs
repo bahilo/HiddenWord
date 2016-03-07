@@ -15,6 +15,8 @@ namespace HiddenWordWpf.classes
 {
     public class Display : IDisplay
     {
+        
+
         public Grid gvMain { get; set; }
         public StackPanel stackPanelTop { get; set; }
         public TextBox inputPlayerBox { get; set; }
@@ -121,20 +123,20 @@ namespace HiddenWordWpf.classes
             } while (response == "" && int.Parse(response) == 0);
 
             this.displayEmptyLine();*/
-            do
-            {
-                string exMess = "";
+            //do
+            //{
+                //string exMess = "";
                 try
                 {
-                    setup.MaxTry = int.Parse(readScreen(exMess + "Please enter the maximum of try:"));
-                    exMess = "";
+                    setup.MaxTry = int.Parse(readScreen("Please enter the maximum of try:"));
+                    //exMess = "";
                 }
                 catch (Exception)
                 {                    
                     setup.MaxTry = 0;
-                    exMess = "Max try = "+ setup.MaxTry +"\n";
+                    //exMess = "Max try = "+ setup.MaxTry +"\n";
                 }
-            } while ( setup.MaxTry == 0 );
+            //} while ( setup.MaxTry == 0 );
             
             setup.Status = (int)ESetup.Active;
 
@@ -287,16 +289,19 @@ namespace HiddenWordWpf.classes
             //TextBlock myTextCentre1 = new TextBlock();
             //myTextCentre1.Text = "Do you have a pseudo already register? ";
 
-            TextBlock myTextCentre3 = new TextBlock();
-            myTextCentre3.Text = "Congratulation you won the game";
+            TextBlock myTextCentre = new TextBlock();
+            myTextCentre.Text = "Congratulation you won the game";
+            myTextCentre.FontSize = 14;
+            myTextCentre.FontWeight = FontWeights.Bold;
+            myTextCentre.Foreground = new SolidColorBrush(Colors.Green);
 
             StackPanel myStackPanel = new StackPanel();
-            myStackPanel.Children.Add(myTextCentre3);
+            myStackPanel.Children.Add(myTextCentre);
 
-            stackPanelTop.Children.Clear();
-            stackPanelTop.Children.Add(myTextTop);
+            //stackPanelTop.Children.Clear();
+            //stackPanelTop.Children.Add(myTextTop);
 
-            RowDefinition rowDef1 = new RowDefinition();
+            /*RowDefinition rowDef1 = new RowDefinition();
             rowDef1.Height = new GridLength(gvCentral.Height / 3);
             ColumnDefinition colDef1 = new ColumnDefinition();
             colDef1.Width = new GridLength(gvCentral.Width / 3);
@@ -320,34 +325,51 @@ namespace HiddenWordWpf.classes
             gvCentral.ColumnDefinitions.Add(colDef3);
             gvCentral.RowDefinitions.Add(rowDef3);
 
-            //gvCentral.Children.Clear();
-            //gvMain.Children.Add(myStackPanel);
-
-            double gvMainHeight = gvMain.Height;
-            double gvMainWidth = gvMain.Width;
-
-            double gvCentralHeight = gvCentral.Height;
-            double gvCentralWidth = gvCentral.Width;
-
-            /*gvCentral.Height = gvMainHeight;
-            gvCentral.Width = gvMainWidth;
-
-            gvMain.Height = gvCentralHeight;
-            gvMain.Width = gvCentralWidth;
-            gvMain.Children.Clear();*/
-            //gvMain.Visibility = Visibility.Hidden;
             gvCentral.Visibility = Visibility.Visible;
 
             gvCentral.Children.Clear();
             gvCentral.Children.Add(myStackPanel);
             Grid.SetColumn(myStackPanel, 1);
             Grid.SetRow(myStackPanel, 1);
-            gvCentral.Background = new SolidColorBrush(Colors.Ivory);
+            gvCentral.Background = new SolidColorBrush(Colors.Ivory);*/
 
+            initCentralGrid(3, 3, 1, 1, myStackPanel, true);
             /*displayMessage("Congratulation you won the game");
             this.displayEmptyLine();*/
         }
 
+        private void initCentralGrid(int nbRow, int nbCol, int axisX, int axisY, UIElement children, bool clearClildren = false)
+        {
+            gvCentral.ShowGridLines = true;
+            if (clearClildren)
+                gvCentral.Children.Clear();
+
+            gvCentral.RowDefinitions.Clear();
+            gvCentral.ColumnDefinitions.Clear();
+
+            for (int i = 0; i < nbRow; i++)
+            {
+                var rowdef = new RowDefinition();
+                rowdef.Height = new GridLength(gvCentral.Height / nbRow);
+                gvCentral.RowDefinitions.Add(rowdef);
+            }
+            for (int i = 0; i < nbCol; i++)
+            {
+                var coldef = new ColumnDefinition();
+                /*if( i == 1 )
+                    coldef.Width = new GridLength(gvCentral.Width);
+                else*/
+                    coldef.Width = new GridLength(gvCentral.Width / nbCol);
+                gvCentral.ColumnDefinitions.Add(coldef);
+            }
+
+            gvCentral.Visibility = Visibility.Visible;            
+            gvCentral.Children.Add(children);
+            Grid.SetColumn(children, axisY);
+            Grid.SetRow(children, axisX);
+            gvCentral.Background = new SolidColorBrush(Colors.Ivory);
+
+        }
 
         /*-------------------[ Warning handle ]--------------*/
 
@@ -418,13 +440,39 @@ namespace HiddenWordWpf.classes
 
         public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
         {
-            TextBlock myTextTop = new TextBlock();
-            myTextTop.Text = message;
-            stackPanelTop.Children.Add(myTextTop);
+            TextBlock myText = new TextBlock();
+            myText.Text = message;
+            myText.FontSize = 14;
+            myText.FontWeight = FontWeights.Bold;
+            //myText.Foreground = new SolidColorBrush(Colors.Green);
+            StackPanel myStackPanel = new StackPanel();
+            myStackPanel.Children.Add(myText);
+
+            int nbRow = 3, nbCol = 3, AxisX = 1, AxisY = 1;
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myStackPanel, true);
+
+            Button myBtn = new Button();
+            myBtn.Width = gvCentral.Width / ( nbCol * 2 ) ;
+            myBtn.Height = gvCentral.Height / (nbRow * 2);
+            myBtn.Content = "OK";
+
+            AxisX = 2; AxisY = 2;
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, false);
+
+            myBtn.Click += btn_click;
+        }
+
+        private void btn_click(object sender, RoutedEventArgs e)
+        {
+            gvCentral.Visibility = Visibility.Hidden;
         }
 
         public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine, EPosition[][] TrackPosition)
         {
+            gvMain.Children.Clear();
+            gvMain.RowDefinitions.Clear();
+            gvMain.ColumnDefinitions.Clear();
+
             gvMain.HorizontalAlignment = HorizontalAlignment.Left;
             gvMain.VerticalAlignment = VerticalAlignment.Top;
             gvMain.Background = new SolidColorBrush(Colors.PaleVioletRed);
@@ -449,6 +497,8 @@ namespace HiddenWordWpf.classes
                 {
                     var btn = new Button();
                     btn.Content = gameTable[i][y];
+                    Grid.SetColumn(btn, col);
+                    Grid.SetRow(btn, line);
 
                     if (TrackPosition[i][y].Equals(EPosition.GoodPosition))
                     {
@@ -475,9 +525,9 @@ namespace HiddenWordWpf.classes
                         //dc.DrawLine(new Pen(new SolidColorBrush(Colors.Ivory),3), new Point(0, gvMain.RowDefinitions[i].Offset), new Point(gvMain.Width / indexCol, gvMain.RowDefinitions[i].Offset));
                         //dc.Close();
                     }
+
                     gvMain.Children.Add(btn);
-                    Grid.SetColumn(btn, col);
-                    Grid.SetRow(btn, line);
+                    
                     if (col == indexCol -1)
                     {
                         col = 0;

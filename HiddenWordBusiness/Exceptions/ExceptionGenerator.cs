@@ -13,10 +13,10 @@ namespace HiddenWordBusiness.Exceptions
             string actionName, 
             string message,
             T input, 
-            int? excludeValue = 0, 
-            int? excludeValueLessThan = int.MinValue, 
-            int? excludeValueGreaterThan = int.MaxValue, 
-            bool? isExludeNullable = true )
+            int excludeValue = 0, 
+            int excludeValueLessOrEqual = int.MinValue, 
+            int excludeValueGreaterThan = int.MaxValue, 
+            bool isExludeNullable = true )
         {
 
             bool isMatch = false;
@@ -24,18 +24,18 @@ namespace HiddenWordBusiness.Exceptions
             switch (actionName.ToUpper())
             {
                 case "INSERT":
-                    if ( !(input.GetType() == typeof(int)) && (bool)isExludeNullable && input == null)
+                    if ( /*!(input.GetType() == typeof(int)) && */isExludeNullable && input == null)
                     {
                         isMatch = true;
                     }
                     //System.Diagnostics.Trace.Listeners.Add();
                     break;
                 case "UPDATE":
-                    if ( !(input.GetType() == typeof(int)) && (bool)isExludeNullable && input == null)
+                    if ( /*!(input.GetType() == typeof(int)) && */isExludeNullable && input == null)
                     {
                         isMatch = true;
                     }
-                    else if ( (input.GetType() == typeof(int)) && ((int)(object)input < excludeValueLessThan) )
+                    else if ( (input.GetType() == typeof(int)) && ((int)(object)input <= excludeValueLessOrEqual) )
                     {
                         isMatch = true;
                     }
@@ -59,6 +59,10 @@ namespace HiddenWordBusiness.Exceptions
                     {
                         isMatch = true;
                    }
+                    if ((input.GetType() == typeof(string)) && input.Equals(""))
+                    {
+                        isMatch = true;
+                    }
                     break;
             }
 

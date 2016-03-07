@@ -60,7 +60,6 @@ namespace HiddenWordWpf
 
             Bl.BlDisplay.displayWelcomeScreen();            
             player.init();
-            player.displayGame();
             inputGamer.Focus();
         }
         

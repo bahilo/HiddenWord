@@ -1,4 +1,5 @@
-﻿using HiddenWordCommon.classes;
+﻿using HiddenWordBusiness.Exceptions;
+using HiddenWordCommon.classes;
 using HiddenWordCommon.Interfaces.DAL;
 using HiddenWordDALXml;
 using System;
@@ -12,10 +13,12 @@ namespace HiddenWordBusiness.Core
     public class BusinessUser : HiddenWordCommon.Interfaces.Business.IUsersManager
     {
         public IDALActionManager DALAccess { get; set; }
+        public ExceptionGenerator exceptionGenerator { get; set; }
 
         public BusinessUser(IDALActionManager DAL)
         {
             DALAccess = DAL;
+            exceptionGenerator = new ExceptionGenerator();
         }
 
         //---------------[ The User implementation ] --------------------
@@ -37,6 +40,11 @@ namespace HiddenWordBusiness.Core
 
         public void InsertUser(string pseudo)
         {
+            exceptionGenerator.exceptionFor<string>(
+                "read",
+                new StringBuilder().AppendFormat("User Error, Pseudo cannot be null!").ToString(),
+                pseudo);
+
             DALAccess.InsertUser(pseudo);
         }
 

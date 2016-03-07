@@ -215,7 +215,7 @@ namespace HiddenWordDALXml.Classes
             return result;
         }
 
-        public List<elType> getListXmlDataByValue<elType>(string elName, string value) where elType : new()
+        public List<elType> getListXmlDataByValue<elType>(string elName, string tag, string value) where elType : new()
         {
             List<elType> result = new List<elType>();
             if (File.ReadLines(fullXmlFileName).Count() != 0)
@@ -229,7 +229,7 @@ namespace HiddenWordDALXml.Classes
                     select listEl;
 
                 var userElementFIlterList =
-                    from el in allElements.Elements()
+                    from el in allElements.Elements(XmlNameSpace + tag)
                     where (string)el.Value == "" + value
                     select el.Parent;
 

@@ -43,13 +43,13 @@ namespace HiddenWordDALXml
 
         public List<Setup> GetSetupByMaxTry(int maxTry)
         {
-            List<XSetups> resultList = genericMethode.getListXmlDataByValue<XSetups>("XSetups", maxTry.ToString());
+            List<XSetups> resultList = genericMethode.getListXmlDataByValue<XSetups>("XSetups","maxtry", maxTry.ToString());
             return bindXmlDataToSetup(resultList);
         }
 
         public List<Setup> GetSetupByStatus(int status)
         {
-            List<XSetups> resultList = genericMethode.getListXmlDataByValue<XSetups>("XSetups", status.ToString());
+            List<XSetups> resultList = genericMethode.getListXmlDataByValue<XSetups>("XSetups", "status", status.ToString());
             return bindXmlDataToSetup(resultList);
         }
 
@@ -105,11 +105,11 @@ namespace HiddenWordDALXml
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             
-            if (setup.Status == 1)
+            //if (setup.Status == (int)ESetup.Active)
             {
-                var xSetup = genericMethode.getXmlDataByValue<XSetups>("XSetups", 1.ToString());
+                var xSetup = genericMethode.getXmlDataByValue<XSetups>("XSetups", ((int)ESetup.Active).ToString());
                 param["ID"] = xSetup.ID.ToString();
-                param["status"] = 0.ToString();
+                param["status"] = ((int)ESetup.NotActive).ToString();
                 param["maxtry"] = xSetup.maxtry.ToString();
                 genericMethode.updateXmlData<Setup>("XSetups", param);
             }
