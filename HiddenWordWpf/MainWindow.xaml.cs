@@ -37,7 +37,7 @@ namespace HiddenWordWpf
         {
             InitializeComponent();
 
-            display = new classes.Display(gvMain, gvCentral, titlePanel, inputGamer, Response);
+            display = new classes.Display(this, gvMain, gvCentral, titlePanel, inputGamer, Response);
 
             IDisplay blDisplay = new BusinessDisplay(display,
                                                         new BusinessStatistic(new HiddenWordDALXml.DAL()),
@@ -56,35 +56,27 @@ namespace HiddenWordWpf
             //game = new Game(Bl);
             player = new HiddenWordWpf.classes.Player(Bl, new Random());
             player.NbTry = 0;
-
+            display.btn_clickEvent += Display_btn_clickEvent;
 
             Bl.BlDisplay.displayWelcomeScreen();            
             player.init();
             inputGamer.Focus();
         }
-        
-        private void menuExit_Click(object sender, RoutedEventArgs e)
+
+        private void Display_btn_clickEvent(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void menuExit_Click(object sender, RoutedEventArgs e)
+        {
+            player.exitGame();
+            
         }
 
         Popup pop = new Popup();
         private void menuMaxTry_Click(object sender, RoutedEventArgs e)
         {
-            //var popup = new PopupWindow();
-            //InputDialog dialoBox = new InputDialog("Is it working?","Here response");
-
-            //if (dialoBox.ShowDialog() == true)
-            //    Debug.WriteLine(dialoBox.Answer);
-
-            //Debug.WriteLine(dialoBox.Answer);
-            /*TextBox myTextBox = new TextBox();
-            myTextBox.Width = pop.Width / 2;
-            gvCentral.Background = new SolidColorBrush(Colors.Black);
-
-            pop.Child = myTextBox;
-            pop.IsOpen = true;*/
-
             player.setupMaxTry();
         }
 
@@ -110,10 +102,10 @@ namespace HiddenWordWpf
 
         private void menuStartt_Click(object sender, RoutedEventArgs e)
         {
-            Bl.BlDisplay.displayWelcomeScreen();            
+            player.NbTry = 0;
+            //Bl.BlDisplay.displayWelcomeScreen();            
             player.init();
             player.displayGame();
-            //gvMain.Visibility = Visibility.Visible;
             gvCentral.Visibility = Visibility.Hidden;
         }
 
@@ -135,7 +127,8 @@ namespace HiddenWordWpf
                 if (player.checkWin())
                 {
                     //_player.displayGame();                    
-                    Bl.BlDisplay.DisplayCongratulation();                    
+                    Bl.BlDisplay.DisplayCongratulation();
+                    position = true;
                 }
                 /*else if (!position)
                 {
@@ -148,7 +141,8 @@ namespace HiddenWordWpf
             {
                 Bl.BlDisplay.displayWarningMaxTry(player.getMaxTry());
             }
-            else
+
+            if (player.NbTry >= player.getMaxTry() || position)
             {
                 player.gameOver = new EndGame(Bl, player.User, player.NewWord, player.NbTry, player.Setup);
             }  

@@ -100,7 +100,7 @@ namespace HiddenWordWpf.classes
 
             IndexCurrentLine++;
 
-            keepCorrectCharacter();
+            //keepCorrectCharacter();
             //displayGame();
 
         }
@@ -113,10 +113,10 @@ namespace HiddenWordWpf.classes
                 {
                     Game[IndexCurrentLine - 1][y] = Word[y].ToString();
                 }
-                else
+               /*else
                 {
                     Game[IndexCurrentLine - 1][y] = "_";
-                }
+                }*/
             }
             return Game[IndexCurrentLine - 1];
         }
@@ -133,7 +133,9 @@ namespace HiddenWordWpf.classes
 
         public bool checkWin()
         {
-            //string buf1, buf2;
+            if (IndexCurrentLine == 0)
+                return false;
+
             for (int i = 0; i < Word.Count(); i++)
             {
                 if (!Game[IndexCurrentLine - 1][i].Equals(Word[i].ToString()))

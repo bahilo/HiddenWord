@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HiddenWordWpf.classes
@@ -99,9 +100,12 @@ namespace HiddenWordWpf.classes
             return this.CheckCharacter.checkWin();
         }
 
-        public bool isCorrectCharater(string v)
+        public bool isCorrectCharater(string response)
         {
-            CheckCharacter.charaterPosition(v);            
+            if (response.Length < NewWord.Name.Length)
+                return false;
+
+            CheckCharacter.charaterPosition(response);            
             return this.CheckCharacter.isCorrectCharater();
         }
 
@@ -113,7 +117,6 @@ namespace HiddenWordWpf.classes
         public void exitGame()
         {
             this.gameOver.exitGame();
-            Console.ReadKey();
         }
 
         public int getMaxTry()
@@ -123,11 +126,17 @@ namespace HiddenWordWpf.classes
 
         public string play()
         {
-            string response =  Bl.BlDisplay.readResponse("Response: ");
-            if (response.Length < NewWord.Name.Length)
-                throw new ApplicationException("Must be at least "+NewWord.Name.Length+" characteres!");
+            string response = "";
+            try
+            {
+                response = Bl.BlDisplay.readResponse(NewWord.Name);
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+            }
             
-              return response;
+            return response;
         }
 
         public void selectNewUser()
@@ -145,14 +154,21 @@ namespace HiddenWordWpf.classes
         internal void setupNewWord()
         {
             var result = Bl.BlDisplay.setupNewWord();
-            //if(result.Id != 0 && result.Name != null && result.Name != "")
+            if(result.Id != 0 && result.Name != null && result.Name != "")
                 Bl.BlDisplay.displayMessage(@"The word '"+ result.Name+ "' have been saved successfully!");
         }
 
         internal void setupMaxTry()
         {
-            var result = Bl.BlDisplay.setupMaxTry();
-            Setup = (result != null && result.MaxTry != 0) ? result : Setup;
+            try
+            {
+                var result = Bl.BlDisplay.setupMaxTry();
+                Setup = (result != null && result.MaxTry != 0) ? result : Setup;
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+            }
         }
     }
 }

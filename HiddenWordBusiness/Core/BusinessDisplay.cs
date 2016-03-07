@@ -164,9 +164,12 @@ namespace HiddenWordBusiness.Core
             Display.displayGame(gameTable, indexLine, indexCol, indexCurrentLine, TrackPosition);
         }
 
-        public string readResponse(string v)
+        public string readResponse(string wordName)
         {
-            return Display.readResponse(v);
+            string response = Display.readResponse(wordName);
+            if (response.Length < wordName.Length)
+                throw new ApplicationException("Your response must be at least " + wordName.Length + " characters!");
+            return response;
         }
 
     }
