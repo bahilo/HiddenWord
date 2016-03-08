@@ -4,12 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HiddenWordWpf"
+        xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="Hidden Word" Height="430.769" Width="709.287" ResizeMode="NoResize">
+        Title="Hidden Word" Height="430.769" Width="709.287" ResizeMode="NoResize" Icon="Images/question32.png">
     <Grid x:Name="gvContainer" Height="403" VerticalAlignment="Top" Margin="0,0,0,-3">
-        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="258" Margin="10,72,0,0" VerticalAlignment="Top" Width="674"/>
+        <Grid x:Name="gvMain" HorizontalAlignment="Left" Height="258" Margin="10,72,0,0" VerticalAlignment="Top" Width="674">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="385*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="229*"/>
+            </Grid.ColumnDefinitions>
+            <DVC:Chart Title="Users Statistics" Name="MyChart" Background="YellowGreen" Margin="0,0,0,-16" Grid.ColumnSpan="3">
+                <DVC:Chart.Series>
+                    <DVC:AreaSeries Title="Area Chart" IndependentValuePath="Key" DependentValuePath="Value">
+                    </DVC:AreaSeries>
+                </DVC:Chart.Series>
+            </DVC:Chart>
+        </Grid>
         <Grid x:Name="gvCentral" HorizontalAlignment="Left" Height="147" Margin="154,118,0,0" VerticalAlignment="Top" Width="386"/>
-        
+
         <TextBox x:Name="inputGamer" HorizontalAlignment="Left" Height="26" Margin="285,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="285"/>
         <Label x:Name="Response" Target="{Binding ElementName=inputGamer}" Content="Response" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top" Width="254"/>
         <Button x:Name="btnValidate" Content="Validate" HorizontalAlignment="Left" Margin="589,350,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="btnValidate_Click"/>

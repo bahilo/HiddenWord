@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HiddenWordWpf.classes
 {
@@ -112,6 +113,23 @@ namespace HiddenWordWpf.classes
         public void displayGame()
         {
             this.CheckCharacter.displayGame();
+        }
+
+        internal void DisplayUserStatistic()
+        {
+            var userFound = Bl.BlUser.GetUserData();
+            if (userFound.Count != 0)
+            {
+                userFound[0].UserStats = Bl.BlStat.GetStatisticByUserId(userFound[0].Id);
+
+                foreach (var stat in userFound[0].UserStats)
+                {
+                    userFound[0].UserWordsStats.Add(Bl.BlWord.GetWordsById(stat.WordId));
+                    userFound[0].UserSetupsStats.Add(Bl.BlSetup.GetSetupById(stat.SetupId));
+                }
+
+                Bl.BlDisplay.DisplayStatisticByUser(userFound[0]);
+            }
         }
 
         public void exitGame()

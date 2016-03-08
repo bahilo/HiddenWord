@@ -8,10 +8,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -29,15 +31,25 @@ namespace HiddenWordWpf
     public partial class MainWindow : Window
     {
         classes.Display display;
-        Game game;
         HiddenWordWpf.classes.Player player;
         BL Bl;
 
         public MainWindow()
         {
             InitializeComponent();
+            
+            Init();
+            DisplayUserStatistic();
+            //SystemSounds.Question.Play();
 
-            display = new classes.Display(this, gvMain, gvCentral, titlePanel, inputGamer, Response);
+            
+            //CommandBinding command = new CommandBinding();
+            //command.Command = 
+        }
+
+        private void Init()
+        {
+            display = new classes.Display(this, gvMain, gvCentral, titlePanel, inputGamer, Response, MyChart);
 
             IDisplay blDisplay = new BusinessDisplay(display,
                                                         new BusinessStatistic(new HiddenWordDALXml.DAL()),
@@ -51,16 +63,27 @@ namespace HiddenWordWpf
                             new HiddenWordDALXml.DAL(),
                             blDisplay);
 
-            
-
             //game = new Game(Bl);
             player = new HiddenWordWpf.classes.Player(Bl, new Random());
-            player.NbTry = 0;
             display.btn_clickEvent += Display_btn_clickEvent;
 
-            Bl.BlDisplay.displayWelcomeScreen();            
-            player.init();
-            inputGamer.Focus();
+        }
+
+        private void DisplayUserStatistic()
+        {
+
+            inputGamer.Visibility = Visibility.Hidden;
+            btnValidate.Visibility = Visibility.Hidden;
+            Response.Visibility = Visibility.Hidden;
+            titlePanel.Visibility = Visibility.Hidden;
+
+            gvMain.Children.Clear();
+            gvMain.RowDefinitions.Clear();
+            gvMain.ColumnDefinitions.Clear();
+
+            gvMain.Children.Add(MyChart);
+
+            player.DisplayUserStatistic();
         }
 
         private void Display_btn_clickEvent(object sender, EventArgs e)
@@ -97,16 +120,23 @@ namespace HiddenWordWpf
 
         private void menuStatistic_Click(object sender, RoutedEventArgs e)
         {
-
+            DisplayUserStatistic();
         }
 
         private void menuStartt_Click(object sender, RoutedEventArgs e)
         {
-            player.NbTry = 0;
-            //Bl.BlDisplay.displayWelcomeScreen();            
+            
+            player.NbTry = 0;   
             player.init();
             player.displayGame();
             gvCentral.Visibility = Visibility.Hidden;
+            inputGamer.Focus();
+
+            inputGamer.Visibility = Visibility.Visible;
+            btnValidate.Visibility = Visibility.Visible;
+            Response.Visibility = Visibility.Visible;
+            titlePanel.Visibility = Visibility.Visible;
+            display.displayWelcomeScreen();
         }
 
         private void btnValidate_Click(object sender, RoutedEventArgs e)

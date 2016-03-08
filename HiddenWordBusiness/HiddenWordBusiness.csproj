@@ -42,9 +42,7 @@
   <ItemGroup>
     <Compile Include="BL.cs" />
     <Compile Include="classes\Check.cs" />
-    <Compile Include="classes\Display.cs" />
     <Compile Include="classes\EndGame.cs" />
-    <Compile Include="classes\Game.cs" />
     <Compile Include="classes\Play.cs" />
     <Compile Include="classes\Player.cs" />
     <Compile Include="Core\BusinessDisplay.cs" />

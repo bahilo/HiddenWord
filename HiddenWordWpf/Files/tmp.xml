@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HiddenWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/HiddenWordXMLSchema.xsd">
-  <XStatistic ID="12">
-    <userid>1</userid>
-    <wordid>4</wordid>
-    <nbtry>1</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
+  <XWords>
+    <name xsi:type="xsd:string">sleep</name>
+  </XWords>
 </HiddenWord>

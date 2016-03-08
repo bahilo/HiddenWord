@@ -105,7 +105,7 @@ namespace HiddenWordWpf.classes
 
         }
 
-        public string[] keepCorrectCharacter()
+        /*public string[] keepCorrectCharacter()
         {
             for (int y = 0; y < IndexColumn; y++)
             {
@@ -113,13 +113,13 @@ namespace HiddenWordWpf.classes
                 {
                     Game[IndexCurrentLine - 1][y] = Word[y].ToString();
                 }
-               /*else
+               else
                 {
                     Game[IndexCurrentLine - 1][y] = "_";
-                }*/
+                }
             }
             return Game[IndexCurrentLine - 1];
-        }
+        }*/
 
 
         private IEnumerable<string> getCharacter(Words word)

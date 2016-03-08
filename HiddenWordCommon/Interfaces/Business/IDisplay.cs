@@ -24,5 +24,6 @@ namespace HiddenWordCommon.Interfaces.Business
         void displayGame(string[][] gameTable, int indexLine, int indexCol, int  indexCurrentLine, EPosition[][] TrackPosition);
         string readResponse(string v);
         User CreateUser();
+        void DisplayStatisticByUser(User user);
     }
 }

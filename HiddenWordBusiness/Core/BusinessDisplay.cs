@@ -119,6 +119,14 @@ namespace HiddenWordBusiness.Core
                 checkUserRegistered = BlUser.GetUserByPseudo(user.Pseudo);
             }
 
+            checkUserRegistered.UserStats = BlStat.GetStatisticByUserId(checkUserRegistered.Id);
+
+            foreach (var stat in checkUserRegistered.UserStats)
+            {
+                checkUserRegistered.UserWordsStats.Add(BlWord.GetWordsById(stat.WordId));
+                checkUserRegistered.UserSetupsStats.Add(BlSetup.GetSetupById(stat.SetupId));
+            }
+
             return checkUserRegistered;
         }
 
@@ -133,7 +141,7 @@ namespace HiddenWordBusiness.Core
             if (result.MaxTry != 0 && checkSetupRegistered.Count == 0)
             {
                 BlSetup.InsertSetup(result.MaxTry, (int)ESetup.Active);
-                checkSetupRegistered = BlSetup.GetSetupByStatus((int)ESetup.Active);
+                checkSetupRegistered = BlSetup.GetSetupByStatus((int)ESetup.Active);                
                 return checkSetupRegistered[0];
             }
             else if( result.MaxTry != 0 )
@@ -172,5 +180,9 @@ namespace HiddenWordBusiness.Core
             return response;
         }
 
+        public void DisplayStatisticByUser(User user)
+        {
+            Display.DisplayStatisticByUser(user);
+        }
     }
 }

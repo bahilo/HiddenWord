@@ -1,113 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HiddenWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/HiddenWordXMLSchema.xsd">
   <!--==============[ XUsers ]=============-->
-  <XUsers ID="2">
-    <pseudo xsi:type="xsd:string">toto</pseudo>
-  </XUsers>
   <XUsers ID="1">
     <pseudo xsi:type="xsd:string">bahilo</pseudo>
   </XUsers>
   <!--==============[ XWords ]=============-->
-  <XWords ID="4">
-    <name xsi:type="xsd:string">swimming</name>
-  </XWords>
   <XWords ID="3">
-    <name xsi:type="xsd:string">danse</name>
-  </XWords>
-  <XWords ID="2">
     <name xsi:type="xsd:string">sleep</name>
   </XWords>
+  <XWords ID="2">
+    <name xsi:type="xsd:string">standard</name>
+  </XWords>
   <XWords ID="1">
-    <name xsi:type="xsd:string">paradise</name>
+    <name xsi:type="xsd:string">magic</name>
   </XWords>
   <!--==============[ XSetups ]=============-->
-  <XSetups ID="4">
-    <maxtry>2</maxtry>
-    <status>0</status>
-  </XSetups>
-  <XSetups ID="3">
+  <XSetups ID="2">
     <maxtry>10</maxtry>
     <status>0</status>
   </XSetups>
-  <XSetups ID="2">
-    <maxtry>3</maxtry>
-    <status>1</status>
-  </XSetups>
   <XSetups ID="1">
     <maxtry>5</maxtry>
-    <status>0</status>
+    <status>1</status>
   </XSetups>
   <!--==============[ XStatistic ]=============-->
-  <XStatistic ID="12">
-    <userid>1</userid>
-    <wordid>4</wordid>
-    <nbtry>1</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
-  <XStatistic ID="11">
-    <userid>1</userid>
-    <wordid>4</wordid>
-    <nbtry>5</nbtry>
-    <setupid>1</setupid>
-  </XStatistic>
-  <XStatistic ID="10">
-    <userid>1</userid>
-    <wordid>2</wordid>
-    <nbtry>3</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
-  <XStatistic ID="9">
-    <userid>1</userid>
-    <wordid>4</wordid>
-    <nbtry>2</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
-  <XStatistic ID="8">
-    <userid>1</userid>
-    <wordid>3</wordid>
-    <nbtry>4</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
-  <XStatistic ID="7">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>3</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
-  <XStatistic ID="6">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>4</nbtry>
-    <setupid>2</setupid>
-  </XStatistic>
-  <XStatistic ID="5">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>1</nbtry>
-    <setupid>1</setupid>
-  </XStatistic>
-  <XStatistic ID="4">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>1</nbtry>
-    <setupid>1</setupid>
-  </XStatistic>
-  <XStatistic ID="3">
-    <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>1</nbtry>
-    <setupid>1</setupid>
-  </XStatistic>
   <XStatistic ID="2">
     <userid>1</userid>
-    <wordid>1</wordid>
-    <nbtry>1</nbtry>
+    <wordid>2</wordid>
+    <nbtry>4</nbtry>
     <setupid>1</setupid>
   </XStatistic>
   <XStatistic ID="1">
     <userid>1</userid>
     <wordid>1</wordid>
-    <nbtry>1</nbtry>
+    <nbtry>2</nbtry>
     <setupid>1</setupid>
   </XStatistic>
 </HiddenWord>

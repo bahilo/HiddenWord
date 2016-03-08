@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -22,6 +23,7 @@ namespace HiddenWordWpf.classes
         public StackPanel stackPanelTop { get; set; }
         public StackPanel MyStackPanel { get; set; }
         public TextBox inputPlayerBox { get; set; }
+        public Chart MyChart { get; set; }
         public Grid gvCentral { get; set; }
         public string PageTitle { get; set; }
         public Label labelInputPlayerBox { get; set; }
@@ -29,20 +31,17 @@ namespace HiddenWordWpf.classes
 
         public event BtnClickEventHandler btn_clickEvent;
 
-        public Display(Window wind, Grid gvcont, Grid gvCentr, StackPanel stackPanel, TextBox inputPlayer, Label inputLabel)
+        public Display(Window wind, Grid gvcont, Grid gvCentr, StackPanel stackPanel, TextBox inputPlayer, Label inputLabel, Chart chart)
         {
             MyWindow = wind;
             gvMain = gvcont;
+            MyChart = chart;
             gvCentral = gvCentr;
             stackPanelTop = stackPanel;
             inputPlayerBox = inputPlayer;
-            PageTitle = "WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>";
+            PageTitle = "WELECOM INTO HIDDEN WORD!";
             labelInputPlayerBox = inputLabel;
-
-            TextBlock myTextTop = new TextBlock();
-            myTextTop.Text = PageTitle;
-            stackPanelTop.Children.Add(myTextTop);
-
+                     
             MyTextCentre = new TextBlock();
             MyTextCentre.FontSize = 14;
             MyTextCentre.FontWeight = FontWeights.Bold;
@@ -205,21 +204,13 @@ namespace HiddenWordWpf.classes
         public void displayWelcomeScreen()
         {
             TextBlock myTextTop = new TextBlock();
-            myTextTop.Text = "WELECOM TO OUR NEW GAME CALLED << HIDDEN WORD >>";
-
-
-            //TextBlock myTextCentre1 = new TextBlock();
-            //myTextCentre1.Text = "Do you have a pseudo already register? ";
-            
-            MyTextCentre.Text = "";
-
-            MyStackPanel.Children.Clear();
-            MyStackPanel.Children.Add(MyTextCentre);
+            myTextTop.Text = PageTitle;
+            myTextTop.FontSize = 14;
+            myTextTop.HorizontalAlignment = HorizontalAlignment.Center;
+            myTextTop.VerticalAlignment = VerticalAlignment.Center;
 
             stackPanelTop.Children.Clear();
             stackPanelTop.Children.Add(myTextTop);
-            gvCentral.Children.Clear();
-            gvCentral.Children.Add(MyStackPanel);
         }
 
 
@@ -482,5 +473,17 @@ namespace HiddenWordWpf.classes
             return response;
         }
 
+        public void DisplayStatisticByUser(User user)
+        {
+            //MyChart.Width = gvMain.Width;
+            //MyChart.Height = gvMain.Height;
+            MyChart.Title = "Statistics of "+user.Pseudo;
+            KeyValuePair<string, int>[] keyValuePair = new KeyValuePair<string, int>[user.UserStats.Count()]; 
+            for (int i=0; i< user.UserStats.Count; i++)
+            {
+                keyValuePair[i] = new KeyValuePair<string, int>(user.UserWordsStats[i].Name, user.UserStats[i].NbTry);
+            }
+            ((AreaSeries)MyChart.Series[0]).ItemsSource = keyValuePair;
+        }
     }
 }
