@@ -140,10 +140,11 @@ namespace HiddenWordWpf.classes
             MyStackPanel.Children.Add(MyTextCentre);
             initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, true);
 
-            Button myBtn = new Button();
+            Button myBtn = new Button();            
             myBtn.Width = gvCentral.Width / (nbCol * 2);
             myBtn.Height = gvCentral.Height / (nbRow * 2);
             myBtn.Content = "OK";
+            myBtn.IsDefault = true;
 
             AxisX = 2; AxisY = 2;
             initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, false);

@@ -31,17 +31,17 @@
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="694">
             <MenuItem x:Name="menuFile" Header="_Files">
                 <Separator/>
-                <MenuItem Name="Start" Header="_Start" InputGestureText="Alt+S" Click="menuStartt_Click" />
-                <MenuItem x:Name="menuExit" Header="E_xit" InputGestureText="Alt+Q" Click="menuExit_Click" />
+                <MenuItem Name="menuStart" Header="_Start" InputGestureText="F5" Click="menuStart_Click" />
+                <MenuItem x:Name="menuExit" Header="E_xit" InputGestureText="Alt+F4" Click="menuExit_Click" />
             </MenuItem>
             <MenuItem x:Name="menuSetting" Header="_Settings">
                 <MenuItem x:Name="menuMaxTry" Header="Max try" InputGestureText="Alt+M" Click="menuMaxTry_Click"  />
-                <MenuItem x:Name="menuUser" Header="User" InputGestureText="Alt+U">
-                    <MenuItem x:Name="menuUserSelect" Header="Select" InputGestureText="Alt+Shift+S" Click="menuUserSelect_Click"  />
-                    <MenuItem x:Name="menuUserCreate" Header="Create" InputGestureText="Alt+Shift+C" Click="menuUserCreate_Click"  />
+                <MenuItem x:Name="menuUser" Header="User">
+                    <MenuItem x:Name="menuUserSelect" Header="Select" InputGestureText="Alt+S" Click="menuUserSelect_Click"  />
+                    <MenuItem x:Name="menuUserCreate" Header="Create" InputGestureText="Alt+C" Click="menuUserCreate_Click"  />
                 </MenuItem>
                 <MenuItem x:Name="menuWord" Header="Word" InputGestureText="Alt+W" Click="menuWord_Click" />
-                <MenuItem x:Name="menuStatistic" Header="Statistics" InputGestureText="Alt+S" Click="menuStatistic_Click"  />
+                <MenuItem x:Name="menuStatistic" Header="Statistics" InputGestureText="F2" Click="menuStatistic_Click"  />
             </MenuItem>
             <MenuItem x:Name="menuEdit" Header="_Edit">
                 <MenuItem Command="Undo"></MenuItem>

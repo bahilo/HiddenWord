@@ -43,10 +43,66 @@ namespace HiddenWordWpf
             DisplayUserStatistic();
             //SystemSounds.Question.Play();
 
+            List<RoutedUICommand> commandeList = new List<RoutedUICommand>
+                                                        {
+                                                             CustomCommands.Exit,
+                                                             CustomCommands.Start,
+                                                             CustomCommands.MaxTry,
+                                                             CustomCommands.UserSelect,
+                                                             CustomCommands.UserCreate,
+                                                             CustomCommands.Word,
+                                                             CustomCommands.Statistics
+                                                        };
+
+            foreach (var customCommand in commandeList)
+            {
+                CommandBinding command = new CommandBinding();
+                command.Command = customCommand;
+                command.CanExecute += (s,e)=> { e.CanExecute = true; }; 
+                command.Executed += (s, e) => {
+                    switch (customCommand.Name)
+                    {
+                        case "Exit":
+                            menuExit.Command = customCommand;
+                            menuExit_Click(this, new RoutedEventArgs());
+                            break;
+                        case "Start":
+                            menuStart.Command = customCommand;
+                            menuStart_Click(this, new RoutedEventArgs());
+                            break;
+                        case "MaxTry":
+                            menuMaxTry.Command = customCommand;
+                            menuMaxTry_Click(this, new RoutedEventArgs());
+                            break;
+                        case "UserSelect":
+                            menuUserSelect.Command = customCommand;
+                            menuUserSelect_Click(this, new RoutedEventArgs());
+                            break;
+                        case "UserCreate":
+                            menuUserCreate.Command = customCommand;
+                            menuUserCreate_Click(this, new RoutedEventArgs());
+                            break;                            
+                        case "Statistics":
+                            menuStatistic.Command = customCommand;
+                            menuStatistic_Click(this, new RoutedEventArgs());
+                            break;
+                    }
+                };
+                
+                this.CommandBindings.Add(command);
+            }
             
-            //CommandBinding command = new CommandBinding();
-            //command.Command = 
         }
+
+        /*private void Exit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.menuExit_Click(this, new RoutedEventArgs());
+        }
+
+        private void Exit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }*/
 
         private void Init()
         {
@@ -67,6 +123,7 @@ namespace HiddenWordWpf
             //game = new Game(Bl);
             player = new Player(Bl, new Setting(Bl), new Random());
             display.btn_clickEvent += Display_btn_clickEvent;
+            btnValidate.IsDefault = true;
         }
 
         private void DisplayUserStatistic()
@@ -93,8 +150,8 @@ namespace HiddenWordWpf
 
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
-            player.exitGame();
-            
+            btnValidate.IsDefault = false;
+            player.exitGame();            
         }
 
         Popup pop = new Popup();
@@ -123,7 +180,7 @@ namespace HiddenWordWpf
             DisplayUserStatistic();
         }
 
-        private void menuStartt_Click(object sender, RoutedEventArgs e)
+        private void menuStart_Click(object sender, RoutedEventArgs e)
         {
             
             player.NbTry = 0;   
