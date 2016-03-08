@@ -30,7 +30,7 @@ namespace HiddenWordConsole
 
             Bl.BlDisplay.displayWelcomeScreen();
 
-            Game game = new Game(Bl);
+            Game game = new Game(Bl, new Setting(Bl));
 
             game.run();
         }

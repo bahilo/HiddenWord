@@ -382,6 +382,8 @@ namespace HiddenWordWpf.classes
                 for (int y = 0, col = 0; y < indexCol; y++, col++)
                 {
                     var btn = new Button();
+                    btn.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    btn.VerticalContentAlignment = VerticalAlignment.Center;
                     btn.Name = "_" + i + "" + y;
                     btn.FontSize = 15;
                     btn.Content = gameTable[i][y];

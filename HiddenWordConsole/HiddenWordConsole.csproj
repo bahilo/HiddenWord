@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Classes\Display.cs" />
     <Compile Include="Classes\Game.cs" />
+    <Compile Include="Classes\Setting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

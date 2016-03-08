@@ -63,6 +63,10 @@
       <Project>{9f6f25a2-1db5-4dac-9913-620eae3a1183}</Project>
       <Name>HiddenWordCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HiddenWordConsole\HiddenWordConsole.csproj">
+      <Project>{c0924145-9a9a-4911-bb8a-2be0f0cbc176}</Project>
+      <Name>HiddenWordConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HiddenWordDALXml\HiddenWordDALXml.csproj">
       <Project>{35fc7f3e-100e-4291-a015-b2de4c44eec0}</Project>
       <Name>HiddenWordDALXml</Name>

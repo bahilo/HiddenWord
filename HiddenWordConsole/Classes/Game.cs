@@ -1,6 +1,7 @@
 ﻿
 using HiddenWordBusiness.classes;
 using HiddenWordCommon.Interfaces.Business;
+using HiddenWordCommon.Interfaces.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,11 @@ namespace HiddenWordConsole.Classes
         private Random _rd;
 
 
-        public Game(IActionManager bl)
+        public Game(IActionManager bl, ISetting setting)
         {
             _bl = bl;
             _rd = new Random();
-            _player = new Player(_bl, _rd);
+            _player = new Player(_bl, setting, _rd);
         } 
 
 

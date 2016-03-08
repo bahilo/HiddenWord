@@ -135,8 +135,8 @@ namespace HiddenWordBusiness.Core
         public Setup setupMaxTry()
         {
             Setup result = Display.setupMaxTry();
-            if (result.MaxTry >= 20)
-                throw new ApplicationException("The maximun try cannot be greater than 20!");
+            if (result.MaxTry > 13)
+                throw new ApplicationException("The maximun try cannot be greater than 13!");
             var checkSetupRegistered = BlSetup.GetSetupByMaxTry(result.MaxTry);
             if (result.MaxTry != 0 && checkSetupRegistered.Count == 0)
             {
@@ -174,7 +174,7 @@ namespace HiddenWordBusiness.Core
 
         public string readResponse(string wordName)
         {
-            string response = Display.readResponse(wordName);
+            string response = Display.readResponse("Response: ");
             if (response.Length < wordName.Length)
                 throw new ApplicationException("Your response must be at least " + wordName.Length + " characters!");
             return response;

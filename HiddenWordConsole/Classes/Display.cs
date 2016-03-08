@@ -23,13 +23,13 @@ namespace HiddenWordConsole.Classes
             do
             {
                 this.displayTabulation(1);
-                response = readScreen("Do you have a pseudo already register? (y/n): ");
+                response = readResponse("Do you have a pseudo already register? (y/n): ");
                 this.displayEmptyLine();
             } while (response != "y" && response != "n");
 
             if (response.Equals("y"))
             {
-                response = readScreen("\tPlease enter your pseudo: ");
+                response = readResponse("\tPlease enter your pseudo: ");
                 this.displayEmptyLine();
             }
             else
@@ -39,7 +39,7 @@ namespace HiddenWordConsole.Classes
                 //bool next = false;
                 do
                 {
-                    response = readScreen("\tPlease enter your pseudo: ");
+                    response = readResponse("\tPlease enter your pseudo: ");
                     this.displayEmptyLine();
                 } while ( response == "" ); 
             }
@@ -64,7 +64,7 @@ namespace HiddenWordConsole.Classes
             {
                 writeMenuOption(1, "Quit", "New word", "Setting the maximun of try");
                 this.displayEmptyLine();
-                response = readScreen("Response: ");
+                response = readResponse("Response: ");
                 this.displayEmptyLine();
             } while (!response.Equals("0") && !response.Equals("1") && !response.Equals("2"));
 
@@ -81,7 +81,7 @@ namespace HiddenWordConsole.Classes
             this.displayEmptyLine();
             do
             {
-                response = readScreen("\tPlease enter a new word: ");
+                response = readResponse("\tPlease enter a new word: ");
                 this.displayEmptyLine();
             } while (response == "");
 
@@ -104,7 +104,7 @@ namespace HiddenWordConsole.Classes
             this.displayEmptyLine();
             do
             {
-                response = readScreen("\tPlease enter the maximum of try: ");
+                response = readResponse("\tPlease enter the maximum of try: ");
                 this.displayEmptyLine();
             } while (response == "" && int.Parse(response) == 0);
 
@@ -138,7 +138,7 @@ namespace HiddenWordConsole.Classes
         {
             string response;
             writeMenuOption(1, "Quit","Settings","Sart game");
-            response = readScreen("Response: ");
+            response = readResponse("Response: ");
             this.displayEmptyLine(1);
 
             return response;
@@ -148,6 +148,11 @@ namespace HiddenWordConsole.Classes
         {
             displayMessage(message);
             return Console.ReadLine();
+        }
+
+        public string readResponse(string v)
+        {
+            return readScreen(v);
         }
 
         public void displayWelcomeScreen()
@@ -219,16 +224,11 @@ namespace HiddenWordConsole.Classes
                 }
                 Console.WriteLine("\n\n");
             }
-        }
-
-        public string readResponse(string v)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public User CreateUser()
         {
-            throw new NotImplementedException();
+            return SelectUser();
         }
 
         public void DisplayStatisticByUser(User user)

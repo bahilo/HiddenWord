@@ -17,6 +17,36 @@
     <name xsi:type="xsd:string">magic</name>
   </XWords>
   <!--==============[ XStatistic ]=============-->
+  <XStatistic ID="6">
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>0</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
+  <XStatistic ID="5">
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>2</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
+  <XStatistic ID="4">
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>2</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
+  <XStatistic ID="3">
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>2</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
+  <XStatistic ID="2">
+    <userid>1</userid>
+    <wordid>1</wordid>
+    <nbtry>2</nbtry>
+    <setupid>1</setupid>
+  </XStatistic>
   <XStatistic ID="1">
     <userid>1</userid>
     <wordid>1</wordid>

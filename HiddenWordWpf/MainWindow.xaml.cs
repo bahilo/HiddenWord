@@ -3,6 +3,7 @@ using HiddenWordBusiness.classes;
 using HiddenWordBusiness.Core;
 using HiddenWordCommon.Interfaces.Business;
 using HiddenWordWpf.classes;
+using HiddenWordWpf.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace HiddenWordWpf
     public partial class MainWindow : Window
     {
         classes.Display display;
-        HiddenWordWpf.classes.Player player;
+        Player player;
         BL Bl;
 
         public MainWindow()
@@ -64,9 +65,8 @@ namespace HiddenWordWpf
                             blDisplay);
 
             //game = new Game(Bl);
-            player = new HiddenWordWpf.classes.Player(Bl, new Random());
+            player = new Player(Bl, new Setting(Bl), new Random());
             display.btn_clickEvent += Display_btn_clickEvent;
-
         }
 
         private void DisplayUserStatistic()

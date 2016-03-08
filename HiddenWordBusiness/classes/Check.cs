@@ -100,12 +100,12 @@ namespace HiddenWordBusiness.classes
 
             IndexCurrentLine++;
 
-            keepCorrectCharacter();
+            //keepCorrectCharacter();
             //displayGame();
 
         }
 
-        public string[] keepCorrectCharacter()
+        /*public string[] keepCorrectCharacter()
         {
             for (int y = 0; y < IndexColumn; y++)
             {
@@ -119,7 +119,7 @@ namespace HiddenWordBusiness.classes
                 }
             }
             return Game[IndexCurrentLine -1];
-        }
+        }*/
 
 
         private IEnumerable<string>  getCharacter(Words word)
@@ -133,7 +133,8 @@ namespace HiddenWordBusiness.classes
 
         public bool checkWin()
         {
-            //string buf1, buf2;
+            if (IndexCurrentLine == 0) return false;
+
             for (int i = 0 ; i < Word.Count(); i++ )
             {
                 if( !Game[IndexCurrentLine - 1 ][i].Equals(Word[i].ToString()) ){                    

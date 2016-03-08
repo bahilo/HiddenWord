@@ -1,7 +1,9 @@
 ﻿using HiddenWord.Business;
 using HiddenWordCommon.Interfaces.Business;
+using HiddenWordCommon.Interfaces.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,86 +11,74 @@ using System.Threading.Tasks;
 namespace HiddenWordBusiness.classes
 {
     public class Player : Play
-    {        
+    {
         public int NbTry { get; set; }
-        public bool Win { get; set; }
-       
         public Check CheckCharacter;
         public EndGame gameOver;
 
-
-        public Player(IActionManager bl, Random rd)
-            : base(bl, rd)
+        public Player(IActionManager bl, ISetting setting, Random rd)
+            : base(bl, setting, rd)
         {
-            Win = false;
             NbTry = 0;
             CheckCharacter = new Check(bl);
             gameOver = new EndGame(bl);
+            PropertyChanged += Play_PropertyChanged;
+        }
+
+        private void Play_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "User":
+                    launchGame();
+                    displayGame();
+                    break;
+                case "Setup":
+                    launchGame();
+                    displayGame();
+                    break;
+            }
         }
 
         public void init()
         {
             start();
-            //CheckCharacter.Word = NewWord.Name;
-            //CheckCharacter.init();
         }
 
         /*-------------------[ start ]--------------*/
 
         private void start()
         {
-            bool isSetup;
-            string response;
-            do
+
+            if(Setting.GameSetup())
             {
-
-                response = Bl.BlDisplay.displayStartupMenu();
-
-                if (response.Equals("0"))
-                {
-                    IsExitGame = true;
-                }
-                else if (response.Equals("1")) // Setting
-                {
-                    isSetting = true;
-                }
-                else if (response.Equals("2")) // Start game
-                {
-                    isSetting = false;
-                }
-
-                if (IsExitGame)
-                    isSetup = true;
-                else
-                    isSetup = settings(isSetting);
-            } while (  
-                        !response.Equals("0")
-                        && !response.Equals("1") 
-                        && !response.Equals("2") 
-                        || !isSetup
-               );
-
-            launchGame();
+                this.User = Setting.User;
+                this.Setup = Setting.Setup;
+            }
+            launchGame();            
         }
 
         private void launchGame()
         {
-            //try
-            //{
-            //    NewWord = Bl.BlWord.getNewRandomWord(rd);
-            //}catch(ApplicationException e)
-            //{
-            //    Bl.BlDisplay.displayMessage(e.Message);
-            //    Bl.BlDisplay.setupNewWord();
-            //    NewWord = Bl.BlWord.getNewRandomWord(rd);
-            //}
-            /*if(typeof(Console).IsInstanceOfType(Console))
-            Console.Clear();*/
-            CheckCharacter.IndexLine = Setup.MaxTry;
+            setRandomWord();
             CheckCharacter.Word = NewWord.Name;
+            CheckCharacter.IndexLine = Setup.MaxTry;
             CheckCharacter.init();
             Bl.BlDisplay.displayPrompt(this.User.Pseudo);
+        }
 
+        public void setRandomWord()
+        {
+            try
+            {
+                NewWord = Bl.BlWord.getNewRandomWord(rd);
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+                Bl.BlDisplay.setupNewWord();
+                NewWord = Bl.BlWord.getNewRandomWord(rd);
+            }
         }
 
         public string GetPseudo()
@@ -106,9 +96,12 @@ namespace HiddenWordBusiness.classes
             return this.CheckCharacter.checkWin();
         }
 
-        public bool isCorrectCharater(string v)
+        public bool isCorrectCharater(string response)
         {
-            CheckCharacter.charaterPosition(v);            
+            if (response.Length < NewWord.Name.Length)
+                return false;
+
+            CheckCharacter.charaterPosition(response);
             return this.CheckCharacter.isCorrectCharater();
         }
 
@@ -117,10 +110,26 @@ namespace HiddenWordBusiness.classes
             this.CheckCharacter.displayGame();
         }
 
+        public void DisplayUserStatistic()
+        {
+            var userFound = Bl.BlUser.GetUserData();
+            if (userFound.Count != 0)
+            {
+                userFound[0].UserStats = Bl.BlStat.GetStatisticByUserId(userFound[0].Id);
+
+                foreach (var stat in userFound[0].UserStats)
+                {
+                    userFound[0].UserWordsStats.Add(Bl.BlWord.GetWordsById(stat.WordId));
+                    userFound[0].UserSetupsStats.Add(Bl.BlSetup.GetSetupById(stat.SetupId));
+                }
+
+                Bl.BlDisplay.DisplayStatisticByUser(userFound[0]);
+            }
+        }
+
         public void exitGame()
         {
             this.gameOver.exitGame();
-            Console.ReadKey();
         }
 
         public int getMaxTry()
@@ -130,14 +139,49 @@ namespace HiddenWordBusiness.classes
 
         public string play()
         {
-            string response =  Bl.BlDisplay.readScreen("Response: ");
-            if (response.Length < NewWord.Name.Length)
-                throw new ApplicationException("Must be at least "+NewWord.Name.Length+" characteres!");
-            
-              return response;
+            string response = "";
+            try
+            {
+                response = Bl.BlDisplay.readResponse(NewWord.Name);
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+            }
+
+            return response;
         }
 
+        public void selectNewUser()
+        {
+            var result = Bl.BlDisplay.SelectUser();
+            User = (result != null && result.Pseudo != "" && result.Pseudo != null) ? result : User;
+        }
 
+        public void createUser()
+        {
+            var result = Bl.BlDisplay.CreateUser();
+            User = (result != null && result.Pseudo != "" && result.Pseudo != null) ? result : User;
+        }
 
+        public void setupNewWord()
+        {
+            var result = Bl.BlDisplay.setupNewWord();
+            if (result.Id != 0 && result.Name != null && result.Name != "")
+                Bl.BlDisplay.displayMessage(@"The word '" + result.Name + "' have been saved successfully!");
+        }
+
+        public void setupMaxTry()
+        {
+            try
+            {
+                var result = Bl.BlDisplay.setupMaxTry();
+                Setup = (result != null && result.MaxTry != 0) ? result : Setup;
+            }
+            catch (ApplicationException e)
+            {
+                Bl.BlDisplay.displayMessage(e.Message);
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace HiddenWordTest
 
         public UnitTestBL()
         {
-            blDisplay = new BusinessDisplay(new Display(),
+            blDisplay = new BusinessDisplay(new HiddenWordConsole.Classes.Display(),
                                                         new BusinessStatistic(new FakeDAL()),
                                                         new BusinessWord(new FakeDAL()),
                                                         new BusinessSetup(new FakeDAL()),

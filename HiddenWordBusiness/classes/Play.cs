@@ -2,155 +2,110 @@
 using HiddenWordCommon.classes;
 using HiddenWordCommon.Enums;
 using HiddenWordCommon.Interfaces.Business;
+using HiddenWordCommon.Interfaces.UI;
 using System;
 using System.ComponentModel;
 
 namespace HiddenWordBusiness.classes
 {
-    public class Play
+    public class Play : INotifyPropertyChanged
     {
-        public Words NewWord { get; set; }
-        public Setup Setup { get; set; }
-        public User User { get; set; }
-        protected bool isSetting;
-        public bool IsExitGame { get; set; }
+        protected bool isSetting;        
         protected Random rd;
         protected IActionManager Bl;
+        protected ISetting Setting { get; set; }
 
+        public bool IsExitGame {
+            get
+            {
+                return Setting.IsExitGame;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private Words _newWord;
+        public Words NewWord
+        {
+            get
+            {
+                return _newWord;
+            }
+            set
+            {
+                if (_newWord != null && _newWord.Id == value.Id) return;
+
+                int idBefor = (_newWord != null) ? _newWord.Id : 0;
+                int idAfter = (value != null) ? value.Id : 0 ;
+
+                _newWord = value;
+
+                if (idBefor != 0 && idBefor != idAfter)
+                    onPropertyChanged("NewWord");                
+            }
+        }
+        private Setup _setup;
+        public Setup Setup
+        {
+            get
+            {
+                return _setup;
+            }
+            set
+            {
+                if (_setup != null && _setup.Id == value.Id) return;
+
+                int idBefor = (_setup != null) ? _setup.Id : 0;
+                int idAfter = (value != null) ? value.Id : 0;
+
+                _setup = value;
+
+                if ( idBefor != 0 && idBefor != idAfter)
+                    onPropertyChanged("Setup");
+            }
+        }
+
+        private User _user;
+        public User User
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                if (_user != null && _user.Id == value.Id) return;
+
+                int idBefor = (_user != null) ? _user.Id : 0;
+                int idAfter = (value != null) ? value.Id : 0;
+
+                _user = value;
+
+                if (idBefor != 0 && idBefor != idAfter)
+                    onPropertyChanged("User");
+
+                
+            }
+        }
         
-
-        public Play(IActionManager bl, Random rd)
+        public Play(IActionManager bl, ISetting setting, Random rd)
         {
             this.rd = rd;
             Bl = bl;
-
+            Setting = setting;
             NewWord = new Words();
+            User = new User();
             Setup = new Setup();
-            User = new User();            
 
-            Setup.PropertyChanged += onSetupChange;
-            User.PropertyChanged += onUserChange;
-            NewWord.PropertyChanged += onWordChange;            
+            setting.init( User, Setup, rd);
         }
-
-        private void onWordChange(object sender, PropertyChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void onUserChange(object sender, PropertyChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void onSetupChange(object sender, PropertyChangedEventArgs e)
-        {
-            Console.WriteLine("onSetupChange!");
-        }
-
-        /*private void onSetupChange(object sender, PropertyChangedEventArgs e)
-        {
-            Console.WriteLine("Setup changed!!!!");
-        }*/
-
-        protected bool settings(bool isSetting)
-        {
-            string response = "";
-            IsExitGame = false;
-
-            do {                            
-                if (isSetting)
-                    response = Bl.BlDisplay.setupMenu(); // SETTING MENU
-                if (response.Equals("0"))
-                    return false;
-                if (response.Equals("1"))
-                {
-                    if (isSetting)
-                    {
-                        this.NewWord = Bl.BlDisplay.setupNewWord();
-                    }
-                }                
-                if (response.Equals("2"))
-                {
-                    if (isSetting || this.Setup.MaxTry == 0 )
-                    {
-                        try
-                        {
-                            this.Setup = Bl.BlDisplay.setupMaxTry(); // MAX TRY SETTING
-                        }
-                        catch (ApplicationException e )
-                        {
-                            Bl.BlDisplay.displayMessage(e.Message);
-                            this.Setup = Bl.BlDisplay.setupMaxTry(); // MAX TRY SETTING
-                        }                        
-                    }
-                }
-
-                if (this.User == null || this.User.Pseudo == null || this.User.Pseudo == "")
-                    this.User = Bl.BlDisplay.SelectUser();
-
-                if (this.Setup == null || this.Setup.MaxTry == 0)
-                {
-                    /*var listSetup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active);
-                    this.Setup = ( listSetup.Count > 0 ) ?  listSetup[0] : this.Setup;
-
-                    if (this.Setup == null || this.Setup.MaxTry == 0)
-                        this.Setup = Bl.BlDisplay.setupMaxTry();*/
-
-                    try
-                    {
-                        Setup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
-                    }
-                    catch (ApplicationException e)
-                    {
-                        Bl.BlDisplay.displayMessage(e.Message);
-                        Bl.BlDisplay.setupMaxTry();
-                        Setup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
-                    }
-
-                }
-
-                if (NewWord == null || NewWord.Name == null || NewWord.Name == "" )
-                {
-                    try
-                    {
-                        NewWord = Bl.BlWord.getNewRandomWord(rd);
-                    }
-                    catch (ApplicationException e)
-                    {
-                        Bl.BlDisplay.displayMessage(e.Message);
-                        Bl.BlDisplay.setupNewWord();
-                        NewWord = Bl.BlWord.getNewRandomWord(rd);
-                    }
-                }
-
-            } while (!finalSettingCheck() && !IsExitGame) ;
-
-                return true;
-        }        
-            
         
-        /*-------------------[ Final Check ]--------------*/
-
-        public bool finalSettingCheck()
+        public void onPropertyChanged(string propertyName)
         {
-            if (this.User == null ||  this.User.Pseudo == null || this.User.Pseudo == "")
-            {
-                Console.WriteLine("No user selected!");
-                return false;
-            }
-            if (this.Setup == null || this.Setup.MaxTry == 0)
-            {
-                Console.WriteLine("No maximun try setup!");
-                return false;
-            }
-            if (this.NewWord == null || this.NewWord.Name == null || this.NewWord.Name == "")
-            {
-                Console.WriteLine("No Word In Database!");
-                return false;
-            }
-            return true;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-            
+
+        
     }
 }

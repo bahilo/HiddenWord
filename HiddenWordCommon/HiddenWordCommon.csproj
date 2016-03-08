@@ -60,6 +60,7 @@
     <Compile Include="Interfaces\DAL\IStatisticManager.cs" />
     <Compile Include="Interfaces\DAL\IUsersManager.cs" />
     <Compile Include="Interfaces\DAL\IWordsManager.cs" />
+    <Compile Include="Interfaces\UI\ISetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
