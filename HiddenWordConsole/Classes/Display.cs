@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HiddenWordBusiness.classes
+namespace HiddenWordConsole.Classes
 {
     public class Display : IDisplay
     {
@@ -221,6 +221,19 @@ namespace HiddenWordBusiness.classes
             }
         }
 
+        public string readResponse(string v)
+        {
+            throw new NotImplementedException();
+        }
 
+        public User CreateUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayStatisticByUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,6 +8,7 @@ using HiddenWordBusiness.classes;
 using HiddenWordCommon.Interfaces.Business;
 using HiddenWordBusiness.Core;
 using HiddenWord.Business;
+using HiddenWordConsole.Classes;
 
 namespace HiddenWordConsole
 {

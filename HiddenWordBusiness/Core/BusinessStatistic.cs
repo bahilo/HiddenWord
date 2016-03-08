@@ -1,4 +1,5 @@
-﻿using HiddenWordCommon.classes;
+﻿using HiddenWordBusiness.Exceptions;
+using HiddenWordCommon.classes;
 using HiddenWordCommon.Interfaces.Business;
 using HiddenWordCommon.Interfaces.DAL;
 using HiddenWordDALXml;
@@ -13,10 +14,12 @@ namespace HiddenWordBusiness.Core
     public class BusinessStatistic : HiddenWordCommon.Interfaces.Business.IStatisticManager
     {
         public IDALActionManager DALAccess { get; set; }
+        public ExceptionGenerator exceptionGenerator { get; set; }
 
         public BusinessStatistic(IDALActionManager DAL)
         {
             DALAccess = DAL;
+            exceptionGenerator = new ExceptionGenerator();
         }
 
 
@@ -55,6 +58,27 @@ namespace HiddenWordBusiness.Core
 
         public void insertStatistic(int userId, int wordId, int nbTry, int setupId)
         {
+            //Throwing exception for Value greater than 0 
+            exceptionGenerator.exceptionFor<int>(
+                "read",
+                new StringBuilder().AppendFormat("Statistic Error, User Id must be greater than 0 ").ToString(),
+                userId,
+                excludeValueLessOrEqual: 0);
+
+            //Throwing exception for Value greater than 0 
+            exceptionGenerator.exceptionFor<int>(
+                "read",
+                new StringBuilder().AppendFormat("Statistic Error, Word Id must be greater than 0 ").ToString(),
+                wordId,
+                excludeValueLessOrEqual: 0);
+
+            //Throwing exception for Value greater than 0 
+            exceptionGenerator.exceptionFor<int>(
+                "read",
+                new StringBuilder().AppendFormat("Statistic Error, Setup Id must be greater than 0 ").ToString(),
+                setupId,
+                excludeValueLessOrEqual: 0);
+
             DALAccess.insertStatistic(userId, wordId, nbTry, setupId);
         }
 

@@ -34,11 +34,13 @@ namespace HiddenWordCommon.classes
         public int Id { get; set; }
         public  List<Statistic> UserStats { get; set; }
         public List<Words> UserWordsStats { get; set; }
+        public List<Setup> UserSetupsStats { get; set; }
 
         public User()
         {
             UserStats = new List<Statistic>();
-            //setupUserStat(this.id);
+            UserWordsStats = new List<Words>();
+            UserSetupsStats = new List<Setup>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

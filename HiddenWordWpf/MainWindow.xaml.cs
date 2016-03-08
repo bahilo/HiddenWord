@@ -5,12 +5,15 @@ using HiddenWordCommon.Interfaces.Business;
 using HiddenWordWpf.classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -28,15 +31,25 @@ namespace HiddenWordWpf
     public partial class MainWindow : Window
     {
         classes.Display display;
-        Game game;
-        Player player;
+        HiddenWordWpf.classes.Player player;
         BL Bl;
 
         public MainWindow()
         {
             InitializeComponent();
+            
+            Init();
+            DisplayUserStatistic();
+            //SystemSounds.Question.Play();
 
-            display = new classes.Display(gvMain, gvCentral, titlePanel, inputGamer, Response);
+            
+            //CommandBinding command = new CommandBinding();
+            //command.Command = 
+        }
+
+        private void Init()
+        {
+            display = new classes.Display(this, gvMain, gvCentral, titlePanel, inputGamer, Response, MyChart);
 
             IDisplay blDisplay = new BusinessDisplay(display,
                                                         new BusinessStatistic(new HiddenWordDALXml.DAL()),
@@ -50,73 +63,88 @@ namespace HiddenWordWpf
                             new HiddenWordDALXml.DAL(),
                             blDisplay);
 
-            Bl.BlDisplay.displayWelcomeScreen();
+            //game = new Game(Bl);
+            player = new HiddenWordWpf.classes.Player(Bl, new Random());
+            display.btn_clickEvent += Display_btn_clickEvent;
 
-            game = new Game(Bl);
-            player = new Player(Bl, new Random());
-            
+        }
 
+        private void DisplayUserStatistic()
+        {
+
+            inputGamer.Visibility = Visibility.Hidden;
+            btnValidate.Visibility = Visibility.Hidden;
+            Response.Visibility = Visibility.Hidden;
+            titlePanel.Visibility = Visibility.Hidden;
+
+            gvMain.Children.Clear();
+            gvMain.RowDefinitions.Clear();
+            gvMain.ColumnDefinitions.Clear();
+
+            gvMain.Children.Add(MyChart);
+
+            player.DisplayUserStatistic();
+        }
+
+        private void Display_btn_clickEvent(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            player.exitGame();
+            
         }
 
         Popup pop = new Popup();
         private void menuMaxTry_Click(object sender, RoutedEventArgs e)
         {
-            //var popup = new PopupWindow();
-            //InputDialog dialoBox = new InputDialog("Is it working?","Here response");
-
-            //if (dialoBox.ShowDialog() == true)
-            //    Debug.WriteLine(dialoBox.Answer);
-
-            //Debug.WriteLine(dialoBox.Answer);
-            /*TextBox myTextBox = new TextBox();
-            myTextBox.Width = pop.Width / 2;
-            gvCentral.Background = new SolidColorBrush(Colors.Black);
-
-            pop.Child = myTextBox;
-            pop.IsOpen = true;*/
-
-            display.setupMaxTry();
+            player.setupMaxTry();
         }
 
         private void menuUserSelect_Click(object sender, RoutedEventArgs e)
         {
-            display.SelectUser();
+            player.selectNewUser();
         }
 
         private void menuUserCreate_Click(object sender, RoutedEventArgs e)
         {
-            display.createUser();
+            player.createUser();
         }
 
         private void menuWord_Click(object sender, RoutedEventArgs e)
         {
-            display.setupNewWord();
+            player.setupNewWord();
         }
 
         private void menuStatistic_Click(object sender, RoutedEventArgs e)
         {
-
+            DisplayUserStatistic();
         }
 
         private void menuStartt_Click(object sender, RoutedEventArgs e)
         {
+            
+            player.NbTry = 0;   
             player.init();
-            player.NbTry = 0;
             player.displayGame();
+            gvCentral.Visibility = Visibility.Hidden;
+            inputGamer.Focus();
 
+            inputGamer.Visibility = Visibility.Visible;
+            btnValidate.Visibility = Visibility.Visible;
+            Response.Visibility = Visibility.Visible;
+            titlePanel.Visibility = Visibility.Visible;
+            display.displayWelcomeScreen();
         }
 
         private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
-            bool position = false;
+            bool position = false;            
 
             if (player.getMaxTry() > 0 && player.NbTry <= player.getMaxTry())
-            {
+            {                
                 try
                 {
                     position = player.isCorrectCharater(player.play());
@@ -128,26 +156,26 @@ namespace HiddenWordWpf
 
                 if (player.checkWin())
                 {
-                    //_player.displayGame();
+                    //_player.displayGame();                    
                     Bl.BlDisplay.DisplayCongratulation();
-                    
+                    position = true;
                 }
-                else if (!position)
+                /*else if (!position)
                 {
                     player.displayError();
-                }
+                }*/
                 player.NbTry++;
-            }else if (player.getMaxTry() <= 0)
+                player.displayGame();
+            }
+            else if (player.getMaxTry() <= 0)
             {
                 Bl.BlDisplay.displayWarningMaxTry(player.getMaxTry());
             }
-            else
+
+            if (player.NbTry >= player.getMaxTry() || position)
             {
                 player.gameOver = new EndGame(Bl, player.User, player.NewWord, player.NbTry, player.Setup);
-            }
-
-            
-
+            }  
 
         }
 

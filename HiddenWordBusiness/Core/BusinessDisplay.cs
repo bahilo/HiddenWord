@@ -39,7 +39,7 @@ namespace HiddenWordBusiness.Core
         {
             Words result = Display.setupNewWord();
             var checkWordRegistered = BlWord.GetWordsByName(result.Name);
-            if (checkWordRegistered.Name == null)
+            if ( !result.Name.Equals("") && checkWordRegistered.Name == null)
             {
                 BlWord.InsertWord(result.Name);
                 checkWordRegistered = BlWord.GetWordsByName(result.Name);
@@ -102,39 +102,56 @@ namespace HiddenWordBusiness.Core
 
         public User SelectUser()
         {
-            User result = Display.SelectUser();
-            var checkUserRegistered = BlUser.GetUserByPseudo(result.Pseudo);
-            if (checkUserRegistered.Pseudo == null)
+            return getUser(Display.SelectUser());
+        }
+
+        public User CreateUser()
+        {
+            return getUser(Display.CreateUser());
+        }
+
+        private User getUser(User user)
+        {
+            var checkUserRegistered = BlUser.GetUserByPseudo(user.Pseudo);
+            if ( !user.Pseudo.Equals("") && checkUserRegistered.Pseudo == null)
             {
-                BlUser.InsertUser(result.Pseudo);
-                checkUserRegistered = BlUser.GetUserByPseudo(result.Pseudo);
+                BlUser.InsertUser(user.Pseudo);
+                checkUserRegistered = BlUser.GetUserByPseudo(user.Pseudo);
+            }
+
+            checkUserRegistered.UserStats = BlStat.GetStatisticByUserId(checkUserRegistered.Id);
+
+            foreach (var stat in checkUserRegistered.UserStats)
+            {
+                checkUserRegistered.UserWordsStats.Add(BlWord.GetWordsById(stat.WordId));
+                checkUserRegistered.UserSetupsStats.Add(BlSetup.GetSetupById(stat.SetupId));
             }
 
             return checkUserRegistered;
-
         }
 
         /*-------------------[ Setup Max Try ]--------------*/
 
         public Setup setupMaxTry()
         {
-
             Setup result = Display.setupMaxTry();
             if (result.MaxTry >= 20)
                 throw new ApplicationException("The maximun try cannot be greater than 20!");
             var checkSetupRegistered = BlSetup.GetSetupByMaxTry(result.MaxTry);
-            if (checkSetupRegistered.Count == 0)
+            if (result.MaxTry != 0 && checkSetupRegistered.Count == 0)
             {
                 BlSetup.InsertSetup(result.MaxTry, (int)ESetup.Active);
-                checkSetupRegistered = BlSetup.GetSetupByStatus((int)ESetup.Active);
+                checkSetupRegistered = BlSetup.GetSetupByStatus((int)ESetup.Active);                
+                return checkSetupRegistered[0];
             }
-            else
+            else if( result.MaxTry != 0 )
             {
-                result.Status = 1;
-                BlSetup.UpdateSetup(result);
+                checkSetupRegistered[0].Status = (int)ESetup.Active;
+                BlSetup.UpdateSetup(checkSetupRegistered[0]);
+                return checkSetupRegistered[0];
             }
 
-            return checkSetupRegistered[0];
+            return null;
         }
 
         public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
@@ -153,6 +170,19 @@ namespace HiddenWordBusiness.Core
         public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine, EPosition[][] TrackPosition)
         {
             Display.displayGame(gameTable, indexLine, indexCol, indexCurrentLine, TrackPosition);
+        }
+
+        public string readResponse(string wordName)
+        {
+            string response = Display.readResponse(wordName);
+            if (response.Length < wordName.Length)
+                throw new ApplicationException("Your response must be at least " + wordName.Length + " characters!");
+            return response;
+        }
+
+        public void DisplayStatisticByUser(User user)
+        {
+            Display.DisplayStatisticByUser(user);
         }
     }
 }

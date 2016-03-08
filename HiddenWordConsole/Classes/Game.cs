@@ -1,4 +1,5 @@
 ﻿
+using HiddenWordBusiness.classes;
 using HiddenWordCommon.Interfaces.Business;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HiddenWordBusiness.classes
+namespace HiddenWordConsole.Classes
 {
     public class Game
     {
