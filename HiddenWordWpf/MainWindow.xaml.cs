@@ -91,15 +91,22 @@ namespace HiddenWordWpf
                 
                 this.CommandBindings.Add(command);
             }
-            
+
+            /*CommandBinding command = new CommandBinding();
+            command.Command = CustomCommands.Start;
+            command.CanExecute += Start_CanExecute;
+            command.Executed += Start_Executed;
+
+            this.CommandBindings.Add(command);*/
+
         }
 
-        /*private void Exit_Executed(object sender, ExecutedRoutedEventArgs e)
+        /*private void Start_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.menuExit_Click(this, new RoutedEventArgs());
         }
 
-        private void Exit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void Start_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }*/
