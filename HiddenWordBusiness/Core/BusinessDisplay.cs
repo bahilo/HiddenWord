@@ -63,39 +63,52 @@ namespace HiddenWordBusiness.Core
             Display.endGame(solution);
         }
 
+
+        /*-------------------[ display Startup Menu ]--------------*/
+
         public string displayStartupMenu()
         {
             return Display.displayStartupMenu();
         }
 
-        public string readScreen(string message)
+
+        /*-------------------[ Read user menu input ]--------------*/
+
+        public string read(string message)
         {
-            return Display.readScreen(message);
+            return Display.read(message);
         }
+
+
+        /*-------------------[ display Welcome Screen ]--------------*/
 
         public void displayWelcomeScreen()
         {
             Display.displayWelcomeScreen();
         }
 
+
+        /*-------------------[ display Prompt ]--------------*/
+
         public void displayPrompt(string pseudo)
         {
             Display.displayPrompt(pseudo);
         }
+
+
+        /*-------------------[ Display Congratulation ]--------------*/
 
         public void DisplayCongratulation()
         {
             Display.DisplayCongratulation();
         }
 
+
+        /*-------------------[ display Warning MaxTry ]--------------*/
+
         public void displayWarningMaxTry(int maxTry)
         {
             Display.displayWarningMaxTry(maxTry);
-        }
-
-        public void displayEmptyLine(int? nbLine = 1)
-        {
-            Display.displayEmptyLine(nbLine);
         }
 
         /*-------------------[ User Selection ]--------------*/
@@ -154,23 +167,49 @@ namespace HiddenWordBusiness.Core
             return null;
         }
 
-        public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
+        /*-------------------[ Display Message ]--------------*/
+
+        public void displayMessage(string message, int nbEmptyLineBefore = 0, int nbEmptyLineAfter = 0, int nbTabulation = 0)
         {
-            Display.displayEmptyLine(nbEmptyLineBefore);
-            Display.displayTabulation(nbTabulation);
+            displayEmptyLine(nbEmptyLineBefore);
+            displayTabulation(nbTabulation);
             Display.displayMessage(message);
-            Display.displayEmptyLine(nbEmptyLineAfter);
+            displayEmptyLine(nbEmptyLineAfter);
         }
 
-        public void displayTabulation(int? nbTab)
+        private void displayEmptyLine(int nbLine)
         {
-            Display.displayTabulation(nbTab);
+            for (int i = 1; i <= nbLine; i++)
+            {
+                Display.displayMessage("\n");
+            }
         }
+
+        private void displayTabulation(int nbTab)
+        {
+            for (int i = 1; i <= nbTab; i++)
+            {
+                Display.displayMessage("\t");
+            }
+        }
+
+
+        private void displayTabulation(int? nbTab)
+        {
+            for (int i = 1; i <= nbTab; i++)
+            {
+                Display.displayMessage("\t");
+            }
+        }
+
+        /*-------------------[ Display table game ]--------------*/
 
         public void displayGame(string[][] gameTable, int indexLine, int indexCol, int indexCurrentLine, EPosition[][] TrackPosition)
         {
             Display.displayGame(gameTable, indexLine, indexCol, indexCurrentLine, TrackPosition);
         }
+
+        /*-------------------[ Read user try ]--------------*/
 
         public string readResponse(string wordName)
         {
@@ -179,6 +218,8 @@ namespace HiddenWordBusiness.Core
                 throw new ApplicationException("Your response must be at least " + wordName.Length + " characters!");
             return response;
         }
+
+        /*-------------------[ Display User Statistics ]--------------*/
 
         public void DisplayStatisticByUser(User user)
         {

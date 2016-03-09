@@ -144,7 +144,7 @@ namespace HiddenWordConsole.Classes
             return response;
         }
 
-        public string readScreen(string message)
+        public string read(string message)
         {
             displayMessage(message);
             return Console.ReadLine();
@@ -152,7 +152,7 @@ namespace HiddenWordConsole.Classes
 
         public string readResponse(string v)
         {
-            return readScreen(v);
+            return read(v);
         }
 
         public void displayWelcomeScreen()
@@ -190,7 +190,7 @@ namespace HiddenWordConsole.Classes
             
         }
 
-        public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
+        public void displayMessage(string message, int nbEmptyLineBefore = 0, int nbEmptyLineAfter = 0, int nbTabulation = 0)
         {
             Console.Write(message);
         }

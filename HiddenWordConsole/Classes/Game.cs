@@ -64,7 +64,7 @@ namespace HiddenWordConsole.Classes
                         }
                         _player.gameOver = new EndGame(_bl, _player.User, _player.NewWord, _player.NbTry, _player.Setup);
 
-                        _bl.BlDisplay.displayEmptyLine(3);
+                        _bl.BlDisplay.displayMessage("",nbEmptyLineAfter: 3);
                     }
                     else
                     {

@@ -143,17 +143,7 @@ namespace HiddenWordBusiness.classes
             }
             return true;
         }
-
-
-        public void displayGame(string[] tabword)
-        {
-            Bl.BlDisplay.displayEmptyLine();
-            foreach (string charact in tabword)
-            {
-                Bl.BlDisplay.displayMessage(charact + " ");
-            }
-            Bl.BlDisplay.displayEmptyLine();
-        }
+        
 
         public void displayGame()
         {

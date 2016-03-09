@@ -1,6 +1,7 @@
 ﻿using HiddenWordCommon.classes;
 using HiddenWordCommon.Enums;
 using HiddenWordCommon.Interfaces.Business;
+using HiddenWordWpf.Classes;
 using HiddenWordWpf.Delegates;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -18,7 +21,14 @@ namespace HiddenWordWpf.classes
 {
     public class Display : IDisplay
     {
-        public Window MyWindow { get; set; }
+        private MenuItem menuExit;
+        private MenuItem menuStart;
+        private MenuItem menuMaxTry;
+        private MenuItem menuUserSelect;
+        private MenuItem menuUserCreate;
+        private MenuItem menuStatistic;
+
+        public MainWindow MyWindow { get; set; }
         public Grid gvMain { get; set; }
         public StackPanel stackPanelTop { get; set; }
         public StackPanel MyStackPanel { get; set; }
@@ -31,7 +41,7 @@ namespace HiddenWordWpf.classes
 
         public event BtnClickEventHandler btn_clickEvent;
 
-        public Display(Window wind, Grid gvcont, Grid gvCentr, StackPanel stackPanel, TextBox inputPlayer, Label inputLabel, Chart chart)
+        public Display(MainWindow wind, Grid gvcont, Grid gvCentr, StackPanel stackPanel, TextBox inputPlayer, Label inputLabel, Chart chart)
         {
             MyWindow = wind;
             gvMain = gvcont;
@@ -49,61 +59,49 @@ namespace HiddenWordWpf.classes
             MyTextCentre.VerticalAlignment = VerticalAlignment.Center;
 
             MyStackPanel = new StackPanel();
+            //gvCentral
+        }
+
+        public Display(MainWindow mainWindow, Grid gvMain, Grid gvCentral, StackPanel titlePanel, TextBox inputGamer, Label response, Chart myChart, MenuItem menuExit, MenuItem menuStart, MenuItem menuMaxTry, MenuItem menuUserSelect, MenuItem menuUserCreate, MenuItem menuStatistic)
+            :this(mainWindow, gvMain, gvCentral, titlePanel, inputGamer, response, myChart)
+        {            
+            this.menuExit = menuExit;
+            this.menuStart = menuStart;
+            this.menuMaxTry = menuMaxTry;
+            this.menuUserSelect = menuUserSelect;
+            this.menuUserCreate = menuUserCreate;
+            this.menuStatistic = menuStatistic;
         }
 
         public User SelectUser()
         {
             User user = new User();
-            user.Pseudo = readScreen("Please enter your pseudo "); 
+            user.Pseudo = read("Please enter your pseudo "); 
             return user;
         }
 
         public User CreateUser()
         {
             User user = new User();
-            user.Pseudo = readScreen("Please enter your new pseudo ");
+            user.Pseudo = read("Please enter your new pseudo ");
             return user;
         }
 
         public User createUser()
         {
             User user = new User();
-            user.Pseudo = readScreen("Please enter a pseudo ");
+            user.Pseudo = read("Please enter a pseudo ");
             return user;
-        }
+        }       
+
         
-
-
-        /*-------------------[ setupMenu ]--------------
-
-        public string setupMenu()
-        {
-            string response = "";
-
-            this.displayEmptyLine();
-            this.displayTabulation(2);
-            displayMessage("....... SETUP ......");
-            this.displayEmptyLine();
-            do
-            {
-                writeMenuOption(1, "Quit", "New word", "Setting the maximun of try");
-                this.displayEmptyLine();
-                response = readScreen("Response: ");
-                this.displayEmptyLine();
-            } while (!response.Equals("0") && !response.Equals("1") && !response.Equals("2"));
-
-            this.displayEmptyLine();
-            return response;
-        }
-
         /*-------------------[ Setup New Word ]--------------*/
 
         public Words setupNewWord()
         {
-            string response = inputPlayerBox.Text; 
-            
+            string response = inputPlayerBox.Text;            
             Words word = new Words();
-            word.Name = readScreen("Please enter a new word: ");
+            word.Name = read("Please enter a new word: ");
             return word;
         }
 
@@ -113,18 +111,15 @@ namespace HiddenWordWpf.classes
         public Setup setupMaxTry()
         {
             Setup setup = new Setup();
-
             try
             {
-                setup.MaxTry = int.Parse(readScreen("Please enter the maximum of try:"));
+                setup.MaxTry = int.Parse(read("Please enter the maximum of try:"));
             }
             catch (Exception)
             {                    
                 setup.MaxTry = 0;
-            }
-            
+            }            
             setup.Status = (int)ESetup.Active;
-
             return setup;
         }
 
@@ -138,16 +133,16 @@ namespace HiddenWordWpf.classes
             MyTextCentre.Foreground = new SolidColorBrush(Colors.Black);
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, true);
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, clearClildren: true);
 
-            Button myBtn = new Button();            
+            Button myBtn = new Button();
             myBtn.Width = gvCentral.Width / (nbCol * 2);
             myBtn.Height = gvCentral.Height / (nbRow * 2);
             myBtn.Content = "OK";
             myBtn.IsDefault = true;
 
-            AxisX = 2; AxisY = 2;
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, false);
+            AxisX = 2; AxisY = 1;
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, clearClildren: false);
 
             myBtn.Click += btnExitGame_click;
         }
@@ -155,7 +150,6 @@ namespace HiddenWordWpf.classes
         private void btnExitGame_click(object sender, RoutedEventArgs e)
         {
             onBtnClick();
-            //gvCentral.Visibility = Visibility.Hidden;
         }
 
         private void onBtnClick()
@@ -173,8 +167,7 @@ namespace HiddenWordWpf.classes
             MyTextCentre.Text += " GAME OVER! \n"+"solution: " + solution;
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);            
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, true);
-                        
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, clearClildren: true);                        
         }
 
 
@@ -182,13 +175,13 @@ namespace HiddenWordWpf.classes
 
         public string displayStartupMenu()
         {
-            return readScreen("Please choose < 0. Exit, 1. Setting, 2. Start >");
+            return read("Please choose < 0. Exit, 1. Setting, 2. Start >");
         }
 
 
         /*-------------------[ Read player input ]--------------*/
 
-        public string readScreen(string message)
+        public string read(string message)
         {            
             string response = inputPlayerBox.Text;
             InputDialog dialoBox = new InputDialog(message);
@@ -232,10 +225,10 @@ namespace HiddenWordWpf.classes
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);
             
-            initCentralGrid(3, 3, 1, 1, MyStackPanel, true);
+            initCentralGrid(3, 3, 1, 1, MyStackPanel, clearClildren: true);
         }
 
-        private void initCentralGrid(int nbRow, int nbCol, int axisX, int axisY, UIElement children, bool clearClildren = false)
+        private void initCentralGrid(int nbRow, int nbCol, int axisX, int axisY, UIElement children, int rowSpan = 1, int colSpan =1, bool clearClildren = false)
         {
             if (clearClildren)
                 gvCentral.Children.Clear();
@@ -249,17 +242,20 @@ namespace HiddenWordWpf.classes
                 rowdef.Height = new GridLength(gvCentral.Height / nbRow);
                 gvCentral.RowDefinitions.Add(rowdef);
             }
-           /*for (int i = 0; i < nbCol; i++)
+
+            for (int i = 0; i < nbCol; i++)
             {
-                var coldef = new ColumnDefinition();
-                coldef.Width = new GridLength(gvCentral.Width / nbCol);
-                gvCentral.ColumnDefinitions.Add(coldef);
-            }*/
+                var colDef = new ColumnDefinition();
+                colDef.Width = new GridLength(gvCentral.Width / nbCol);
+                gvCentral.ColumnDefinitions.Add(colDef);
+            }
 
             gvCentral.Visibility = Visibility.Visible;            
             gvCentral.Children.Add(children);
-            Grid.SetColumn(children, axisY);
-            Grid.SetRow(children, axisX);
+            if(colSpan == 1) Grid.SetColumn(children, axisY);
+            Grid.SetColumnSpan(children, colSpan);
+            if (rowSpan == 1) Grid.SetRow(children, axisX);
+            Grid.SetRowSpan(children, rowSpan);
             gvCentral.Background = new SolidColorBrush(Colors.Ivory);
 
         }
@@ -275,7 +271,7 @@ namespace HiddenWordWpf.classes
 
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, true);
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, clearClildren: true);
 
             Button myBtn = new Button();
             myBtn.Width = gvCentral.Width / (nbCol * 2);
@@ -283,60 +279,81 @@ namespace HiddenWordWpf.classes
             myBtn.Content = "OK";
 
             AxisX = 2; AxisY = 2;
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, false);
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, clearClildren: false);
 
             myBtn.Click += btn_click;
         }
 
-
-        /*-------------------[ Display empty lines ]--------------*/
-
-        public void displayEmptyLine(int? nbLine = 1)
-        {
-            for (int i =1; i <= nbLine; i++)
-            {
-                Console.Write("\n");
-            }
-            
-        }
-
-
-        /*-------------------[ Message ]--------------*/
-
-        public void displayMessage(UIElement message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
-        {
-           
-        }
-
-
-        /*-------------------[ Display tabulation ]--------------*/
-
-        public void displayTabulation(int? nbTab = 1)
-        {
-            
-        }
-
         
-        /*-------------------[ Menu Options ]--------------*/
-
-        private void writeMenuOption(int nbtab, params string[] menuArgs)
-        {
-            
-        }
+        /*-------------------[ Display setupMenu ]--------------*/
 
         public string setupMenu()
         {
-            throw new NotImplementedException();
+            List<RoutedUICommand> commandeList = new List<RoutedUICommand>
+                                                        {
+                                                             CustomCommands.Exit,
+                                                             CustomCommands.Start,
+                                                             CustomCommands.MaxTry,
+                                                             CustomCommands.UserSelect,
+                                                             CustomCommands.UserCreate,
+                                                             CustomCommands.Word,
+                                                             CustomCommands.Statistics
+                                                        };
+
+            foreach (var customCommand in commandeList)
+            {
+                CommandBinding command = new CommandBinding();
+                command.Command = customCommand;
+                command.CanExecute += (s, e) => { e.CanExecute = true; };
+                command.Executed += (s, e) => {
+                    switch (customCommand.Name)
+                    {
+                        case "Exit":
+                            menuExit.Command = customCommand;
+                            MyWindow.menuExit_Click(this, new RoutedEventArgs());
+                            break;
+                        case "Start":
+                            menuStart.Command = customCommand;
+                            MyWindow.menuStart_Click(this, new RoutedEventArgs());
+                            break;
+                        case "MaxTry":
+                            menuMaxTry.Command = customCommand;
+                            MyWindow.menuMaxTry_Click(this, new RoutedEventArgs());
+                            break;
+                        case "UserSelect":
+                            menuUserSelect.Command = customCommand;
+                            MyWindow.menuUserSelect_Click(this, new RoutedEventArgs());
+                            break;
+                        case "UserCreate":
+                            menuUserCreate.Command = customCommand;
+                            MyWindow.menuUserCreate_Click(this, new RoutedEventArgs());
+                            break;
+                        case "Statistics":
+                            menuStatistic.Command = customCommand;
+                            MyWindow.menuStatistic_Click(this, new RoutedEventArgs());
+                            break;
+                    }
+                };
+
+                MyWindow.CommandBindings.Add(command);
+            }
+
+            return "";
         }
 
-        public void displayMessage(string message, int? nbEmptyLineBefore = 0, int? nbEmptyLineAfter = 0, int? nbTabulation = 0)
+
+
+
+
+
+        public void displayMessage(string message, int nbEmptyLineBefore = 0, int nbEmptyLineAfter = 0, int nbTabulation = 0)
         {
             int nbRow = 3, nbCol = 3, AxisX = 1, AxisY = 1;
 
             MyTextCentre.Text = message;
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, true);
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, clearClildren: true);
 
             Button myBtn = new Button();
             myBtn.Width = gvCentral.Width / ( nbCol * 2 ) ;
@@ -344,7 +361,7 @@ namespace HiddenWordWpf.classes
             myBtn.Content = "OK";
 
             AxisX = 2; AxisY = 2;
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, false);
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, clearClildren: false);
 
             myBtn.Click += btn_click;
         }
@@ -394,14 +411,17 @@ namespace HiddenWordWpf.classes
                     if (TrackPosition[i][y].Equals(EPosition.GoodPosition))
                     {
                         btn.Background = new SolidColorBrush(Colors.Green);
+                        btn.ToolTip = "Good Position";
                     }
                     else if (TrackPosition[i][y].Equals(EPosition.BadPosition))
                     {
                         btn.Background = new SolidColorBrush(Colors.Orange);
+                        btn.ToolTip = "Bad Position";
                     }
-                    else if (indexCurrentLine > 0 && line == indexCurrentLine - 1 && TrackPosition[i][y].Equals(EPosition.NotInWord))
+                    else if (indexCurrentLine > 0 && line <= indexCurrentLine - 1  && TrackPosition[i][y].Equals(EPosition.NotInWord))
                     {
                         btn.Background = new SolidColorBrush(Colors.Red);
+                        btn.ToolTip = "Not In Word";
                     }
                     else
                     {

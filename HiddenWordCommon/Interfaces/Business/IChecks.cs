@@ -11,7 +11,6 @@ namespace HiddenWordCommon.Interfaces.Business
         bool isCorrectCharater();
         void charaterPosition(string userTry);
         bool checkWin();
-        void displayGame(string[] tabword);
         void displayError();
     }
 }

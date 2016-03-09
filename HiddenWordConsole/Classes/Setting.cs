@@ -37,16 +37,16 @@ namespace HiddenWordConsole.Classes
             {
                 if (isSetting)
                     response = Bl.BlDisplay.setupMenu(); // SETTING MENU
-                if (response.Equals("0"))
+                if (response.Equals(ESetupMenu.Exit))
                     return false;
-                if (response.Equals("1"))
+                if (response.Equals(ESetupMenu.ChoiceOne))
                 {
                     if (isSetting)
                     {
                         Bl.BlDisplay.setupNewWord();
                     }
                 }
-                if (response.Equals("2"))
+                if (response.Equals(ESetupMenu.ChoiceTwo))
                 {
                     if (isSetting || this.Setup.MaxTry == 0)
                     {
@@ -93,15 +93,15 @@ namespace HiddenWordConsole.Classes
             {
                 response = Bl.BlDisplay.displayStartupMenu();
 
-                if (response.Equals("0"))
+                if (response.Equals(ESetupMenu.Exit))
                 {
                     IsExitGame = true;
                 }
-                else if (response.Equals("1")) // Setting
+                else if (response.Equals(ESetupMenu.ChoiceOne)) // Setting
                 {
                     isSetting = true;
                 }
-                else if (response.Equals("2")) // Start game
+                else if (response.Equals(ESetupMenu.ChoiceTwo)) // Start game
                 {
                     isSetting = false;
                 }
@@ -111,9 +111,9 @@ namespace HiddenWordConsole.Classes
                 else
                     isSetup = SetGame();
             } while (
-                        !response.Equals("0")
-                        && !response.Equals("1")
-                        && !response.Equals("2")
+                        !response.Equals(ESetupMenu.Exit)
+                        && !response.Equals(ESetupMenu.ChoiceOne)
+                        && !response.Equals(ESetupMenu.ChoiceTwo)
                         || !isSetup
                );
             return true;
@@ -121,21 +121,15 @@ namespace HiddenWordConsole.Classes
 
         public bool SettingCheck()
         {
-            /*if (NewWord == null || NewWord.Name == null || NewWord.Name == "")
-            {
-                Console.WriteLine("No Word Found In Database!");
-                return false;
-            }*/
-
             if (User == null || User.Pseudo == null || User.Pseudo == "")
             {
-                Console.WriteLine("No User Selected!");
+                Bl.BlDisplay.displayMessage("No User Selected!",nbEmptyLineBefore: 2, nbEmptyLineAfter: 2, nbTabulation: 2);
                 return false;
             }
 
             if (Setup == null || Setup.MaxTry == 0)
             {
-                Console.WriteLine("No Maximun Try Setup!");
+                Bl.BlDisplay.displayMessage("No Maximun Try Setup!", nbEmptyLineBefore: 2, nbEmptyLineAfter: 2, nbTabulation: 2);
                 return false;
             }
             return true;
