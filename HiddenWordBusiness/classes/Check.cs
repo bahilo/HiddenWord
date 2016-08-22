@@ -47,6 +47,10 @@ namespace HiddenWordBusiness.classes
                     {
                         StringTab[i][y] = Word[0].ToString();
                     }
+                    else if (y % 3 == 0)
+                    {
+                        StringTab[i][y] = Word[y].ToString();
+                    }
                     else
                     {
                         StringTab[i][y] = "_";

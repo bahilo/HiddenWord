@@ -29,8 +29,8 @@ namespace HiddenWordWpf.Classes
                 if (this.User == null || this.User.Pseudo == null || this.User.Pseudo == "")
                     this.User = Bl.BlDisplay.SelectUser();
 
-                if (this.Setup == null || this.Setup.MaxTry == 0)
-                {
+                //if (this.Setup == null || this.Setup.MaxTry == 0)
+                //{
                     try
                     {
                         Setup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
@@ -41,7 +41,7 @@ namespace HiddenWordWpf.Classes
                         Bl.BlDisplay.setupMaxTry();
                         Setup = Bl.BlSetup.GetSetupByStatus((int)ESetup.Active)[0];
                     }
-                }
+                //}
 
             } while (!SettingCheck() );
 

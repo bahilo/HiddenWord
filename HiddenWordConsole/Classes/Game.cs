@@ -31,7 +31,7 @@ namespace HiddenWordConsole.Classes
             while (!_player.IsExitGame)
             {
                 bool position = false;
-                _player.init();
+                _player.initialize();
 
                 if (!_player.IsExitGame)
                 {

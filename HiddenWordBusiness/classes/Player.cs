@@ -19,7 +19,7 @@ namespace HiddenWordBusiness.classes
         public Player(IActionManager bl, ISetting setting, Random rd)
             : base(bl, setting, rd)
         {
-            NbTry = 0;
+            NbTry = 1;
             CheckCharacter = new Check(bl);
             gameOver = new EndGame(bl);
             PropertyChanged += Play_PropertyChanged;
@@ -30,17 +30,17 @@ namespace HiddenWordBusiness.classes
             switch (e.PropertyName)
             {
                 case "User":
-                    launchGame();
+                    resetGame();
                     displayGame();
                     break;
                 case "Setup":
-                    launchGame();
+                    resetGame();
                     displayGame();
                     break;
             }
         }
 
-        public void init()
+        public void initialize()
         {
             start();
         }
@@ -49,7 +49,6 @@ namespace HiddenWordBusiness.classes
 
         private void start()
         {
-
             if(Setting.GameSetup())
             {
                 this.User = Setting.User;
@@ -62,6 +61,11 @@ namespace HiddenWordBusiness.classes
         {
             setRandomWord();
             CheckCharacter.Word = NewWord.Name;
+            resetGame();
+        }
+
+        private void resetGame()
+        {
             CheckCharacter.IndexLine = Setup.MaxTry;
             CheckCharacter.init();
             Bl.BlDisplay.displayPrompt(this.User.Pseudo);
@@ -75,9 +79,10 @@ namespace HiddenWordBusiness.classes
             }
             catch (ApplicationException e)
             {
-                Bl.BlDisplay.displayMessage(e.Message);
+                //Bl.BlDisplay.displayMessage(e.Message);
                 Bl.BlDisplay.setupNewWord();
                 NewWord = Bl.BlWord.getNewRandomWord(rd);
+                throw;
             }
         }
 
@@ -144,9 +149,9 @@ namespace HiddenWordBusiness.classes
             {
                 response = Bl.BlDisplay.readResponse(NewWord.Name);
             }
-            catch (ApplicationException e)
+            catch (ApplicationException)
             {
-                Bl.BlDisplay.displayMessage(e.Message);
+                throw;
             }
 
             return response;
@@ -178,9 +183,9 @@ namespace HiddenWordBusiness.classes
                 var result = Bl.BlDisplay.setupMaxTry();
                 Setup = (result != null && result.MaxTry != 0) ? result : Setup;
             }
-            catch (ApplicationException e)
+            catch (ApplicationException)
             {
-                Bl.BlDisplay.displayMessage(e.Message);
+                throw;
             }
         }
     }
