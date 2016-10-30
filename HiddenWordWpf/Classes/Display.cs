@@ -49,7 +49,7 @@ namespace HiddenWordWpf.classes
             gvCentral = gvCentr;
             stackPanelTop = stackPanel;
             inputPlayerBox = inputPlayer;
-            PageTitle = "WELECOM INTO HIDDEN WORD!";
+            PageTitle = "HIDDEN WORD";
             labelInputPlayerBox = inputLabel;
                      
             MyTextCentre = new TextBlock();
