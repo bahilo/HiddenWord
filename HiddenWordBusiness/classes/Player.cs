@@ -143,6 +143,7 @@ namespace HiddenWordBusiness.classes
             try
             {
                 response = Bl.BlDisplay.readResponse(NewWord.Name);
+                NbTry++;
             }
             catch (ApplicationException e)
             {

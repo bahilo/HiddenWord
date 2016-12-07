@@ -214,7 +214,7 @@ namespace HiddenWordBusiness.Core
         public string readResponse(string wordName)
         {
             string response = Display.readResponse("Response: ");
-            if (response.Length < wordName.Length)
+            if ( response == null || response.Length < wordName.Length )
                 throw new ApplicationException("Your response must be at least " + wordName.Length + " characters!");
             return response;
         }

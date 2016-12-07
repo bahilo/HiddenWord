@@ -188,6 +188,7 @@ namespace HiddenWordWpf
 
             btnValidate.IsDefault = true;
             inputGamer.Focus();
+            display.MyTextCentre.Text = "";
         }
 
         /// <summary>
@@ -204,18 +205,19 @@ namespace HiddenWordWpf
                 try
                 {
                     position = player.isCorrectCharater(player.play());
+                    if (player.checkWin())
+                    {
+                        Bl.BlDisplay.DisplayCongratulation();
+                        position = true;
+                    }
+                    //player.NbTry++;
+                    player.displayGame();
                 }
                 catch (ApplicationException ex)
                 {
                     Bl.BlDisplay.displayMessage(ex.Message);
                 }
-                if (player.checkWin())
-                {                  
-                    Bl.BlDisplay.DisplayCongratulation();
-                    position = true;
-                }
-                player.NbTry++;
-                player.displayGame();
+                
             }
             else if (player.getMaxTry() <= 0)
             {
