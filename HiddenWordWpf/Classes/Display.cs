@@ -407,7 +407,7 @@ namespace HiddenWordWpf.classes
                     else if (TrackPosition[i][y].Equals(EPosition.BadPosition))
                     {
                         btn.Background = new SolidColorBrush(Colors.Orange);
-                        btn.ToolTip = "Bad Position";
+                        btn.ToolTip = "Wrong Position";
                     }
                     else if (indexCurrentLine > 0 && line <= indexCurrentLine - 1  && TrackPosition[i][y].Equals(EPosition.NotInWord))
                     {
