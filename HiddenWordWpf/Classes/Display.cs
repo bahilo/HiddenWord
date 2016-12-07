@@ -372,7 +372,6 @@ namespace HiddenWordWpf.classes
             gvMain.HorizontalAlignment = HorizontalAlignment.Left;
             gvMain.VerticalAlignment = VerticalAlignment.Top;
             gvMain.Background = new SolidColorBrush(Colors.PaleVioletRed);
-            //gvMain.ShowGridLines = true;
 
             for (int i = 0; i < indexLine; i++)
             {
@@ -413,7 +412,7 @@ namespace HiddenWordWpf.classes
                     else if (indexCurrentLine > 0 && line <= indexCurrentLine - 1  && TrackPosition[i][y].Equals(EPosition.NotInWord))
                     {
                         btn.Background = new SolidColorBrush(Colors.Red);
-                        btn.ToolTip = "Not In Word";
+                        btn.ToolTip = "No Match";
                     }
                     else
                     {
@@ -422,7 +421,6 @@ namespace HiddenWordWpf.classes
 
                     if (i == indexCurrentLine)
                     {
-                        //MyWindow.RegisterName(btn.Name, btn);
                         Storyboard myStoryBord = new Storyboard();
 
                         DoubleAnimation myDoubleAnimationFadeIn = new DoubleAnimation();
@@ -436,19 +434,14 @@ namespace HiddenWordWpf.classes
                         myDoubleAnimationFadeOut.From = 1.0;
                         myDoubleAnimationFadeOut.To = 0.0;
                         myDoubleAnimationFadeOut.BeginTime = TimeSpan.FromSeconds(3);
-                        //myDoubleAnimationFadeOut.Duration = new Duration(TimeSpan.FromSeconds(5));
                         myDoubleAnimationFadeOut.AutoReverse = true;
                         myDoubleAnimationFadeOut.RepeatBehavior = RepeatBehavior.Forever;
-
-                        //btn.BeginAnimation(Button.OpacityProperty, myDoubleAnimationFadeIn);
-                        
+                                                
                         myStoryBord.Children.Add(myDoubleAnimationFadeIn);
                         Storyboard.SetTarget(myDoubleAnimationFadeIn, btn);
                         Storyboard.SetTargetProperty(myDoubleAnimationFadeIn, new PropertyPath("Opacity", 0.7));
                         myStoryBord.Begin(btn);
-
-                        //btn.BeginAnimation(Button.OpacityProperty, myDoubleAnimation);
-                        //Storyboard myStoryBord = new Storyboard();
+                        
                         myStoryBord.Children.Add(myDoubleAnimationFadeOut);
                         Storyboard.SetTargetName(myDoubleAnimationFadeOut, btn.Name);
                         Storyboard.SetTargetProperty(myDoubleAnimationFadeOut, new PropertyPath("Opacity", 0));
@@ -475,23 +468,12 @@ namespace HiddenWordWpf.classes
         {
             string response = inputPlayerBox.Text;
             inputPlayerBox.Text = "";
-             /*TextBlock myTextTop = new TextBlock();
-            myTextTop.Text = message; // PageTitle;
-            stackPanelTop.Children.Clear();
-            stackPanelTop.Children.Add(myTextTop);
-            //if ( reponse)
-           InputDialog dialoBox = new InputDialog(message);
-
-            if (dialoBox.ShowDialog() == true)
-                response = dialoBox.Answer;*/
 
             return response;
         }
 
         public void DisplayStatisticByUser(User user)
         {
-            //MyChart.Width = gvMain.Width;
-            //MyChart.Height = gvMain.Height;
             MyChart.Title = "Statistics of "+user.Pseudo;
             KeyValuePair<string, int>[] keyValuePair = new KeyValuePair<string, int>[user.UserStats.Count()]; 
             for (int i=0; i< user.UserStats.Count; i++)
