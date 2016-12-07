@@ -123,7 +123,14 @@ namespace HiddenWordWpf
         /// <param name="e"></param>
         public void menuMaxTry_Click(object sender, RoutedEventArgs e)
         {
-            player.setupMaxTry();
+            try
+            {
+                player.setupMaxTry();
+            }
+            catch (Exception ex)
+            {
+                Bl.BlDisplay.displayMessage(ex.Message);
+            }
         }
 
         /// <summary>
@@ -133,7 +140,15 @@ namespace HiddenWordWpf
         /// <param name="e"></param>
         public void menuUserSelect_Click(object sender, RoutedEventArgs e)
         {
-            player.selectNewUser();
+            try
+            {
+                player.selectNewUser();
+            }
+            catch (Exception ex)
+            {
+                Bl.BlDisplay.displayMessage(ex.Message);
+                inputGamer.Focus();
+            }
         }
 
         /// <summary>
@@ -143,7 +158,15 @@ namespace HiddenWordWpf
         /// <param name="e"></param>
         public void menuUserCreate_Click(object sender, RoutedEventArgs e)
         {
-            player.createUser();
+            try
+            {
+                player.createUser();
+            }
+            catch (Exception ex)
+            {
+                Bl.BlDisplay.displayMessage(ex.Message);
+                inputGamer.Focus();
+            }
         }
 
         /// <summary>
@@ -175,7 +198,7 @@ namespace HiddenWordWpf
         public void menuStart_Click(object sender, RoutedEventArgs e)
         {            
             player.NbTry = 0;   
-            player.init();
+            player.initialize();
             player.displayGame();
             gvCentral.Visibility = Visibility.Hidden;
             inputGamer.Focus();
@@ -188,7 +211,6 @@ namespace HiddenWordWpf
 
             btnValidate.IsDefault = true;
             inputGamer.Focus();
-            display.MyTextCentre.Text = "";
         }
 
         /// <summary>
@@ -210,12 +232,13 @@ namespace HiddenWordWpf
                         Bl.BlDisplay.DisplayCongratulation();
                         position = true;
                     }
-                    //player.NbTry++;
+                    player.NbTry++;
                     player.displayGame();
                 }
                 catch (ApplicationException ex)
                 {
                     Bl.BlDisplay.displayMessage(ex.Message);
+                    inputGamer.Focus();
                 }
                 
             }

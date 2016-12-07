@@ -49,7 +49,7 @@ namespace HiddenWordWpf.classes
             gvCentral = gvCentr;
             stackPanelTop = stackPanel;
             inputPlayerBox = inputPlayer;
-            PageTitle = "WELECOM INTO HIDDEN WORD!";
+            PageTitle = "HIDDEN WORD";
             labelInputPlayerBox = inputLabel;
                      
             MyTextCentre = new TextBlock();
@@ -57,7 +57,7 @@ namespace HiddenWordWpf.classes
             MyTextCentre.FontWeight = FontWeights.Bold;
             MyTextCentre.HorizontalAlignment = HorizontalAlignment.Center;
             MyTextCentre.VerticalAlignment = VerticalAlignment.Center;
-
+            MyTextCentre.Text = "";
             MyStackPanel = new StackPanel();
             //gvCentral
         }
@@ -82,17 +82,8 @@ namespace HiddenWordWpf.classes
 
         public User CreateUser()
         {
-            User user = new User();
-            user.Pseudo = read("Please enter your new pseudo ");
-            return user;
-        }
-
-        public User createUser()
-        {
-            User user = new User();
-            user.Pseudo = read("Please enter a pseudo ");
-            return user;
-        }       
+            return SelectUser();
+        }  
 
         
         /*-------------------[ Setup New Word ]--------------*/
@@ -162,12 +153,12 @@ namespace HiddenWordWpf.classes
 
         public void endGame(string solution)
         {
-            int nbRow = 3, nbCol = 3, AxisX = 1, AxisY = 1;
-
-            MyTextCentre.Text += " [GAME OVER] \n"+"solution: " + solution;
+            int nbRow = 3, nbCol = 1, AxisX = 1, AxisY = 1;
+            MyTextCentre.Text = (MyTextCentre.Text.Contains("CONGRATULATION")) ? MyTextCentre.Text : " GAME OVER! \n";
+            MyTextCentre.Text += "solution: " + solution;
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);            
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, colSpan: nbCol, clearClildren: true);                        
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, clearClildren: true);                        
         }
 
 
@@ -175,7 +166,7 @@ namespace HiddenWordWpf.classes
 
         public string displayStartupMenu()
         {
-            return setupMenu();
+            return read("Please choose < 0. Exit, 1. Setting, 2. Start >");
         }
 
 
@@ -197,6 +188,7 @@ namespace HiddenWordWpf.classes
 
         public void displayWelcomeScreen()
         {
+            MyTextCentre.Text = "";
             TextBlock myTextTop = new TextBlock();
             myTextTop.Text = PageTitle;
             myTextTop.FontSize = 14;
@@ -220,10 +212,12 @@ namespace HiddenWordWpf.classes
 
         public void DisplayCongratulation()
         {
-            MyTextCentre.Text = "CONGRATULATION";
+            MyTextCentre.Text = "CONGRATULATION YOU WON. \n";
             MyTextCentre.Foreground = new SolidColorBrush(Colors.Green);
             MyStackPanel.Children.Clear();
             MyStackPanel.Children.Add(MyTextCentre);
+            
+            initCentralGrid(3, 1, 1, 1, MyStackPanel, clearClildren: true);
         }
 
         private void initCentralGrid(int nbRow, int nbCol, int axisX, int axisY, UIElement children, int rowSpan = 1, int colSpan =1, bool clearClildren = false)
@@ -250,11 +244,10 @@ namespace HiddenWordWpf.classes
 
             gvCentral.Visibility = Visibility.Visible;            
             gvCentral.Children.Add(children);
+            if(colSpan == 1) Grid.SetColumn(children, axisY);
+            Grid.SetColumnSpan(children, colSpan);
             if (rowSpan == 1) Grid.SetRow(children, axisX);
             Grid.SetRowSpan(children, rowSpan);
-            if (colSpan == 1) Grid.SetColumn(children, axisY);
-            Grid.SetColumnSpan(children, colSpan);
-            
             gvCentral.Background = new SolidColorBrush(Colors.Ivory);
 
         }
@@ -333,32 +326,33 @@ namespace HiddenWordWpf.classes
                             break;
                     }
                 };
+
                 MyWindow.CommandBindings.Add(command);
             }
+
             return "";
         }
-        
+
+
+
+
+
+
         public void displayMessage(string message, int nbEmptyLineBefore = 0, int nbEmptyLineAfter = 0, int nbTabulation = 0)
         {
-            int nbRow = 3, nbCol = 3, AxisX = 1, AxisY = 1;
+            int nbRow = 3, nbCol = 1, AxisX = 1, AxisY = 1;
 
-            TextBlock MyTextBlock = new TextBlock();
-            MyTextBlock.Text = message;
-            MyTextBlock.FontSize = 14;
-            MyTextBlock.FontWeight = FontWeights.Bold;
-            MyTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-            MyTextBlock.VerticalAlignment = VerticalAlignment.Center;
-
+            MyTextCentre.Text = message;
             MyStackPanel.Children.Clear();
-            MyStackPanel.Children.Add(MyTextBlock);
-            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, colSpan: nbCol,  clearClildren: true);
+            MyStackPanel.Children.Add(MyTextCentre);
+            initCentralGrid(nbRow, nbCol, AxisX, AxisY, MyStackPanel, clearClildren: true);
 
             Button myBtn = new Button();
             myBtn.Width = gvCentral.Width / ( nbCol * 2 ) ;
             myBtn.Height = gvCentral.Height / (nbRow * 2);
             myBtn.Content = "OK";
 
-            AxisX = 2; AxisY = 1;
+            AxisX = 2; AxisY = 2;
             initCentralGrid(nbRow, nbCol, AxisX, AxisY, myBtn, clearClildren: false);
 
             myBtn.Click += btn_click;
@@ -378,6 +372,7 @@ namespace HiddenWordWpf.classes
             gvMain.HorizontalAlignment = HorizontalAlignment.Left;
             gvMain.VerticalAlignment = VerticalAlignment.Top;
             gvMain.Background = new SolidColorBrush(Colors.PaleVioletRed);
+            //gvMain.ShowGridLines = true;
 
             for (int i = 0; i < indexLine; i++)
             {
@@ -427,6 +422,7 @@ namespace HiddenWordWpf.classes
 
                     if (i == indexCurrentLine)
                     {
+                        //MyWindow.RegisterName(btn.Name, btn);
                         Storyboard myStoryBord = new Storyboard();
 
                         DoubleAnimation myDoubleAnimationFadeIn = new DoubleAnimation();
@@ -440,16 +436,23 @@ namespace HiddenWordWpf.classes
                         myDoubleAnimationFadeOut.From = 1.0;
                         myDoubleAnimationFadeOut.To = 0.0;
                         myDoubleAnimationFadeOut.BeginTime = TimeSpan.FromSeconds(3);
+                        //myDoubleAnimationFadeOut.Duration = new Duration(TimeSpan.FromSeconds(5));
                         myDoubleAnimationFadeOut.AutoReverse = true;
                         myDoubleAnimationFadeOut.RepeatBehavior = RepeatBehavior.Forever;
-                                                
+
+                        //btn.BeginAnimation(Button.OpacityProperty, myDoubleAnimationFadeIn);
+                        
                         myStoryBord.Children.Add(myDoubleAnimationFadeIn);
                         Storyboard.SetTarget(myDoubleAnimationFadeIn, btn);
                         Storyboard.SetTargetProperty(myDoubleAnimationFadeIn, new PropertyPath("Opacity", 0.7));
                         myStoryBord.Begin(btn);
+
+                        //btn.BeginAnimation(Button.OpacityProperty, myDoubleAnimation);
+                        //Storyboard myStoryBord = new Storyboard();
                         myStoryBord.Children.Add(myDoubleAnimationFadeOut);
                         Storyboard.SetTargetName(myDoubleAnimationFadeOut, btn.Name);
                         Storyboard.SetTargetProperty(myDoubleAnimationFadeOut, new PropertyPath("Opacity", 0));
+
                     }
 
                     gvMain.Children.Add(btn);
@@ -472,11 +475,23 @@ namespace HiddenWordWpf.classes
         {
             string response = inputPlayerBox.Text;
             inputPlayerBox.Text = "";
+             /*TextBlock myTextTop = new TextBlock();
+            myTextTop.Text = message; // PageTitle;
+            stackPanelTop.Children.Clear();
+            stackPanelTop.Children.Add(myTextTop);
+            //if ( reponse)
+           InputDialog dialoBox = new InputDialog(message);
+
+            if (dialoBox.ShowDialog() == true)
+                response = dialoBox.Answer;*/
+
             return response;
         }
 
         public void DisplayStatisticByUser(User user)
         {
+            //MyChart.Width = gvMain.Width;
+            //MyChart.Height = gvMain.Height;
             MyChart.Title = "Statistics of "+user.Pseudo;
             KeyValuePair<string, int>[] keyValuePair = new KeyValuePair<string, int>[user.UserStats.Count()]; 
             for (int i=0; i< user.UserStats.Count; i++)
